@@ -1,0 +1,36 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_solid_class.gd" type="Script" id=1]
+[ext_resource path="res://addons/qodot/game_definitions/fgd/solid_classes/button.gd" type="Script" id=2]
+
+[resource]
+script = ExtResource( 1 )
+class_options = "----------------------------------------------------------------"
+classname = "button"
+description = "Interactive button brush."
+qodot_internal = false
+base_classes = [  ]
+class_properties = {
+"axis": Vector3( 0, -1, 0 ),
+"depth": 0.8,
+"press_signal_delay": 0.0,
+"release_delay": 0.0,
+"release_signal_delay": 0.0,
+"speed": 8.0,
+"trigger_signal_delay": 0.0
+}
+class_property_descriptions = {
+}
+meta_properties = {
+}
+node_options = "----------------------------------------------------------------"
+node_class = "Area"
+transient_node = false
+spawn = "----------------------------------------------------------------"
+spawn_type = 2
+visual_build = "----------------------------------------------------------------"
+build_visuals = true
+collision_build = "----------------------------------------------------------------"
+collision_shape_type = 1
+scripting = "----------------------------------------------------------------"
+script_class = ExtResource( 2 )

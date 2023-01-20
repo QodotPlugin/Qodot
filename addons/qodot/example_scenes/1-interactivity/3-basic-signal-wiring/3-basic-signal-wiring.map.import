@@ -1,0 +1,14 @@
+[remap]
+
+importer="qodot.map"
+type="Resource"
+uid="uid://31iibiem3ax2"
+path="res://.godot/imported/3-basic-signal-wiring.map-8fd88c8b2d1f9d089071a4f3978dff0c.tres"
+
+[deps]
+
+source_file="res://addons/qodot/example_scenes/1-interactivity/3-basic-signal-wiring/3-basic-signal-wiring.map"
+dest_files=["res://.godot/imported/3-basic-signal-wiring.map-8fd88c8b2d1f9d089071a4f3978dff0c.tres"]
+
+[params]
+

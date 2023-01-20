@@ -1,0 +1,16 @@
+*.dblite
+.DS_Store
+
+# Godot-specific ignores
+.import/
+export.cfg
+export_presets.cfg
+
+# Mono-specific ignores
+.mono/
+
+# Qodot-specific ignores
+export/
+scenes/test_maps
+scenes/autosave/
+textures/QUAKE101.WAD*

@@ -1,0 +1,31 @@
+[gd_resource type="Resource" load_steps=4 format=3 uid="uid://cubvqwi3p77sq"]
+
+[ext_resource type="Script" path="res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_point_class.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://b7ccfkajnmn64" path="res://addons/qodot/game_definitions/fgd/point_classes/physics_ball.tscn" id="2"]
+[ext_resource type="Script" path="res://addons/qodot/game_definitions/fgd/point_classes/physics_ball.gd" id="3_bpq0c"]
+
+[resource]
+script = ExtResource("1")
+scene = "----------------------------------------------------------------"
+scene_file = ExtResource("2")
+scripting = "----------------------------------------------------------------"
+script_class = ExtResource("3_bpq0c")
+class_options = "----------------------------------------------------------------"
+classname = "physics_ball"
+description = "Physics Ball"
+qodot_internal = false
+base_classes = []
+class_properties = {
+"mass": 1.0,
+"size": 1.0,
+"velocity": Vector3(0, 0, 0)
+}
+class_property_descriptions = {
+"velocity": "Initial velocity"
+}
+meta_properties = {
+"size": AABB(-8, -8, -8, 8, 8, 8)
+}
+node_options = "----------------------------------------------------------------"
+node_class = ""
+transient_node = false

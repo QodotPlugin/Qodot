@@ -1,0 +1,28 @@
+[remap]
+
+importer="2d_array_texture"
+type="CompressedTexture2DArray"
+uid="uid://dpm2pmietu1pe"
+path.etc2="res://.godot/imported/5-1-baked-lightmaps.exr-9f39fece867606b7fb3677c205697aeb.etc2.ctexarray"
+path.s3tc="res://.godot/imported/5-1-baked-lightmaps.exr-9f39fece867606b7fb3677c205697aeb.s3tc.ctexarray"
+metadata={
+"imported_formats": ["etc2", "s3tc"],
+"vram_texture": true
+}
+
+[deps]
+
+source_file="res://addons/qodot/example_scenes/0-visuals/5-baked-lighting/5-1-baked-lightmaps.exr"
+dest_files=["res://.godot/imported/5-1-baked-lightmaps.exr-9f39fece867606b7fb3677c205697aeb.etc2.ctexarray", "res://.godot/imported/5-1-baked-lightmaps.exr-9f39fece867606b7fb3677c205697aeb.s3tc.ctexarray"]
+
+[params]
+
+compress/mode=2
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/bptc_ldr=0
+compress/channel_pack=1
+mipmaps/generate=false
+mipmaps/limit=-1
+slices/horizontal=1
+slices/vertical=1

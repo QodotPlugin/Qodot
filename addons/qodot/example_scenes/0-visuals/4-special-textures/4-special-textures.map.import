@@ -1,0 +1,14 @@
+[remap]
+
+importer="qodot.map"
+type="Resource"
+uid="uid://d2j02l5bhwy1e"
+path="res://.godot/imported/4-special-textures.map-50c1b2d972025ac23ec7052bbdd15d53.tres"
+
+[deps]
+
+source_file="res://addons/qodot/example_scenes/0-visuals/4-special-textures/4-special-textures.map"
+dest_files=["res://.godot/imported/4-special-textures.map-50c1b2d972025ac23ec7052bbdd15d53.tres"]
+
+[params]
+

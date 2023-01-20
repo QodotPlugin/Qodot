@@ -1,0 +1,14 @@
+[remap]
+
+importer="qodot.map"
+type="Resource"
+uid="uid://cgnjtyclomgon"
+path="res://.godot/imported/4-advanced-signal-wiring.map-5cdeaa79448cc1beb1676661a5884591.tres"
+
+[deps]
+
+source_file="res://addons/qodot/example_scenes/1-interactivity/4-advanced-signal-wiring/4-advanced-signal-wiring.map"
+dest_files=["res://.godot/imported/4-advanced-signal-wiring.map-5cdeaa79448cc1beb1676661a5884591.tres"]
+
+[params]
+

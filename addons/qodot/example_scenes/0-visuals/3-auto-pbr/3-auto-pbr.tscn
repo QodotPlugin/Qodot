@@ -1,0 +1,90 @@
+[gd_scene load_steps=15 format=3 uid="uid://b370vrg0nak8d"]
+
+[ext_resource type="Script" path="res://addons/qodot/src/nodes/qodot_map.gd" id="1"]
+[ext_resource type="Resource" uid="uid://7h57nuq1xmoi" path="res://addons/qodot/game_definitions/fgd/qodot_fgd.tres" id="2"]
+[ext_resource type="Texture2D" uid="uid://df7s57f6m26uf" path="res://addons/qodot/textures/pbr/military-panel/military-panel_metallic.png" id="4"]
+[ext_resource type="Texture2D" uid="uid://b3g5hqkvp4mqv" path="res://addons/qodot/textures/pbr/military-panel/military-panel_normal.png" id="5"]
+[ext_resource type="Texture2D" uid="uid://cpxl04ai0om41" path="res://addons/qodot/textures/pbr/military-panel/military-panel_roughness.png" id="6"]
+[ext_resource type="Texture2D" uid="uid://cshuyxat1wpeh" path="res://addons/qodot/textures/pbr/military-panel/military-panel_ao.png" id="7"]
+[ext_resource type="Texture2D" uid="uid://bqr2xncwk0api" path="res://addons/qodot/textures/pbr/military-panel.png" id="8"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_uug1j"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_mpkx6"]
+sky_material = SubResource("ProceduralSkyMaterial_uug1j")
+
+[sub_resource type="Environment" id="Environment_xhgds"]
+background_mode = 2
+sky = SubResource("Sky_mpkx6")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="3"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8jikr"]
+albedo_texture = ExtResource("8")
+metallic_texture = ExtResource("4")
+roughness_texture = ExtResource("6")
+normal_enabled = true
+normal_texture = ExtResource("5")
+ao_enabled = true
+ao_texture = ExtResource("7")
+texture_filter = 5
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_ngmfl"]
+_surfaces = [{
+"aabb": AABB(-4, -4, -4, 8, 8.00001, 8),
+"attribute_data": PackedByteArray(0, 0, 0, 63, 0, 0, 0, 191, 0, 0, 0, 63, 0, 0, 0, 63, 0, 0, 0, 191, 0, 0, 0, 63, 0, 0, 0, 191, 0, 0, 0, 191, 0, 0, 0, 191, 0, 0, 0, 191, 0, 0, 0, 63, 0, 0, 0, 191, 0, 0, 0, 63, 0, 0, 0, 63, 0, 0, 0, 191, 0, 0, 0, 63, 0, 0, 0, 63, 0, 0, 0, 191, 0, 0, 0, 63, 0, 0, 0, 63, 0, 0, 0, 191, 0, 0, 0, 63, 0, 0, 0, 191, 0, 0, 0, 191, 0, 0, 0, 191, 0, 0, 0, 191, 0, 0, 0, 63, 0, 0, 0, 191, 0, 0, 0, 63, 0, 0, 0, 63, 0, 0, 0, 191, 0, 0, 0, 63, 0, 0, 0, 63, 0, 0, 0, 191, 0, 0, 0, 63, 0, 0, 0, 63, 0, 0, 0, 191, 0, 0, 0, 63, 0, 0, 0, 191, 0, 0, 0, 191, 0, 0, 0, 191, 0, 0, 0, 191, 0, 0, 0, 63, 0, 0, 0, 191, 0, 0, 0, 63, 0, 0, 0, 63, 0, 0, 0, 191, 0, 0, 0, 63),
+"format": 4119,
+"index_count": 36,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0, 0, 0, 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 4, 0, 6, 0, 7, 0, 8, 0, 9, 0, 10, 0, 8, 0, 10, 0, 11, 0, 12, 0, 13, 0, 14, 0, 12, 0, 14, 0, 15, 0, 16, 0, 17, 0, 18, 0, 16, 0, 18, 0, 19, 0, 20, 0, 21, 0, 22, 0, 20, 0, 22, 0, 23, 0),
+"material": SubResource("StandardMaterial3D_8jikr"),
+"primitive": 3,
+"vertex_count": 24,
+"vertex_data": PackedByteArray(0, 0, 128, 192, 0, 0, 128, 64, 0, 0, 128, 192, 255, 255, 255, 255, 0, 0, 255, 191, 0, 0, 128, 192, 0, 0, 128, 192, 0, 0, 128, 192, 255, 255, 255, 255, 0, 0, 255, 191, 0, 0, 128, 64, 0, 0, 128, 192, 0, 0, 128, 192, 255, 255, 255, 255, 0, 0, 255, 191, 0, 0, 128, 64, 0, 0, 128, 64, 0, 0, 128, 192, 255, 255, 255, 255, 0, 0, 255, 191, 0, 0, 128, 192, 0, 0, 128, 64, 0, 0, 128, 192, 0, 0, 255, 127, 255, 127, 255, 191, 0, 0, 128, 192, 0, 0, 128, 64, 0, 0, 128, 64, 0, 0, 255, 127, 255, 127, 255, 191, 0, 0, 128, 192, 0, 0, 128, 192, 0, 0, 128, 64, 0, 0, 255, 127, 255, 127, 255, 191, 0, 0, 128, 192, 0, 0, 128, 192, 0, 0, 128, 192, 0, 0, 255, 127, 255, 127, 255, 191, 0, 0, 128, 64, 0, 0, 128, 192, 0, 0, 128, 192, 255, 127, 0, 0, 255, 255, 255, 255, 0, 0, 128, 192, 0, 0, 128, 192, 0, 0, 128, 192, 255, 127, 0, 0, 255, 255, 255, 255, 0, 0, 128, 192, 0, 0, 128, 192, 0, 0, 128, 64, 255, 127, 0, 0, 255, 255, 255, 255, 0, 0, 128, 64, 0, 0, 128, 192, 0, 0, 128, 64, 255, 127, 0, 0, 255, 255, 255, 255, 0, 0, 128, 64, 0, 0, 128, 64, 0, 0, 128, 192, 255, 127, 255, 255, 255, 127, 255, 191, 0, 0, 128, 64, 0, 0, 128, 64, 0, 0, 128, 64, 255, 127, 255, 255, 255, 127, 255, 191, 0, 0, 128, 192, 0, 0, 128, 64, 0, 0, 128, 64, 255, 127, 255, 255, 255, 127, 255, 191, 0, 0, 128, 192, 0, 0, 128, 64, 0, 0, 128, 192, 255, 127, 255, 255, 255, 127, 255, 191, 0, 0, 128, 64, 0, 0, 128, 64, 0, 0, 128, 192, 255, 255, 255, 127, 255, 255, 255, 255, 0, 0, 128, 64, 0, 0, 128, 192, 0, 0, 128, 192, 255, 255, 255, 127, 255, 255, 255, 255, 0, 0, 128, 64, 0, 0, 128, 192, 0, 0, 128, 64, 255, 255, 255, 127, 255, 255, 255, 255, 0, 0, 128, 64, 0, 0, 128, 64, 0, 0, 128, 64, 255, 255, 255, 127, 255, 255, 255, 255, 0, 0, 128, 192, 0, 0, 128, 64, 0, 0, 128, 64, 255, 127, 255, 127, 255, 255, 255, 191, 0, 0, 128, 64, 0, 0, 128, 64, 0, 0, 128, 64, 255, 127, 255, 127, 255, 255, 255, 191, 0, 0, 128, 64, 0, 0, 128, 192, 0, 0, 128, 64, 255, 127, 255, 127, 255, 255, 255, 191, 0, 0, 128, 192, 0, 0, 128, 192, 0, 0, 128, 64, 255, 127, 255, 127, 255, 255, 255, 191)
+}]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_bltp6"]
+points = PackedVector3Array(-4, 4, -4, -4, -4, -4, 4, -4, -4, 4, 4, -4, -4, 4, 4, -4, -4, 4, 4, -4, 4, 4, 4, 4)
+
+[node name="AutoPBR" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_xhgds")
+
+[node name="README" type="Node" parent="."]
+
+[node name="QodotMap" type="Node3D" parent="."]
+script = ExtResource("1")
+map_file = "C:/Users/Embyr/Desktop/qmap-development/addons/qodot/example_scenes/0-visuals/3-auto-pbr/3-auto-pbr.map"
+inverse_scale_factor = 16.0
+entity_fgd = ExtResource("2")
+base_texture_dir = "res://addons/qodot/textures"
+texture_file_extensions = PackedStringArray("png")
+worldspawn_layers = []
+brush_clip_texture = "special/clip"
+face_skip_texture = "special/skip"
+texture_wads = []
+material_file_extension = "tres"
+unshaded = false
+default_material_albedo_uniform = ""
+default_material = SubResource("3")
+uv_unwrap_texel_size = 1.0
+print_profiling_data = false
+use_trenchbroom_group_hierarchy = false
+tree_attach_batch_size = null
+set_owner_batch_size = 16
+
+[node name="entity_0_worldspawn" type="StaticBody3D" parent="QodotMap"]
+
+[node name="entity_0_mesh_instance" type="MeshInstance3D" parent="QodotMap/entity_0_worldspawn"]
+mesh = SubResource("ArrayMesh_ngmfl")
+
+[node name="entity_0_brush_0_collision_shape" type="CollisionShape3D" parent="QodotMap/entity_0_worldspawn"]
+shape = SubResource("ConvexPolygonShape3D_bltp6")

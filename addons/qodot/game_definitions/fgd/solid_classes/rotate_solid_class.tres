@@ -1,0 +1,32 @@
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://de6w02sa4ckl5"]
+
+[ext_resource type="Script" path="res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_solid_class.gd" id="1"]
+[ext_resource type="Script" path="res://addons/qodot/game_definitions/fgd/solid_classes/rotate.gd" id="2_kxqod"]
+
+[resource]
+script = ExtResource("1")
+spawn = "----------------------------------------------------------------"
+spawn_type = 2
+visual_build = "================================================================"
+build_visuals = true
+collision_build = "----------------------------------------------------------------"
+collision_shape_type = 1
+scripting = "----------------------------------------------------------------"
+script_class = ExtResource("2_kxqod")
+class_options = "----------------------------------------------------------------"
+classname = "rotate"
+description = "Rotating Brush"
+qodot_internal = false
+base_classes = []
+class_properties = {
+"axis": Vector3(0, 1, 0),
+"speed": 360.0
+}
+class_property_descriptions = {
+"axis": "Rotation Axis",
+"speed": "Rotation Speed"
+}
+meta_properties = {}
+node_options = "----------------------------------------------------------------"
+node_class = "KinematicBody"
+transient_node = false

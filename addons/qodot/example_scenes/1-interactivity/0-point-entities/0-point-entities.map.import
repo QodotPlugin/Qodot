@@ -1,0 +1,14 @@
+[remap]
+
+importer="qodot.map"
+type="Resource"
+uid="uid://bwivhs3wk3u4c"
+path="res://.godot/imported/0-point-entities.map-4bd5d8e330187d5493da9894b0a743aa.tres"
+
+[deps]
+
+source_file="res://addons/qodot/example_scenes/1-interactivity/0-point-entities/0-point-entities.map"
+dest_files=["res://.godot/imported/0-point-entities.map-4bd5d8e330187d5493da9894b0a743aa.tres"]
+
+[params]
+

@@ -1,0 +1,19 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://ccdjpf5j25aua"]
+
+[ext_resource type="Script" path="res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_base_class.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+class_options = "----------------------------------------------------------------"
+classname = "Targetname"
+description = ""
+qodot_internal = false
+base_classes = []
+class_properties = {
+"targetname": null
+}
+class_property_descriptions = {}
+meta_properties = {}
+node_options = "----------------------------------------------------------------"
+node_class = ""
+transient_node = false
