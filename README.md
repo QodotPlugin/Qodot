@@ -8,7 +8,7 @@ This is a prerelease port of Qodot to Godot 4.x. It requires the .NET build of G
 
 Moving forward this will be the official version of the plugin and where active development will continue.
 
-**Please ensure that you have hit the "Build" button before attempting to enable the plugin.**
+**Please ensure that your project has a C# solution and you have hit the "Build" button before attempting to enable the plugin.**
 
 <sup>Latest Tested Engine Version: 4.0.beta14.mono</sup>
 
