@@ -1,5 +1,5 @@
-class_name TrenchBroomFaceAttribDefaults extends Resource
 @tool
+class_name TrenchBroomFaceAttribDefaults extends Resource
 
 @export var texture_name: String
 @export var offset: Vector2
