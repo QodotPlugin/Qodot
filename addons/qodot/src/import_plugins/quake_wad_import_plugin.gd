@@ -137,11 +137,9 @@ func _import(source_file, save_path, options, r_platform_variants, r_gen_files) 
 			pixels_rgb.append(rgb_color.g8)
 			pixels_rgb.append(rgb_color.b8)
 
-		var texture_image := Image.new()
-		texture_image.create_from_data(width, height, false, Image.FORMAT_RGB8, pixels_rgb)
-
-		var texture := ImageTexture.new()
-		texture.create_from_image(texture_image) #,Texture2D.FLAG_MIPMAPS | Texture2D.FLAG_REPEAT | Texture2D.FLAG_ANISOTROPIC_FILTER
+		var texture_image := Image.create_from_data(width, height, false, Image.FORMAT_RGB8, pixels_rgb)
+		
+		var texture := ImageTexture.create_from_image(texture_image) #,Texture2D.FLAG_MIPMAPS | Texture2D.FLAG_REPEAT | Texture2D.FLAG_ANISOTROPIC_FILTER
 
 		textures[name] = texture
 
