@@ -1,6 +1,6 @@
+@tool
 class_name PhysicsEntity
 extends RigidBody3D
-@tool
 
 @export var properties: Dictionary :
 	get:

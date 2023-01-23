@@ -1,6 +1,6 @@
+@tool
 class_name PhysicsBall
 extends PhysicsEntity
-@tool
 
 func update_properties():
 	super.update_properties()

@@ -1,6 +1,6 @@
+@tool
 class_name QodotLight
 extends QodotEntity
-@tool
 
 var light_node: Light3D = null
 
