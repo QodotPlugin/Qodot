@@ -206,7 +206,7 @@ func add_child_editor(parent, node, below = null) -> void:
 		prev_parent.remove_child(node)
 	
 	if below:
-		parent.add_sibling(below, node)
+		below.add_sibling(node)
 	else:
 		parent.add_child(node)
 	
