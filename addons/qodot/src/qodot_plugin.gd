@@ -4,7 +4,7 @@ extends EditorPlugin
 
 var map_import_plugin : QuakeMapImportPlugin = null
 var palette_import_plugin : QuakePaletteImportPlugin = null
-var wad_import_plugin : QuakeWadImportPlugin = null
+var wad_import_plugin: EditorImportPlugin = null
 
 var qodot_map_control: Control = null
 var qodot_map_progress_bar: Control = null
@@ -33,7 +33,7 @@ func _enter_tree() -> void:
 	# Import plugins
 	map_import_plugin = QuakeMapImportPlugin.new()
 	palette_import_plugin = QuakePaletteImportPlugin.new()
-	wad_import_plugin = QuakeWadImportPlugin.new()
+	wad_import_plugin = load("res://addons/qodot/src/import_plugins/QuakeWadImportPlugin.cs").new()
 
 	add_import_plugin(map_import_plugin)
 	add_import_plugin(palette_import_plugin)
