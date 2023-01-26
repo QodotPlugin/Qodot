@@ -145,8 +145,7 @@ func create_material(
 	var texture : Texture2D = load_texture(texture_name)
 	if not texture:
 		return material
-
-	material.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
+	
 	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED if unshaded else BaseMaterial3D.SHADING_MODE_PER_PIXEL
 
 	if material is StandardMaterial3D:
