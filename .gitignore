@@ -2,9 +2,9 @@
 # As a result we want to specifically decide what to include.
 
 # Ignore all files
-*
+/*
 
 # Exceptions
-!addons/qodot/
-!LICENCE
-!README.md
+!/addons
+!/LICENCE
+!/README.md
