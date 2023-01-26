@@ -10,7 +10,7 @@ Moving forward this will be the official version of the plugin and where active 
 
 **Please ensure that your project has a C# solution and you have hit the "Build" button before attempting to enable the plugin.**
 
-<sup>Latest Tested Engine Version: 4.0.beta14.mono</sup>
+<sup>Latest Tested Engine Version: 4.0.beta15.mono</sup>
 
 ## Documentation
 
