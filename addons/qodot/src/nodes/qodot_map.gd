@@ -842,6 +842,7 @@ func build_entity_mesh_dict() -> Dictionary:
 			
 			mesh = meshes[entity_idx]
 			mesh.add_surface_from_arrays(ArrayMesh.PRIMITIVE_TRIANGLES, entity_surface)
+			mesh.surface_set_name(mesh.get_surface_count() - 1, texture)
 			mesh.surface_set_material(mesh.get_surface_count() - 1, material_dict[texture])
 			
 	return meshes
@@ -860,6 +861,7 @@ func build_worldspawn_layer_mesh_dict() -> Dictionary:
 		
 		mesh = meshes[texture]
 		mesh.add_surface_from_arrays(ArrayMesh.PRIMITIVE_TRIANGLES, texture_surfaces[0])
+		mesh.surface_set_name(mesh.get_surface_count() - 1, texture)
 		mesh.surface_set_material(mesh.get_surface_count() - 1, material_dict[texture])
 	
 	return meshes
