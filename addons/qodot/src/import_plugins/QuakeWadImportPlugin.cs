@@ -85,8 +85,13 @@ public partial class QuakeWadImportPlugin : EditorImportPlugin
 		paletteDict.Add("default_value", "res://addons/qodot/palette.lmp");
 		paletteDict.Add("property_hint", (int)PropertyHint.File);
 		paletteDict.Add("hint_string", "*.lmp");
+		
+		Dictionary getMipsDict = new Dictionary();
+		getMipsDict.Add("name", "generate_mipmaps");
+		getMipsDict.Add("default_value", true);
+		getMipsDict.Add("property_hint", (int)PropertyHint.None);
 
-		return new Array<Dictionary>(new []{ paletteDict });
+		return new Array<Dictionary>(new []{ paletteDict, getMipsDict });
 	}
 
 	public override long _GetPresetCount()
@@ -198,6 +203,10 @@ public partial class QuakeWadImportPlugin : EditorImportPlugin
 			}
 
 			var textureImage = Image.CreateFromData((int)tex.width, (int)tex.height, false, Image.Format.Rgb8, pixelsRgb);
+			if (options["generate_mipmaps"].AsBool())
+			{
+				textureImage.GenerateMipmaps();
+			}
 			var texture = ImageTexture.CreateFromImage(textureImage);
 
 			textures[tex.name] = texture;
