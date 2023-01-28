@@ -131,7 +131,7 @@ public partial class QuakeWadImportPlugin : EditorImportPlugin
 			return (long)Error.CantAcquireResource;
 		}
 
-		var magicStr = file.GetBuffer(4).GetStringFromASCII();
+		var magicStr = file.GetBuffer(4).GetStringFromAscii();
 		if (magicStr != "WAD2")
 		{
 			GD.PrintErr("Invalid WAD magic");
@@ -154,7 +154,7 @@ public partial class QuakeWadImportPlugin : EditorImportPlugin
 			entry.type = file.Get8();
 			entry.compression = file.Get8();
 			entry.unknown = file.Get16();
-			entry.nameStr = file.GetBuffer(TEXTURE_NAME_LENGTH).GetStringFromASCII();
+			entry.nameStr = file.GetBuffer(TEXTURE_NAME_LENGTH).GetStringFromAscii();
 
 			if (entry.type == (byte)WadEntryType.MipsTexture)
 			{
@@ -168,7 +168,7 @@ public partial class QuakeWadImportPlugin : EditorImportPlugin
 			file.Seek(0);
 			file.Seek(entries[i].offset);
 
-			string nameStr = file.GetBuffer(TEXTURE_NAME_LENGTH).GetStringFromASCII();
+			string nameStr = file.GetBuffer(TEXTURE_NAME_LENGTH).GetStringFromAscii();
 			uint width = file.Get32();
 			uint height = file.Get32();
 
@@ -192,9 +192,9 @@ public partial class QuakeWadImportPlugin : EditorImportPlugin
 			for (int j = 0; j < tex.pixelData.Length; j++)
 			{
 				var rgbColor = colors[tex.pixelData[j]];
-				pixelsRgb[(j * 3)    ] = (byte)rgbColor.r8;
-				pixelsRgb[(j * 3) + 1] = (byte)rgbColor.g8;
-				pixelsRgb[(j * 3) + 2] = (byte)rgbColor.b8;
+				pixelsRgb[(j * 3)    ] = (byte)rgbColor.R8;
+				pixelsRgb[(j * 3) + 1] = (byte)rgbColor.G8;
+				pixelsRgb[(j * 3) + 2] = (byte)rgbColor.B8;
 			}
 
 			var textureImage = Image.CreateFromData((int)tex.width, (int)tex.height, false, Image.Format.Rgb8, pixelsRgb);

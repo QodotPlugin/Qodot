@@ -190,13 +190,13 @@ namespace Qodot
 						switch (componentIdx)
 						{
 							case 0:
-								currentFace.planePoints.v0.x = token.ToFloat();
+								currentFace.planePoints.v0.X = token.ToFloat();
 								break;
 							case 1:
-								currentFace.planePoints.v0.y = token.ToFloat();
+								currentFace.planePoints.v0.Y = token.ToFloat();
 								break;
 							case 2:
-								currentFace.planePoints.v0.z = token.ToFloat();
+								currentFace.planePoints.v0.Z = token.ToFloat();
 								break;
 						}
 						
@@ -217,13 +217,13 @@ namespace Qodot
 							switch (componentIdx)
 							{
 								case 0:
-									currentFace.planePoints.v1.x = token.ToFloat();
+									currentFace.planePoints.v1.X = token.ToFloat();
 									break;
 								case 1:
-									currentFace.planePoints.v1.y = token.ToFloat();
+									currentFace.planePoints.v1.Y = token.ToFloat();
 									break;
 								case 2:
-									currentFace.planePoints.v1.z = token.ToFloat();
+									currentFace.planePoints.v1.Z = token.ToFloat();
 									break;
 							}
 
@@ -245,13 +245,13 @@ namespace Qodot
 							switch (componentIdx)
 							{
 								case 0:
-									currentFace.planePoints.v2.x = token.ToFloat();
+									currentFace.planePoints.v2.X = token.ToFloat();
 									break;
 								case 1:
-									currentFace.planePoints.v2.y = token.ToFloat();
+									currentFace.planePoints.v2.Y = token.ToFloat();
 									break;
 								case 2:
-									currentFace.planePoints.v2.z = token.ToFloat();
+									currentFace.planePoints.v2.Z = token.ToFloat();
 									break;
 							}
 							
@@ -274,13 +274,13 @@ namespace Qodot
 					else
 					{
 						valveUVs = false;
-						currentFace.uvStandard.x = token.ToFloat();
+						currentFace.uvStandard.X = token.ToFloat();
 						scope = ParseScope.V;
 					}
 
 					break;
 				case ParseScope.V:
-					currentFace.uvStandard.y = token.ToFloat();
+					currentFace.uvStandard.Y = token.ToFloat();
 					scope = ParseScope.ROT;
 					break;
 				case ParseScope.VALVE_U:
@@ -294,13 +294,13 @@ namespace Qodot
 						switch (componentIdx)
 						{
 							case 0:
-								currentFace.uvValve.u.axis.x = token.ToFloat();
+								currentFace.uvValve.u.axis.X = token.ToFloat();
 								break;
 							case 1:
-								currentFace.uvValve.u.axis.y = token.ToFloat();
+								currentFace.uvValve.u.axis.Y = token.ToFloat();
 								break;
 							case 2:
-								currentFace.uvValve.u.axis.z = token.ToFloat();
+								currentFace.uvValve.u.axis.Z = token.ToFloat();
 								break;
 							case 3:
 								currentFace.uvValve.u.offset = token.ToFloat();
@@ -323,13 +323,13 @@ namespace Qodot
 							switch (componentIdx)
 							{
 								case 0:
-									currentFace.uvValve.v.axis.x = token.ToFloat();
+									currentFace.uvValve.v.axis.X = token.ToFloat();
 									break;
 								case 1:
-									currentFace.uvValve.v.axis.y = token.ToFloat();
+									currentFace.uvValve.v.axis.Y = token.ToFloat();
 									break;
 								case 2:
-									currentFace.uvValve.v.axis.z = token.ToFloat();
+									currentFace.uvValve.v.axis.Z = token.ToFloat();
 									break;
 								case 3:
 									currentFace.uvValve.v.offset = token.ToFloat();

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using Godot;
 using Godot.Collections;
 using Godot.NativeInterop;
 using Array = Godot.Collections.Array;
-using Object = Godot.Object;
+using Object = Godot.GodotObject;
 
 namespace Qodot
 {
@@ -79,7 +79,7 @@ namespace Qodot
 			for (int i = 0; i < keys.Length; i++)
 			{
 				Vector2 val = textureDict[keys[i]].AsVector2();
-				mapData.SetTextureSize(keys[i].AsString(), (int)val.x, (int)val.y);
+				mapData.SetTextureSize(keys[i].AsString(), (int)val.X, (int)val.Y);
 			}
 			geoGenerator.Run();
 		}
@@ -152,7 +152,7 @@ namespace Qodot
 				}
 
 				dict["brush_indices"] = brushIndices;
-				dict["center"] = new Vector3(entitySpan[e].center.y, entitySpan[e].center.z, entitySpan[e].center.x);
+				dict["center"] = new Vector3(entitySpan[e].center.Y, entitySpan[e].center.Z, entitySpan[e].center.X);
 				dict["properties"] = entitySpan[e].properties;
 				
 				entDicts.Add(dict);
@@ -243,13 +243,13 @@ namespace Qodot
 				for (int i = 0; i < vertexSpan.Length; i++)
 				{
 					ref FaceVertex v = ref vertexSpan[i];
-					vertices[i] = new Vector3(v.vertex.y, v.vertex.z, v.vertex.x) / inverseScaleFactor;
-					normals[i] = new Vector3(v.normal.y, v.normal.z, v.normal.x);
-					tangents[(i * 4)    ] = v.tangent.y;
-					tangents[(i * 4) + 1] = v.tangent.z;
-					tangents[(i * 4) + 2] = v.tangent.x;
-					tangents[(i * 4) + 3] = v.tangent.w;
-					uvs[i] = new Vector2(v.uv.x, v.uv.y);
+					vertices[i] = new Vector3(v.vertex.Y, v.vertex.Z, v.vertex.X) / inverseScaleFactor;
+					normals[i] = new Vector3(v.normal.Y, v.normal.Z, v.normal.X);
+					tangents[(i * 4)    ] = v.tangent.Y;
+					tangents[(i * 4) + 1] = v.tangent.Z;
+					tangents[(i * 4) + 2] = v.tangent.X;
+					tangents[(i * 4) + 3] = v.tangent.W;
+					uvs[i] = new Vector2(v.uv.X, v.uv.Y);
 				}
 
 				int[] indices = new int[surfsSpan[s].indices.Count];
@@ -263,7 +263,7 @@ namespace Qodot
 				brushArray[(int)Mesh.ArrayType.Vertex] = vertices;
 				brushArray[(int)Mesh.ArrayType.Normal] = normals;
 				brushArray[(int)Mesh.ArrayType.Tangent] = tangents;
-				brushArray[(int)Mesh.ArrayType.TexUv] = uvs;
+				brushArray[(int)Mesh.ArrayType.TexUV] = uvs;
 				brushArray[(int)Mesh.ArrayType.Index] = indices;
 				
 				surfsArray.Add(brushArray);
