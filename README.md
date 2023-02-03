@@ -2,6 +2,8 @@
 
 Quake *.map* file support for Godot 4.x.
 
+For the original Godot 3.x plugin, see [Qodot-Plugin](https://github.com/QodotPlugin/qodot-plugin/).
+
 # About this version
 
 This is a prerelease port of Qodot to Godot 4.x. It requires the .NET build of Godot to function correctly.
