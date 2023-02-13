@@ -78,7 +78,7 @@ public partial class QuakeWadImportPlugin : EditorImportPlugin
 		return true;
 	}
 	
-	public override Array<Dictionary> _GetImportOptions(string path, long presetIndex)
+	public override Array<Dictionary> _GetImportOptions(string path, int presetIndex)
 	{
 		Dictionary paletteDict = new Dictionary();
 		paletteDict.Add("name", "palette_file");
@@ -94,22 +94,22 @@ public partial class QuakeWadImportPlugin : EditorImportPlugin
 		return new Array<Dictionary>(new []{ paletteDict, getMipsDict });
 	}
 
-	public override long _GetPresetCount()
+	public override int _GetPresetCount()
 	{
 		return 0;
 	}
 
-	public override long _GetImportOrder()
+	public override int _GetImportOrder()
 	{
 		return 0;
 	}
 
-	public override double _GetPriority()
+	public override float _GetPriority()
 	{
-		return 1.0;
+		return 1.0f;
 	}
 	
-	public override long _Import(
+	public override Error _Import(
 		string sourceFile,
 		string savePath,
 		Dictionary options,
@@ -125,7 +125,7 @@ public partial class QuakeWadImportPlugin : EditorImportPlugin
 		{
 			Error err = FileAccess.GetOpenError();
 			GD.PrintErr("Error opening WAD file: " + err.ToString());
-			return (long)err;
+			return err;
 		}
 
 		string palettePath = options["palette_file"].AsString();
@@ -133,14 +133,14 @@ public partial class QuakeWadImportPlugin : EditorImportPlugin
 		if (paletteFile == null)
 		{
 			GD.PrintErr("Invalid palette file");
-			return (long)Error.CantAcquireResource;
+			return Error.CantAcquireResource;
 		}
 
 		var magicStr = file.GetBuffer(4).GetStringFromAscii();
 		if (magicStr != "WAD2")
 		{
 			GD.PrintErr("Invalid WAD magic");
-			return (long)Error.InvalidData;
+			return Error.InvalidData;
 		}
 
 		uint numEntries = file.Get32();
@@ -213,6 +213,6 @@ public partial class QuakeWadImportPlugin : EditorImportPlugin
 		}
 
 		var wadResource = QuakeWadFile.New(textures).AsGodotObject() as Resource;
-		return (int)ResourceSaver.Save(wadResource, savePathStr);
+		return ResourceSaver.Save(wadResource, savePathStr);
 	}
 }
