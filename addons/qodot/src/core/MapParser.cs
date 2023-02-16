@@ -294,16 +294,16 @@ namespace Qodot
 						switch (componentIdx)
 						{
 							case 0:
-								currentFace.uvValve.u.axis.X = token.ToFloat();
+								currentFace.uvValve.u.axis.X = (float)Convert.ToDouble(token, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
 								break;
 							case 1:
-								currentFace.uvValve.u.axis.Y = token.ToFloat();
+								currentFace.uvValve.u.axis.Y = (float)Convert.ToDouble(token, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
 								break;
 							case 2:
-								currentFace.uvValve.u.axis.Z = token.ToFloat();
+								currentFace.uvValve.u.axis.Z = (float)Convert.ToDouble(token, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
 								break;
 							case 3:
-								currentFace.uvValve.u.offset = token.ToFloat();
+								currentFace.uvValve.u.offset = (float)Convert.ToDouble(token, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
 								break;
 						}
 
@@ -323,16 +323,16 @@ namespace Qodot
 							switch (componentIdx)
 							{
 								case 0:
-									currentFace.uvValve.v.axis.X = token.ToFloat();
+									currentFace.uvValve.v.axis.X = (float)Convert.ToDouble(token, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
 									break;
 								case 1:
-									currentFace.uvValve.v.axis.Y = token.ToFloat();
+									currentFace.uvValve.v.axis.Y = (float)Convert.ToDouble(token, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
 									break;
 								case 2:
-									currentFace.uvValve.v.axis.Z = token.ToFloat();
+									currentFace.uvValve.v.axis.Z = (float)Convert.ToDouble(token, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
 									break;
 								case 3:
-									currentFace.uvValve.v.offset = token.ToFloat();
+									currentFace.uvValve.v.offset = (float)Convert.ToDouble(token, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
 									break;
 							}
 
@@ -342,15 +342,15 @@ namespace Qodot
 
 					break;
 				case ParseScope.ROT:
-					currentFace.uvExtra.rot = token.ToFloat();
+					currentFace.uvExtra.rot = (float)Convert.ToDouble(token, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
 					scope = ParseScope.U_SCALE;
 					break;
 				case ParseScope.U_SCALE:
-					currentFace.uvExtra.scaleX = token.ToFloat();
+					currentFace.uvExtra.scaleX = (float)Convert.ToDouble(token, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
 					scope = ParseScope.V_SCALE;
 					break;
 				case ParseScope.V_SCALE:
-					currentFace.uvExtra.scaleY = token.ToFloat();
+					currentFace.uvExtra.scaleY = (float)Convert.ToDouble(token, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
 					CommitFace();
 					scope = ParseScope.BRUSH;
 					break;
