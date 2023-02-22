@@ -13,10 +13,10 @@ var edited_object_ref: WeakRef = weakref(null)
 func _get_plugin_name() -> String:
 	return "Qodot"
 
-func _handles(object: Variant) -> bool:
+func _handles(object: Object) -> bool:
 	return object is QodotMap
 	
-func _edit(object: Variant) -> void:
+func _edit(object: Object) -> void:
 	edited_object_ref = weakref(object)
 
 func _make_visible(visible: bool) -> void:
