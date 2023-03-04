@@ -40,7 +40,7 @@ func do_export_file():
 
 		print("Exporting TrenchBroom Game Config Folder to ", config_folder)
 
-		var icon_path : String = config_folder + "/Icon.png"
+		var icon_path : String = config_folder + "/icon.svg"
 
 		print("Exporting icon to ", icon_path)
 
