@@ -77,8 +77,7 @@ func setup_project_settings() -> void:
 	try_add_project_setting('qodot/textures/roughness_pattern', TYPE_STRING, QodotTextureLoader.PBR_SUFFIX_PATTERNS[QodotTextureLoader.PBRSuffix.ROUGHNESS])
 	try_add_project_setting('qodot/textures/emission_pattern', TYPE_STRING, QodotTextureLoader.PBR_SUFFIX_PATTERNS[QodotTextureLoader.PBRSuffix.EMISSION])
 	try_add_project_setting('qodot/textures/ao_pattern', TYPE_STRING, QodotTextureLoader.PBR_SUFFIX_PATTERNS[QodotTextureLoader.PBRSuffix.AO])
-	try_add_project_setting('qodot/textures/height_pattern', TYPE_STRING
-	QodotTextureLoader.PBR_SUFFIX_PATTERNS[QodotTextureLoader.PBRSuffix.HEIGHT])
+	try_add_project_setting('qodot/textures/height_pattern', TYPE_STRING, QodotTextureLoader.PBR_SUFFIX_PATTERNS[QodotTextureLoader.PBRSuffix.HEIGHT])
 
 func try_add_project_setting(name: String, type: int, value, info: Dictionary = {}) -> void:
 	if not ProjectSettings.has_setting(name):
