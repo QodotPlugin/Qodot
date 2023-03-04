@@ -1,22 +1,20 @@
 ![](https://raw.githubusercontent.com/Shfty/qodot-extras/master/graphics/qodot_logo_small.png)
 
-Quake *.map* file support for Godot 4.x.
+Quake *.map* file support for Godot 4.x. **Please ensure that your project has a C# solution and you have hit the "Build" button before enabling the plugin.**
 
 For the original Godot 3.x plugin, see [Qodot-Plugin](https://github.com/QodotPlugin/qodot-plugin/).
 
 # About this version
 
-This is a prerelease port of Qodot to Godot 4.x. It requires the .NET build of Godot to function correctly.
+Latest Tested Engine Version: 4.0.rc3.mono
+
+This is a port of Qodot to Godot 4.x. It requires the .NET build of Godot to function correctly.
 
 Moving forward this will be the official version of the plugin and where active development will continue.
 
-**Please ensure that your project has a C# solution and you have hit the "Build" button before attempting to enable the plugin.**
-
-Latest Tested Engine Version: 4.0.rc2.mono
-
 ## Documentation
 
-Consult the [Qodot User Guide](https://qodotplugin.github.io/).
+Consult the [Qodot User Guide](https://qodotplugin.github.io/). Documentation may not be up to date for 4.0, but most things should be the same.
 
 ## Overview
 
