@@ -1,7 +1,7 @@
 [gd_resource type="Resource" load_steps=5 format=3]
 
 [ext_resource type="Resource" uid="uid://7h57nuq1xmoi" path="res://addons/qodot/game_definitions/fgd/qodot_fgd.tres" id="1"]
-[ext_resource type="Texture" path="res://addons/qodot/icon.png" id="2"]
+[ext_resource type="Texture" path="res://addons/qodot/icon.svg" id="2"]
 [ext_resource type="Script" path="res://addons/qodot/src/resources/game-definitions/trenchbroom/trenchbroom_game_config_folder.gd" id="3"]
 [ext_resource type="Resource" path="res://addons/qodot/game_definitions/trenchbroom/qodot_trenchbroom_config_file.tres" id="4"]
 
