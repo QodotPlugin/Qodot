@@ -33,7 +33,7 @@ func _enter_tree() -> void:
 	# Import plugins
 	map_import_plugin = QuakeMapImportPlugin.new()
 	palette_import_plugin = QuakePaletteImportPlugin.new()
-	wad_import_plugin = load("res://addons/qodot/src/import_plugins/QuakeWadImportPlugin.cs").new()
+	wad_import_plugin = preload("res://addons/qodot/src/import_plugins/QuakeWadImportPlugin.cs").new()
 
 	add_import_plugin(map_import_plugin)
 	add_import_plugin(palette_import_plugin)
