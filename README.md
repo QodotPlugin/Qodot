@@ -1,20 +1,18 @@
 ![](https://raw.githubusercontent.com/Shfty/qodot-extras/master/graphics/qodot_logo_small.png)
 
-Quake *.map* file support for Godot 4.x.
+Quake *.map* file support for Godot 4.x. For the original Godot 3.x plugin, see [Qodot-Plugin](https://github.com/QodotPlugin/qodot-plugin/).
 
 # Before you enable Qodot
 
-1. [Download .NET SDK](https://dotnet.microsoft.com/en-us/download), **must be .NET SDK 7.0 or higher**.
-2. Run the .NET SDK installer, ensure it completes successfully.
-3. Go to Project > C# > Create C# Solution.
-4. Click *Build* in the top-right corner of the Godot editor.
-5. Project > Project Settings > Plugins, then enable Qodot.
-
-For the original Godot 3.x plugin, see [Qodot-Plugin](https://github.com/QodotPlugin/qodot-plugin/).
+1. [Use Godot Engine .NET / mono build](https://godotengine.org/download/).
+2. [Download .NET SDK](https://dotnet.microsoft.com/en-us/download), **must be .NET SDK 7.0 or higher**.
+3. Run the .NET SDK installer, ensure it completes successfully.
+4. Go to Project > C# > Create C# Solution. Then click *Build* in the top-right corner.
+5. Go to Project > Project Settings > Plugins, then enable Qodot.
 
 # About this version
 
-Latest Tested Engine Version: 4.0.rc3.mono
+Latest Tested Engine Version: **4.0.stable.mono**
 
 This is a port of Qodot to Godot 4.x. It requires the .NET build of Godot to function correctly.
 
