@@ -729,8 +729,9 @@ func build_entity_collision_shapes() -> void:
 			else:
 				var shape_points = PackedVector3Array()
 				for vertex in surface_verts[Mesh.ARRAY_VERTEX]:
+					vertex += entity_position
 					if not vertex in shape_points:
-						shape_points.append(vertex + entity_position)
+						shape_points.append(vertex)
 				
 				var shape = ConvexPolygonShape3D.new()
 				shape.set_points(shape_points)
