@@ -56,7 +56,6 @@ namespace Qodot
 				Span<BrushGeometry> brushGeoSpan = mapData.GetBrushGeoSpan(e);
 				for (int b = 0; b < brushGeoSpan.Length; b++)
 				{
-					if(FilterBrush(e, b)) continue;
 
 					if (splitType == SurfaceSplitType.BRUSH)
 					{
@@ -79,7 +78,7 @@ namespace Qodot
 							{
 								vertexSpan[v].vertex -= entitySpan[e].center;
 							}
-							
+							if(FilterBrush(e, b)) continue;
 							outSurfaces[surfIdx].vertices.Add(vertexSpan[v]);
 						}
 						
