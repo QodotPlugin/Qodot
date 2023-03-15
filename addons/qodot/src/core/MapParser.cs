@@ -190,13 +190,13 @@ namespace Qodot
 						switch (componentIdx)
 						{
 							case 0:
-								currentFace.planePoints.v0.X = token.ToFloat();
+								currentFace.planePoints.v0.X = (float)Convert.ToDouble(token, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
 								break;
 							case 1:
-								currentFace.planePoints.v0.Y = token.ToFloat();
+								currentFace.planePoints.v0.Y = (float)Convert.ToDouble(token, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
 								break;
 							case 2:
-								currentFace.planePoints.v0.Z = token.ToFloat();
+								currentFace.planePoints.v0.Z = (float)Convert.ToDouble(token, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
 								break;
 						}
 						
@@ -217,13 +217,13 @@ namespace Qodot
 							switch (componentIdx)
 							{
 								case 0:
-									currentFace.planePoints.v1.X = token.ToFloat();
+									currentFace.planePoints.v1.X = (float)Convert.ToDouble(token, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
 									break;
 								case 1:
-									currentFace.planePoints.v1.Y = token.ToFloat();
+									currentFace.planePoints.v1.Y = (float)Convert.ToDouble(token, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
 									break;
 								case 2:
-									currentFace.planePoints.v1.Z = token.ToFloat();
+									currentFace.planePoints.v1.Z = (float)Convert.ToDouble(token, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
 									break;
 							}
 
@@ -245,13 +245,13 @@ namespace Qodot
 							switch (componentIdx)
 							{
 								case 0:
-									currentFace.planePoints.v2.X = token.ToFloat();
+									currentFace.planePoints.v2.X = (float)Convert.ToDouble(token, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
 									break;
 								case 1:
-									currentFace.planePoints.v2.Y = token.ToFloat();
+									currentFace.planePoints.v2.Y = (float)Convert.ToDouble(token, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
 									break;
 								case 2:
-									currentFace.planePoints.v2.Z = token.ToFloat();
+									currentFace.planePoints.v2.Z = (float)Convert.ToDouble(token, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
 									break;
 							}
 							
