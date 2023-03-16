@@ -1,15 +1,15 @@
-[gd_resource type="Resource" load_steps=5 format=3]
+[gd_resource type="Resource" script_class="TrenchBroomGameConfigFolder" load_steps=5 format=3 uid="uid://7ymgs0uml811"]
 
 [ext_resource type="Resource" uid="uid://7h57nuq1xmoi" path="res://addons/qodot/game_definitions/fgd/qodot_fgd.tres" id="1"]
-[ext_resource type="Texture" path="res://addons/qodot/icon.svg" id="2"]
 [ext_resource type="Script" path="res://addons/qodot/src/resources/game-definitions/trenchbroom/trenchbroom_game_config_folder.gd" id="3"]
-[ext_resource type="Resource" path="res://addons/qodot/game_definitions/trenchbroom/qodot_trenchbroom_config_file.tres" id="4"]
+[ext_resource type="Texture2D" uid="uid://b2k2iutnsgjfy" path="res://addons/qodot/icon.png" id="3_vcngg"]
+[ext_resource type="Resource" uid="uid://bfccniysop476" path="res://addons/qodot/game_definitions/trenchbroom/qodot_trenchbroom_config_file.tres" id="4"]
 
 [resource]
-script = ExtResource( 3 )
+script = ExtResource("3")
 export_file = false
-trenchbroom_games_folder = "C:/OtherPrograms/TrenchBroom/2020.1/games"
+trenchbroom_games_folder = ""
 game_name = "Qodot"
-icon = ExtResource( 2 )
-game_config_file = ExtResource( 4 )
-fgd_files = [ ExtResource( 1 ) ]
+icon = ExtResource("3_vcngg")
+game_config_file = ExtResource("4")
+fgd_files = Array[Resource]([ExtResource("1")])
