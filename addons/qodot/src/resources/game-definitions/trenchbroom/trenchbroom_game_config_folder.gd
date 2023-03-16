@@ -40,7 +40,7 @@ func do_export_file():
 
 		print("Exporting TrenchBroom Game Config Folder to ", config_folder)
 
-		var icon_path : String = config_folder + "/icon.svg"
+		var icon_path : String = config_folder + "/icon.png"
 
 		print("Exporting icon to ", icon_path)
 
@@ -79,8 +79,8 @@ func do_export_file():
 
 func _init():
 	if not icon:
-		if ResourceLoader.exists("res://icon.png"):
-			icon = ResourceLoader.load("res://icon.png")
+		if ResourceLoader.exists("res://addons/qodot/icon.png"):
+			icon = ResourceLoader.load("res://addons/qodot/icon.png")
 
 func build_class_text() -> String:
 	return ""
