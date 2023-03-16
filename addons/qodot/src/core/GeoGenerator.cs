@@ -7,7 +7,8 @@ namespace Qodot
 {
 	public class GeoGenerator
 	{
-		private const float CMP_EPSILON = 0.0005f;
+		// Min distance between two verts in a brush before they're merged. Higher values fix angled brushes near extents.
+		private const float CMP_EPSILON = 0.008f;
 
 		private readonly Vector3 UP_VECTOR      = new Vector3(0.0f, 0.0f, 1.0f);
 		private readonly Vector3 RIGHT_VECTOR   = new Vector3(0.0f, 1.0f, 0.0f);
