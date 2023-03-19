@@ -167,6 +167,9 @@ points = PackedVector3Array(-1, 0, -2, 1, 0, -2, 1, 6, -2, -1, 6, -2, -1.5, 6.5,
 [node name="StructuralGeometry" type="Node3D"]
 
 [node name="README" type="Node" parent="."]
+editor_description = "This scene illustrates the most basic use of Qodot: Building geometry from a map file.
+
+Note that because map files are referenced by global filesystem paths, you will need to set the `Map File` property on the QodotMap node to the equivalent of `res://scenes/examples/0-visuals/0-structural-geometry/0-structural-geometry.map` in order to successfully rebuild."
 
 [node name="QodotMap" type="Node3D" parent="."]
 script = ExtResource("1")

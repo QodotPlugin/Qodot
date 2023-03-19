@@ -200,6 +200,15 @@ points = PackedVector3Array(-10, 2, -14, -10, 1, -14, -4, 1, -14, -4, 2, -14, -1
 [node name="Textures" type="Node3D"]
 
 [node name="README" type="Node" parent="."]
+editor_description = "This scene builds on the previous one by introducing textures.
+
+Textures are stored in the form `group/name` inside map files. When building a map, Qodot searches the base texture path defined in its properties for subfolders representing texture groups, and looks inside those for files matching the given texture name.
+
+If a texture is found, it will be applied to the `Albedo` slot of the `SpatialMaterial` resource set on the `Default Material` property of QodotMap. This behavior can be overridden with custom materials, which will be covered in the next scene.
+
+Note that a texture must reside in a group folder in order for Qodot to detect it. Any textures stored inside the base texture directory will be skipped, as they do not belong to a group and thus cannot be referenced by a map file.
+
+See `res://textures` for the layout used in this project."
 
 [node name="QodotMap" type="Node3D" parent="."]
 script = ExtResource("1")

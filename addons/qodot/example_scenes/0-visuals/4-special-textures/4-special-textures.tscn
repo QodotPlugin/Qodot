@@ -109,6 +109,14 @@ transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -
 shadow_enabled = true
 
 [node name="README" type="Node" parent="."]
+editor_description = "This scene introduces special textures.
+
+The Quake workflow has certain texture names reserved for specific functions. Of these, the ones most relevant to Qodot are CLIP and SKIP.
+
+When fully textured with CLIP, a brush will omit its visuals from the build, but remain for the purposes of collision. This can be used to round off hard edges for smoother collision, or to create invisible walls.
+
+When textured with SKIP, a face will omit its visuals from the build. This can be used to manually hide hidden surfaces as an optimization, or for various visual tricks using one-sided geometry."
+
 
 [node name="QodotMap" type="Node3D" parent="."]
 script = ExtResource("1")

@@ -99,6 +99,13 @@ shadow_enabled = true
 environment = SubResource("Environment_1ktpt")
 
 [node name="README" type="Node" parent="."]
+editor_description = "This scene introduces nested TrenchBroom groups.
+
+By default the Quake map format uses a flat hierarchy for each of its types - the map itself contains entities, and the entities contain brushes. It has no concept of parenting or attachment. However, TrenchBroom implements a nestable grouping system using metadata attached to func_group entities.
+
+If the `TrenchBroom Group Hierarchy` property is enabled on a QodotMap node, these func_group entities will be parsed into a tree hierarchy during build.
+
+Note that groups may only contain a single entity brush, structural brushes, and other groups. This is because a single entity needs to be chosen to represent each group in the scene tree."
 
 [node name="Camera" type="Camera3D" parent="."]
 transform = Transform3D(0.587785, 0.25, -0.769421, 0, 0.951057, 0.309017, 0.809017, -0.181636, 0.559017, -32.8446, 21.3321, 23.8013)

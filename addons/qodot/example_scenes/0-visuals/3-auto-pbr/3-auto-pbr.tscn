@@ -59,6 +59,21 @@ shadow_enabled = true
 environment = SubResource("Environment_xhgds")
 
 [node name="README" type="Node" parent="."]
+editor_description = "This scene introduces automatic PBR application.
+
+The standard `SpatialMaterial` used for rendering in Godot supports much more than the basic Albedo channel specified in a map file. Qodot accounts for this by allowing for the automatic application of the normal, metallic, roughness, emission, ambient occlusion and depth texture channels.
+
+These can be enabled by creating a folder with the same name as your texture, and storing it alongside it in the filesystem. Textures with specific prefixes stored in this folder will be treated as custom texture channels to be applied alongside their parent texture.
+
+The default prefixes are as follows:
+Normal - texture-name_normal.extension
+Metallic - texture-name_metallic.extension
+Roughness - texture-name_roughness.extension
+Emission - texture-name_emission.extension
+Ambient Occlusion - texture-name_ao.extension
+Depth - texture-name_depth.extension
+
+These can be modified in the `Qodot/Textures` category of the Project Settings window, and are stored in Godot's standard string matching format. For example, the default normal pattern is `%s_normal.%s`, and will have the first %s replaced with the texture name, and the second %s replaced with the texture extension specified on the QodotMap node."
 
 [node name="QodotMap" type="Node3D" parent="."]
 script = ExtResource("1")
