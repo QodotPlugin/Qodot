@@ -224,6 +224,18 @@ points = PackedVector3Array(8, -0.499998, 9.08333, 8, 0.5, 9.08333, -8, 0.5, 9.0
 environment = SubResource("Environment_ya28d")
 
 [node name="README" type="Node" parent="."]
+editor_description = "This scene introduces brush entities.
+
+Like point entities, brush entities also map to the concept of an actor, but one whose geometry is determined by geometry from a map file instead of some pre-existing rig stored as a script or scene.
+
+Qodot implements these using an FGD. Short for 'Forge Game Data', FGD is a format created by Valve as an interchange format for defining game object data such as actors and their properties, and has become the de-facto standard for development and modding of Quake-derived games.
+
+Brush entities are one of the types of class that can be defined in an FGD, and can be used to spawn custom node types with an attached mesh instance and optional collision. In this case, the hammer and column are a set of simple `RigidBody` nodes with attached `MeshInstance` and `CollisionShape` children generated from their brush geometry.
+
+Entities all have a key-value dictionary of properties that can be configured via map editor, then imported and applied to objects in Godot. The QodotEntity class implements this along with an on-change handler for convenient subclassing, but Qodot uses duck-typing for the purposes of populating this property so you can create your own implementation without needing to extend a built-in class.
+
+An example FGD is available at `res://addons/qodot/game-definitions/fgd/qodot-fgd.tres`."
+
 
 [node name="DirectionalLight" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.5, 0.612372, -0.612372, 0, 0.707107, 0.707107, 0.866025, 0.353553, -0.353554, 0, 15, 0)

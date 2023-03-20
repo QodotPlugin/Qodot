@@ -162,6 +162,18 @@ points = PackedVector3Array(-2, 0.5, -2, -2, -0.5, -2, 2, -0.5, -2, 2, 0.5, -2, 
 environment = SubResource("Environment_hpogl")
 
 [node name="README" type="Node" parent="."]
+editor_description = "This scene introduces advanced signal wiring.
+
+Unlike the Quake event model, Godot's signal / receiver method mechanism allows each object to emit or receive multiple signals with specific parameters. To account for this, Qodot implements an advanced signal wiring mechanism driven by point entities.
+
+To use it, you can add `signal` and `receiver` point entities inside the map editor.
+
+The `signal` entity takes a `targetname` property that should be referenced in the `target` property of the object emitting the signal, and a `signal_name` property that defines which signal is being connected, as well as a `target` property referencing the `targetname` of the receiver object being targeted..
+
+The `receiver` entity takes a `targetname` property that should be referenced in the `target` property of the `signal` entity that should connect to it, as well as a `receiver_name` that defines which receiver method is being targeted, and a `target` property referencing the `targetname` property of the object whose receiver method should be connected.
+
+This structure forms a chain of entity > signal > receiver > entity, and encodes all of the necessary information for Qodot to detect and connect the necessary signals at build time. Entities can have multiple sets of signals and receivers connected to them, allowing for complex interactions between objects."
+
 
 [node name="DirectionalLight" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.5, 0.612372, -0.612372, 0, 0.707107, 0.707107, 0.866025, 0.353553, -0.353554, 0, 15, 0)

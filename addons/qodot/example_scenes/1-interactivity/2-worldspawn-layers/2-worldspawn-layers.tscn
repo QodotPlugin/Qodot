@@ -178,6 +178,15 @@ points = PackedVector3Array(28, 20, 24, 28, 16, 24, 32, 16, 24, 32, 20, 24, 28, 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_fkxce")
 
+[node name="README" type="Node" parent="."]
+editor_description = "This scene introduces worldspawn layers.
+
+In Quake, there are certain textures that apply special behavior or properties to brushes, such as water, slime, and lava. Worldspawn layers are the Qodot equivalent - scriptable volumes defined by a texture that don't have a FGD entry or properties as an entity would.
+
+Worldspawn layers are defined as a `Resource` subclass in Godot, and are plugged into the `Worldspawn Layers` property of QodotMap in order to supply the requisite information to the build system. You can define their name, texture, visual build, collision type, and associated script in order to implement custom behavior.
+
+In this case, each layer uses a script that inherits from the `Liquid` class, which extends `Area` and applies buoyancy and damping forces based on a calculated displacement value. Each subclass sets its properties inside `_init_`, which allows for different behavior per layer."
+
 [node name="DirectionalLight" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.5, 0.612372, -0.612372, 0, 0.707107, 0.707107, 0.866025, 0.353553, -0.353554, 0, 15, 0)
 light_energy = 0.8

@@ -219,6 +219,15 @@ shadow_enabled = true
 environment = SubResource("Environment_oop8v")
 
 [node name="README" type="Node" parent="."]
+editor_description = "This scene introduces automatic material application. In addition to textures, Qodot can apply custom materials to the brush geometry imported from a map file. This is done by coupling materials to texture names, allowing each texture to represent any material type supported by the engine.
+
+Practically speaking, this means storing a material next to its texture file with the same name, at which point Qodot will detect it during build and apply it instead of the default material.
+
+A simple use for this would be overriding the default properties of a `SpatialMaterial`, allowing for the customization of parameters like roughness, metallic and emission. The floor, fence and objects in the corners all use this technique.
+
+You could also couple a dummy texture with a `ShaderMaterial`, allowing that texture to represent some effect instead. The central object uses this technique to apply a shader that visualizes mesh tangents.
+
+Materials can also be loaded without a texture of the same name as a sibling file, but meshes generated with it will lack UVs and any other vertex property that requires texture size to be known at build time."
 
 [node name="QodotMap" type="Node3D" parent="."]
 script = ExtResource("1")

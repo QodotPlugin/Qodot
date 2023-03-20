@@ -562,6 +562,23 @@ points = PackedVector3Array(0, 7.13824, -2, 0, 7.13824, -2, -1.90735e-06, 7.1382
 environment = SubResource("Environment_8h02o")
 
 [node name="README" type="Node" parent="."]
+editor_description = "This scene introduces static lightmap baking.
+
+(NOTE: Due to the filesize of baked lighting data, this scene ships without it for git-friendliness. Make sure to rebake the BakedLightmap node for correct visual results.)
+
+Godot supports baking out lightmap textures to be used instead of dynamic lights at runtime, commonly used to increase performance and work around the limitations of the dynamic lighting system.
+
+This requires a properly-unwrapped UV2 channel for any meshes being baked, so Qodot offers the ability to unwrap the generated meshes for an entire map via the 'Unwrap UV2' button in the top bar of the 3D view.
+
+Qodot marks built meshes for light baking based on the `Spawn Type` property specified in their FGD entry. By default, this includes all static non-entity geometry, otherwise known as 'worldspawn' in Quake terminology. Entity brushes can opt into light baking by specifying a `_shadow` property with a value of `1` in the map editor.
+
+Lights should have their `Bake Mode` property set to either `Indirect` or `All` in order to bake. `Indirect` is a hybrid mode that uses dynamic lighting for direct light and static lighting for indirect light, whereas `All` is designed to bake both direct and indirect lighting.
+
+If baking with `All`, a light should by hidden by disabling its render layer flags. This will allow the `BakedLightmap` node to detect it (unlike disabling visibility) and prevent it from rendering direct light dynamically.
+(Note that this does not work for directional lights as of 3.2. It's recommended to use a dynamic  light with `Indirect` set if you want to bake directional lighting.)
+
+Unfortunately the Godot light baker has some issues as of 3.2, and thus is not recommended for production usage. This is being addressed with a rewrite in 4.0, so for now this scene exists as a form of future-proofing."
+
 
 [node name="BakedLightmap" type="LightmapGI" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 0)

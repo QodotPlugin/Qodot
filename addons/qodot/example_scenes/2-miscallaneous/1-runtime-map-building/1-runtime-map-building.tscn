@@ -29,6 +29,11 @@ shadow_enabled = true
 environment = SubResource("Environment_wgi4p")
 
 [node name="README" type="Node" parent="."]
+editor_description = "This scene introduces runtime map building.
+
+Qodot usage isn't limited only to the editor - if you ship the requisite platform-specific native libraries with your project, you can invoke map builds at runtime using the `verify_and_build()` function in QodotMap to allow for user map creation.
+
+Note that only in-project WAD files are currently supported for runtime builds, as their implementation is tightly coupled to the Godot resource system."
 
 [node name="OrbitCameraController" type="Node3D" parent="."]
 transform = Transform3D(0.85264, -0.245298, 0.461339, 0, 0.882947, 0.469472, -0.522499, -0.40029, 0.752836, 1.73346, -1.42268, -7.17249)

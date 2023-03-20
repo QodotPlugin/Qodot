@@ -270,6 +270,13 @@ points = PackedVector3Array(-0.5, 3.5, -3, -0.5, -3.5, -3, 0.5, -3.5, -3, 0.5, 3
 environment = SubResource("Environment_yrqpb")
 
 [node name="README" type="Node" parent="."]
+editor_description = "This scene introduces basic signal wiring.
+
+In Quake, objects are connected together via their `target` and `targetname` fields. `targetname` tags an entity as an event receiver using the provided string ID, and `target` is used to reference one of these string IDs as the target of an event sender.
+This setup doesn't allow any parameters to be passed, but is simple, allows for one-to-many relationships, and allows for creating interactive behavior with minimal configuration overhead.
+
+In Qodot, this is implemented using signals. Event sender scripts should define a `trigger()` signal to be emitted on activation, and event receiver scripts should specify a `use()` method for this signal to invoke. If connected `targetname` and `target` fields are present, Qodot will attempt to connect the sender's `trigger()` to the receiver's `use()` as a persistent signal during map build"
+
 
 [node name="DirectionalLight" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.5, 0.612372, -0.612372, 0, 0.707107, 0.707107, 0.866025, 0.353553, -0.353554, 0, 15, 0)

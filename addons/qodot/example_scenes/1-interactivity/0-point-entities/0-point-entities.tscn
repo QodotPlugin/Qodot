@@ -105,6 +105,17 @@ points = PackedVector3Array(11, 9.99999, 20, -11, 9.99999, 20, -11, 0, 21, 11, 0
 environment = SubResource("Environment_1ep67")
 
 [node name="README" type="Node" parent="."]
+editor_description = "This scene introduces point entities.
+
+Point entities are essentially actors - they map to Godot Spatial nodes and their subclasses, since they represent a point in 3D space with some associated functionality.
+
+Qodot implements these using an FGD. Short for 'Forge Game Data', FGD is a format created by Valve as an interchange format for defining game object data such as actors and their properties, and has become the de-facto standard for development and modding of Quake-derived games.
+
+Point entities are one of the types of class that can be defined in an FGD, and can be used to spawn custom node types or instanced scenes with optional attached scripts. In this case, the physics balls are simple entities with no special behavior or properties that instance a scene containing a RigidBody and its collision rig.
+
+Entities all have a key-value dictionary of properties that can be configured via map editor, then imported and applied to objects in Godot. The QodotEntity class implements this along with an on-change handler for convenient subclassing, but Qodot uses duck-typing for the purposes of populating this property so you can create your own implementation without needing to extend a built-in class.
+
+An example FGD is available at `res://addons/qodot/game-definitions/fgd/qodot-fgd.tres`."
 
 [node name="DirectionalLight" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.5, 0.612372, -0.612372, 0, 0.707107, 0.707107, 0.866025, 0.353553, -0.353554, 0, 15, 0)
