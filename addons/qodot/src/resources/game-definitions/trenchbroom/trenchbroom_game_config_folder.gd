@@ -68,7 +68,7 @@ func do_export_file():
 
 		print("Export complete\n")
 
-@export var trenchbroom_games_folder : String # (String, DIR, GLOBAL)
+@export_global_dir var trenchbroom_games_folder : String
 
 @export var game_name := "Qodot"
 @export var icon : Texture2D

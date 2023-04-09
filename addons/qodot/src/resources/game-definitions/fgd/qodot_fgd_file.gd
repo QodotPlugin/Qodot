@@ -29,7 +29,7 @@ func do_export_file():
 @export var target_folder : String # (String, DIR, GLOBAL)
 @export var fgd_name: String = "Qodot"
 @export var base_fgd_files: Array[Resource] = [] # (Array, Resource)
-@export var entity_definitions: Array[Variant] = [ # (Array, Resource)
+@export var entity_definitions: Array[Resource] = [ # (Array, Resource)
 	preload("res://addons/qodot/game_definitions/fgd/solid_classes/worldspawn_solid_class.tres"),
 	preload("res://addons/qodot/game_definitions/fgd/solid_classes/group_solid_class.tres"),
 	preload("res://addons/qodot/game_definitions/fgd/solid_classes/detail_solid_class.tres"),
