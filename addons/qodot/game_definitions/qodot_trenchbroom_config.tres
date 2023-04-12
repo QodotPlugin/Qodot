@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="TrenchBroomGameConfig" load_steps=10 format=3 uid="uid://6lfyksyexa5u"]
+
+[ext_resource type="Resource" path="res://addons/qodot/game_definitions/face_tags/skip_tag.tres" id="1_d5dpl"]
+[ext_resource type="Resource" path="res://addons/qodot/game_definitions/face_tags/clip_tag.tres" id="1_ivhd3"]
+[ext_resource type="Resource" path="res://addons/qodot/game_definitions/brush_tags/detail_tag.tres" id="1_ysxee"]
+[ext_resource type="Resource" path="res://addons/qodot/game_definitions/brush_tags/trigger_tag.tres" id="2_k7yfi"]
+[ext_resource type="Resource" uid="uid://7h57nuq1xmoi" path="res://addons/qodot/game_definitions/fgd/qodot_fgd.tres" id="2_p2fa3"]
+[ext_resource type="Texture2D" uid="uid://b2k2iutnsgjfy" path="res://addons/qodot/icon.png" id="3_gjmdu"]
+[ext_resource type="Resource" uid="uid://331beier2t6j" path="res://definitions/test_face_attrib_content.tres" id="3_grs6g"]
+[ext_resource type="Resource" uid="uid://c5ww31uy4ouwa" path="res://definitions/test_face_attrib_surface.tres" id="4_e1s6q"]
+[ext_resource type="Script" path="res://addons/qodot/src/resources/game-definitions/trenchbroom/trenchbroom_game_config.gd" id="4_qnn7d"]
+
+[resource]
+script = ExtResource("4_qnn7d")
+export_file = false
+trenchbroom_games_folder = ""
+game_name = "Qodot"
+icon = ExtResource("3_gjmdu")
+fgd_files = Array[Resource]([ExtResource("2_p2fa3")])
+brush_tags = Array[Resource]([ExtResource("1_ysxee"), ExtResource("2_k7yfi")])
+face_tags = Array[Resource]([ExtResource("1_d5dpl"), ExtResource("1_ivhd3")])
+face_attrib_surface_flags = Array[Resource]([ExtResource("4_e1s6q")])
+face_attrib_content_flags = Array[Resource]([ExtResource("3_grs6g")])
