@@ -4,23 +4,22 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://b5k0bjkd7tjxi"
 path.s3tc="res://.godot/imported/water.png-7580bd9811beea0cad8dada8d9bd98e3.s3tc.ctex"
-path.etc2="res://.godot/imported/water.png-7580bd9811beea0cad8dada8d9bd98e3.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc", "etc2"],
+"imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://addons/qodot/textures/layers/water.png"
-dest_files=["res://.godot/imported/water.png-7580bd9811beea0cad8dada8d9bd98e3.s3tc.ctex", "res://.godot/imported/water.png-7580bd9811beea0cad8dada8d9bd98e3.etc2.ctex"]
+dest_files=["res://.godot/imported/water.png-7580bd9811beea0cad8dada8d9bd98e3.s3tc.ctex"]
 
 [params]
 
 compress/mode=2
+compress/high_quality=false
 compress/lossy_quality=1.0
 compress/hdr_compression=1
-compress/bptc_ldr=0
 compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=false
