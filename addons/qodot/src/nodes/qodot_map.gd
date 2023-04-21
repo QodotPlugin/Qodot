@@ -98,7 +98,7 @@ func _ready() -> void:
 func _get_property_list() -> Array:
 	return [
 		QodotUtil.category_dict('Map'),
-		QodotUtil.property_dict('map_file', TYPE_STRING, PROPERTY_HINT_GLOBAL_FILE, '*.map'),
+		QodotUtil.property_dict('map_file', TYPE_STRING, PROPERTY_HINT_FILE, '*.map'),
 		QodotUtil.property_dict('inverse_scale_factor', TYPE_INT),
 		QodotUtil.category_dict('Entities'),
 		QodotUtil.property_dict('entity_fgd', TYPE_OBJECT, PROPERTY_HINT_RESOURCE_TYPE, 'Resource'),
