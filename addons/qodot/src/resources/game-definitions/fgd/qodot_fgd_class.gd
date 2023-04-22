@@ -93,7 +93,7 @@ func build_def_text() -> String:
 			prop_val = str(value)
 		elif value is float:
 			prop_type = "float"
-			prop_val = str(value)
+			prop_val = "\"" + str(value) + "\""
 		elif value is String:
 			prop_type = "string"
 			prop_val = "\"" + value + "\""
