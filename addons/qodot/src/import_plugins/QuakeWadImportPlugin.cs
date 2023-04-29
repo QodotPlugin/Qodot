@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using Godot.Collections;
 using Godot.NativeInterop;
 
+#if TOOLS
 [Tool]
 public partial class QuakeWadImportPlugin : EditorImportPlugin
 {
@@ -216,3 +217,4 @@ public partial class QuakeWadImportPlugin : EditorImportPlugin
 		return ResourceSaver.Save(wadResource, savePathStr);
 	}
 }
+#endif //TOOLS
