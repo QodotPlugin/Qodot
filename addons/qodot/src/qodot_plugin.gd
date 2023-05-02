@@ -85,11 +85,7 @@ func try_add_project_setting(name: String, type: int, value, info: Dictionary = 
 	if not ProjectSettings.has_setting(name):
 		add_project_setting(name, type, value, info)
 
-<<<<<<< HEAD
-## Add property with path name and type (from [enum @GlobalScript.Variant.Type]) to Project Settings, defaulting to value.
-=======
 ## Add property with path name and type from [enum @GlobalScope.Variant.Type] to Project Settings, defaulting to value.
->>>>>>> 3b52fb3 (Document QodotPlugin)
 ## Optionally, supply property info from info.
 func add_project_setting(name: String, type: int, value, info: Dictionary = {}) -> void:
 	ProjectSettings.set(name, value)
@@ -207,11 +203,7 @@ func set_qodot_map_control_disabled(disabled: bool) -> void:
 		if child is Button:
 			child.set_disabled(disabled)
 
-<<<<<<< HEAD
-## Update the build progress bar (see: []) to display the current step and progress (0-1)
-=======
 ## Update the build progress bar (see: [method create_qodot_map_progress_bar]) to display the current step and progress (0-1)
->>>>>>> 3b52fb3 (Document QodotPlugin)
 func qodot_map_build_progress(step: String, progress: float) -> void:
 	var progress_label = qodot_map_progress_bar.get_node("ProgressLabel")
 	qodot_map_progress_bar.value = progress
