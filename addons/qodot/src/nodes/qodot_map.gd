@@ -2,6 +2,13 @@
 class_name QodotMap
 extends QodotNode3D
 
+## Builds Godot scenes from .map files
+##
+## A QodotMap node lets you define the source file for a map, as well as specify
+## the definitions for entities, textures, and materials that appear in the map.
+## To use this node, select an instance of the node in the Godot editor and
+## select "Quick Build", "Full Build", or "Unwrap UV2" from the toolbar.
+
 const DEBUG := false
 const YIELD_DURATION := 0.0
 const YIELD_SIGNAL := "timeout"
@@ -12,49 +19,31 @@ signal build_failed()
 
 signal unwrap_uv2_complete()
 
-var map_file := "" :
-	get:
-		return map_file # TODOConverter40 Non existent get function 
-	set(new_map_file):
-		if map_file != new_map_file:
-			map_file = new_map_file
-var inverse_scale_factor := 16.0
-var entity_fgd := load("res://addons/qodot/game_definitions/fgd/qodot_fgd.tres")
-var base_texture_dir := "res://textures"
-var texture_file_extensions := PackedStringArray(["png"])
-
-var worldspawn_layers := [] :
-	get:
-		return worldspawn_layers # TODOConverter40 Non existent get function 
-	set(new_worldspawn_layers):
-		if worldspawn_layers != new_worldspawn_layers:
-			worldspawn_layers = new_worldspawn_layers
-
-			for i in range(0, worldspawn_layers.size()):
-				if not worldspawn_layers[i]:
-					worldspawn_layers[i] = QodotWorldspawnLayer.new()
-
-var brush_clip_texture := "special/clip"
-var face_skip_texture := "special/skip"
-var texture_wads := [] :
-	get:
-		return texture_wads # TODOConverter40 Non existent get function 
-	set(new_texture_wads):
-		if texture_wads != new_texture_wads:
-			texture_wads = new_texture_wads
-			
-			for i in range(0, texture_wads.size()):
-				var texture_wad = texture_wads[i]
-				if not texture_wad:
-					texture_wads[i] = Object()
-var material_file_extension := "tres"
-var default_material_albedo_uniform := ""
-var default_material : Material = StandardMaterial3D.new()
-var uv_unwrap_texel_size := 1.0
-var print_profiling_data := false
-var use_trenchbroom_group_hierarchy := false
-var block_until_complete := false
-var set_owner_batch_size := 1000
+@export_category("Map")
+@export_global_file("*.map") var map_file := ""
+@export var inverse_scale_factor := 16.0
+@export_category("Entities")
+@export var entity_fgd: QodotFGDFile = load("res://addons/qodot/game_definitions/fgd/qodot_fgd.tres")
+@export_category("Textures")
+@export_dir var base_texture_dir := "res://textures"
+@export var texture_file_extensions := PackedStringArray(["png"])
+@export var worldspawn_layers: Array[QodotWorldspawnLayer]
+@export var brush_clip_texture := "special/clip"
+@export var face_skip_texture := "special/skip"
+@export var texture_wads: Array[QuakeWadFile]
+@export_category("Materials")
+@export var material_file_extension := "tres"
+@export var unshaded := false
+@export var default_material_albedo_uniform := ""
+@export var default_material : Material = StandardMaterial3D.new()
+@export_category("UV Unwrap")
+@export var uv_unwrap_texel_size := 1.0
+@export_category("Build")
+@export var print_profiling_data := false
+@export var use_trenchbroom_group_hierarchy := false
+@export var block_until_complete := false
+@export var tree_attach_batch_size := 0
+@export var set_owner_batch_size := 1000
 
 # Build context variables
 var qodot = null
@@ -84,8 +73,6 @@ var worldspawn_layer_mesh_instances := {}
 var entity_collision_shapes := []
 var worldspawn_layer_collision_shapes := []
 
-var unshaded := false
-
 # Overrides
 func _ready() -> void:
 	if not DEBUG:
@@ -95,33 +82,33 @@ func _ready() -> void:
 		if verify_parameters():
 			build_map()
 
-func _get_property_list() -> Array:
-	return [
-		QodotUtil.category_dict('Map'),
-		QodotUtil.property_dict('map_file', TYPE_STRING, PROPERTY_HINT_FILE, '*.map'),
-		QodotUtil.property_dict('inverse_scale_factor', TYPE_INT),
-		QodotUtil.category_dict('Entities'),
-		QodotUtil.property_dict('entity_fgd', TYPE_OBJECT, PROPERTY_HINT_RESOURCE_TYPE, 'Resource'),
-		QodotUtil.category_dict('Textures'),
-		QodotUtil.property_dict('base_texture_dir', TYPE_STRING, PROPERTY_HINT_DIR),
-		QodotUtil.property_dict('texture_file_extensions', TYPE_PACKED_STRING_ARRAY),
-		QodotUtil.property_dict('worldspawn_layers', TYPE_ARRAY),
-		QodotUtil.property_dict('brush_clip_texture', TYPE_STRING),
-		QodotUtil.property_dict('face_skip_texture', TYPE_STRING),
-		QodotUtil.property_dict('texture_wads', TYPE_ARRAY, -1),
-		QodotUtil.category_dict('Materials'),
-		QodotUtil.property_dict('material_file_extension', TYPE_STRING),
-		QodotUtil.property_dict('unshaded', TYPE_BOOL),
-		QodotUtil.property_dict('default_material_albedo_uniform', TYPE_STRING),
-		QodotUtil.property_dict('default_material', TYPE_OBJECT, PROPERTY_HINT_RESOURCE_TYPE, 'Material'),
-		QodotUtil.category_dict('UV Unwrap'),
-		QodotUtil.property_dict('uv_unwrap_texel_size', TYPE_FLOAT),
-		QodotUtil.category_dict('Build'),
-		QodotUtil.property_dict('print_profiling_data', TYPE_BOOL),
-		QodotUtil.property_dict('use_trenchbroom_group_hierarchy', TYPE_BOOL),
-		QodotUtil.property_dict('tree_attach_batch_size', TYPE_INT),
-		QodotUtil.property_dict('set_owner_batch_size', TYPE_INT)
-	]
+# func _get_property_list() -> Array:
+# 	return [
+# 		QodotUtil.category_dict('Map'),
+# 		QodotUtil.property_dict('map_file', TYPE_STRING, PROPERTY_HINT_FILE, '*.map'),
+# 		QodotUtil.property_dict('inverse_scale_factor', TYPE_INT),
+# 		QodotUtil.category_dict('Entities'),
+# 		QodotUtil.property_dict('entity_fgd', TYPE_OBJECT, PROPERTY_HINT_RESOURCE_TYPE, 'Resource'),
+# 		QodotUtil.category_dict('Textures'),
+# 		QodotUtil.property_dict('base_texture_dir', TYPE_STRING, PROPERTY_HINT_DIR),
+# 		QodotUtil.property_dict('texture_file_extensions', TYPE_PACKED_STRING_ARRAY),
+# 		QodotUtil.property_dict('worldspawn_layers', TYPE_ARRAY),
+# 		QodotUtil.property_dict('brush_clip_texture', TYPE_STRING),
+# 		QodotUtil.property_dict('face_skip_texture', TYPE_STRING),
+# 		QodotUtil.property_dict('texture_wads', TYPE_ARRAY, -1),
+# 		QodotUtil.category_dict('Materials'),
+# 		QodotUtil.property_dict('material_file_extension', TYPE_STRING),
+# 		QodotUtil.property_dict('unshaded', TYPE_BOOL),
+# 		QodotUtil.property_dict('default_material_albedo_uniform', TYPE_STRING),
+# 		QodotUtil.property_dict('default_material', TYPE_OBJECT, PROPERTY_HINT_RESOURCE_TYPE, 'Material'),
+# 		QodotUtil.category_dict('UV Unwrap'),
+# 		QodotUtil.property_dict('uv_unwrap_texel_size', TYPE_FLOAT),
+# 		QodotUtil.category_dict('Build'),
+# 		QodotUtil.property_dict('print_profiling_data', TYPE_BOOL),
+# 		QodotUtil.property_dict('use_trenchbroom_group_hierarchy', TYPE_BOOL),
+# 		QodotUtil.property_dict('tree_attach_batch_size', TYPE_INT),
+# 		QodotUtil.property_dict('set_owner_batch_size', TYPE_INT)
+# 	]
 
 # Utility
 func verify_and_build():
