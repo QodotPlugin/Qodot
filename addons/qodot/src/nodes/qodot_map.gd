@@ -8,9 +8,14 @@ extends QodotNode3D
 ## the definitions for entities, textures, and materials that appear in the map.
 ## To use this node, select an instance of the node in the Godot editor and
 ## select "Quick Build", "Full Build", or "Unwrap UV2" from the toolbar.
+##
+## @tutorial: https://qodotplugin.github.io/docs/beginner's-guide-to-qodot/
 
+## Force reinitialization of Qodot on map build
 const DEBUG := false
+## How long to wait between child/owner batches
 const YIELD_DURATION := 0.0
+## Unused
 const YIELD_SIGNAL := "timeout"
 
 signal build_complete()
@@ -20,29 +25,54 @@ signal build_failed()
 signal unwrap_uv2_complete()
 
 @export_category("Map")
+## Trenchbroom Map file to build a scene from
 @export_global_file("*.map") var map_file := ""
+## Ratio between Trenchbroom units in the .map file and Godot units.
+## An inverse_scale_factor of 16 would cause 16 Trenchbroom units to correspond to 1 Godot unit. See [url=https://qodotplugin.github.io/docs/geometry.html#scale]Scale[/url] in the Qodot documentation.
 @export var inverse_scale_factor := 16.0
 @export_category("Entities")
+## [QodotFGDFile] for the map.
+## This resource will translate between Trenchbroom classnames and Godot scripts/scenes. See [url=https://qodotplugin.github.io/docs/entities/]Entities[/url] in the Qodot manual.
 @export var entity_fgd: QodotFGDFile = load("res://addons/qodot/game_definitions/fgd/qodot_fgd.tres")
 @export_category("Textures")
+## Base directory for textures. When building materials, Qodot will search this directory for textures matching the textures assigned to Trenchbroom faces.
 @export_dir var base_texture_dir := "res://textures"
+## File extensions to search for texture data.
 @export var texture_file_extensions := PackedStringArray(["png"])
+## Optional. List of worldspawn layers.
+## A worldspawn layer converts any brush of a certain texture to a certain kind of node. See example 1-2.
 @export var worldspawn_layers: Array[QodotWorldspawnLayer]
+## Optional. Path for the clip texture, relative to [member base_texture_dir].
+## Brushes textured with the clip texture will be turned into invisible but solid volumes.
 @export var brush_clip_texture := "special/clip"
+## Optional. Path for the skip texture, relative to [member base_texture_dir].
+## Faces textured with the skip texture will not be rendered.
 @export var face_skip_texture := "special/skip"
+## Optional. WAD files to pull textures from.
+## Quake engine games are distributed with .WAD files, which are packed texture libraries. Qodot can import these files as [QuakeWadFile]s.
 @export var texture_wads: Array[QuakeWadFile]
 @export_category("Materials")
+## File extensions to search for Material definitions
 @export var material_file_extension := "tres"
+## If true, all materials will be unshaded, i.e. will ignore light. Also known as "fullbright".
 @export var unshaded := false
-@export var default_material_albedo_uniform := ""
+## Optional. Default material used for untextured faces.
 @export var default_material : Material = StandardMaterial3D.new()
+## Default albedo texture (used when [member default_material] is a [ShaderMaterial])
+@export var default_material_albedo_uniform := ""
 @export_category("UV Unwrap")
+## Texel size for UV unwrap.
 @export var uv_unwrap_texel_size := 1.0
 @export_category("Build")
+## If true, print profiling data before and after each build step
 @export var print_profiling_data := false
+## If true, Qodot will build a hierarchy from Trenchbroom groups, each group being a node. Otherwise, Qodot entities will have a flat structure.
 @export var use_trenchbroom_group_hierarchy := false
+## If true, stop the whole editor until build is complete
 @export var block_until_complete := false
+## Unused
 @export var tree_attach_batch_size := 0
+## How many nodes to set the owner of at once. Higher values may lead to quicker build times, but a less responsive editor.
 @export var set_owner_batch_size := 1000
 
 # Build context variables
@@ -82,35 +112,8 @@ func _ready() -> void:
 		if verify_parameters():
 			build_map()
 
-# func _get_property_list() -> Array:
-# 	return [
-# 		QodotUtil.category_dict('Map'),
-# 		QodotUtil.property_dict('map_file', TYPE_STRING, PROPERTY_HINT_FILE, '*.map'),
-# 		QodotUtil.property_dict('inverse_scale_factor', TYPE_INT),
-# 		QodotUtil.category_dict('Entities'),
-# 		QodotUtil.property_dict('entity_fgd', TYPE_OBJECT, PROPERTY_HINT_RESOURCE_TYPE, 'Resource'),
-# 		QodotUtil.category_dict('Textures'),
-# 		QodotUtil.property_dict('base_texture_dir', TYPE_STRING, PROPERTY_HINT_DIR),
-# 		QodotUtil.property_dict('texture_file_extensions', TYPE_PACKED_STRING_ARRAY),
-# 		QodotUtil.property_dict('worldspawn_layers', TYPE_ARRAY),
-# 		QodotUtil.property_dict('brush_clip_texture', TYPE_STRING),
-# 		QodotUtil.property_dict('face_skip_texture', TYPE_STRING),
-# 		QodotUtil.property_dict('texture_wads', TYPE_ARRAY, -1),
-# 		QodotUtil.category_dict('Materials'),
-# 		QodotUtil.property_dict('material_file_extension', TYPE_STRING),
-# 		QodotUtil.property_dict('unshaded', TYPE_BOOL),
-# 		QodotUtil.property_dict('default_material_albedo_uniform', TYPE_STRING),
-# 		QodotUtil.property_dict('default_material', TYPE_OBJECT, PROPERTY_HINT_RESOURCE_TYPE, 'Material'),
-# 		QodotUtil.category_dict('UV Unwrap'),
-# 		QodotUtil.property_dict('uv_unwrap_texel_size', TYPE_FLOAT),
-# 		QodotUtil.category_dict('Build'),
-# 		QodotUtil.property_dict('print_profiling_data', TYPE_BOOL),
-# 		QodotUtil.property_dict('use_trenchbroom_group_hierarchy', TYPE_BOOL),
-# 		QodotUtil.property_dict('tree_attach_batch_size', TYPE_INT),
-# 		QodotUtil.property_dict('set_owner_batch_size', TYPE_INT)
-# 	]
-
 # Utility
+## Verify that Qodot is functioning and that [member map_file] exists. If so, build the map. If not, signal [signal build_failed]
 func verify_and_build():
 	if verify_parameters():
 		build_map()
@@ -122,6 +125,7 @@ func manual_build():
 	should_set_owners = false
 	verify_and_build()
 
+## Return true if Qodot is functioning and [member map_file] exists.
 func verify_parameters():
 	if not qodot or DEBUG:
 		qodot = load("res://addons/qodot/src/core/Qodot.cs").new()
