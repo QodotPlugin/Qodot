@@ -61,7 +61,7 @@ signal unwrap_uv2_complete()
 @export var material_file_extension := "tres"
 ## If true, all materials will be unshaded, i.e. will ignore light. Also known as "fullbright".
 @export var unshaded := false
-## Optional. Default material used for untextured faces.
+## Material used as template when generating missing materials.
 @export var default_material : Material = StandardMaterial3D.new()
 ## Default albedo texture (used when [member default_material] is a [ShaderMaterial])
 @export var default_material_albedo_uniform := ""
