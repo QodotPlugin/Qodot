@@ -44,3 +44,7 @@ static func property_dict(name: String, type: int, hint: int = -1, hint_string: 
 		dict['usage'] = usage
 
 	return dict
+
+static func has_csharp_support() -> bool:
+	var qodot_core_path := "res://addons/qodot/src/core/Qodot.cs"
+	return ResourceLoader.exists(qodot_core_path) and (load(qodot_core_path) is Script)

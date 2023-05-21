@@ -134,7 +134,10 @@ func manual_build():
 
 ## Return true if parameters are valid; Qodot should be functioning and [member map_file] should exist.
 func verify_parameters():
-	if not qodot or DEBUG:
+	if not QodotUtil.has_csharp_support():
+		push_warning("Editor does not support C#, map build support is disabled.")
+		return false
+	elif not qodot or DEBUG:
 		qodot = load("res://addons/qodot/src/core/Qodot.cs").new()
 	
 	if not qodot:
