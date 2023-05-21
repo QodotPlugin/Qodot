@@ -2,59 +2,84 @@
 class_name QodotMap
 extends QodotNode3D
 
+## Builds Godot scenes from .map files
+##
+## A QodotMap node lets you define the source file for a map, as well as specify
+## the definitions for entities, textures, and materials that appear in the map.
+## To use this node, select an instance of the node in the Godot editor and
+## select "Quick Build", "Full Build", or "Unwrap UV2" from the toolbar.
+## Alternatively, call [method manual_build] from code.
+##
+## @tutorial: https://qodotplugin.github.io/docs/beginner's-guide-to-qodot/
+
+## Force reinitialization of Qodot on map build
 const DEBUG := false
+## How long to wait between child/owner batches
 const YIELD_DURATION := 0.0
+## Unused
 const YIELD_SIGNAL := "timeout"
 
+## Emitted when the build process successfully completes
 signal build_complete()
+## Emitted when the build process finishes a step. [code]progress[/code] is from 0.0-1.0
 signal build_progress(step, progress)
+## Emitted when the build process fails
 signal build_failed()
 
+## Emitted when UV2 unwrapping is completed
 signal unwrap_uv2_complete()
 
-var map_file := "" :
-	get:
-		return map_file # TODOConverter40 Non existent get function 
-	set(new_map_file):
-		if map_file != new_map_file:
-			map_file = new_map_file
-var inverse_scale_factor := 16.0
-var entity_fgd := load("res://addons/qodot/game_definitions/fgd/qodot_fgd.tres")
-var base_texture_dir := "res://textures"
-var texture_file_extensions := PackedStringArray(["png"])
-
-var worldspawn_layers := [] :
-	get:
-		return worldspawn_layers # TODOConverter40 Non existent get function 
-	set(new_worldspawn_layers):
-		if worldspawn_layers != new_worldspawn_layers:
-			worldspawn_layers = new_worldspawn_layers
-
-			for i in range(0, worldspawn_layers.size()):
-				if not worldspawn_layers[i]:
-					worldspawn_layers[i] = QodotWorldspawnLayer.new()
-
-var brush_clip_texture := "special/clip"
-var face_skip_texture := "special/skip"
-var texture_wads := [] :
-	get:
-		return texture_wads # TODOConverter40 Non existent get function 
-	set(new_texture_wads):
-		if texture_wads != new_texture_wads:
-			texture_wads = new_texture_wads
-			
-			for i in range(0, texture_wads.size()):
-				var texture_wad = texture_wads[i]
-				if not texture_wad:
-					texture_wads[i] = Object()
-var material_file_extension := "tres"
-var default_material_albedo_uniform := ""
-var default_material : Material = StandardMaterial3D.new()
-var uv_unwrap_texel_size := 1.0
-var print_profiling_data := false
-var use_trenchbroom_group_hierarchy := false
-var block_until_complete := false
-var set_owner_batch_size := 1000
+@export_category("Map")
+## Trenchbroom Map file to build a scene from
+@export_global_file("*.map") var map_file := ""
+## Ratio between Trenchbroom units in the .map file and Godot units.
+## An inverse scale factor of 16 would cause 16 Trenchbroom units to correspond to 1 Godot unit. See [url=https://qodotplugin.github.io/docs/geometry.html#scale]Scale[/url] in the Qodot documentation.
+@export var inverse_scale_factor := 16.0
+@export_category("Entities")
+## [QodotFGDFile] for the map.
+## This resource will translate between Trenchbroom classnames and Godot scripts/scenes. See [url=https://qodotplugin.github.io/docs/entities/]Entities[/url] in the Qodot manual.
+@export var entity_fgd: QodotFGDFile = load("res://addons/qodot/game_definitions/fgd/qodot_fgd.tres")
+@export_category("Textures")
+## Base directory for textures. When building materials, Qodot will search this directory for texture files matching the textures assigned to Trenchbroom faces.
+@export_dir var base_texture_dir := "res://textures"
+## File extensions to search for texture data.
+@export var texture_file_extensions := PackedStringArray(["png"])
+## Optional. List of worldspawn layers.
+## A worldspawn layer converts any brush of a certain texture to a certain kind of node. See example 1-2.
+@export var worldspawn_layers: Array[QodotWorldspawnLayer]
+## Optional. Path for the clip texture, relative to [member base_texture_dir].
+## Brushes textured with the clip texture will be turned into invisible but solid volumes.
+@export var brush_clip_texture := "special/clip"
+## Optional. Path for the skip texture, relative to [member base_texture_dir].
+## Faces textured with the skip texture will not be rendered.
+@export var face_skip_texture := "special/skip"
+## Optional. WAD files to pull textures from.
+## Quake engine games are distributed with .WAD files, which are packed texture libraries. Qodot can import these files as [QuakeWadFile]s.
+@export var texture_wads: Array[QuakeWadFile]
+@export_category("Materials")
+## File extensions to search for Material definitions
+@export var material_file_extension := "tres"
+## If true, all materials will be unshaded, i.e. will ignore light. Also known as "fullbright".
+@export var unshaded := false
+## Optional. Default material used for untextured faces.
+@export var default_material : Material = StandardMaterial3D.new()
+## Default albedo texture (used when [member default_material] is a [ShaderMaterial])
+@export var default_material_albedo_uniform := ""
+@export_category("UV Unwrap")
+## Texel size for UV2 unwrapping.
+## A texel size of 1 will lead to a 1:1 correspondence between texture texels and lightmap texels. Larger values will produce less detailed lightmaps. To conserve memory and filesize, use the largest value that still looks good.
+@export var uv_unwrap_texel_size := 1.0
+@export_category("Build")
+## If true, print profiling data before and after each build step
+@export var print_profiling_data := false
+## If true, Qodot will build a hierarchy from Trenchbroom groups, each group being a node. Otherwise, Qodot nodes will ignore Trenchbroom groups and have a flat structure.
+@export var use_trenchbroom_group_hierarchy := false
+## If true, stop the whole editor until build is complete
+@export var block_until_complete := false
+## Unused
+@export var tree_attach_batch_size := 0
+## How many nodes to set the owner of, or add children of, at once. Higher values may lead to quicker build times, but a less responsive editor.
+@export var set_owner_batch_size := 1000
 
 # Build context variables
 var qodot = null
@@ -84,8 +109,6 @@ var worldspawn_layer_mesh_instances := {}
 var entity_collision_shapes := []
 var worldspawn_layer_collision_shapes := []
 
-var unshaded := false
-
 # Overrides
 func _ready() -> void:
 	if not DEBUG:
@@ -95,46 +118,21 @@ func _ready() -> void:
 		if verify_parameters():
 			build_map()
 
-func _get_property_list() -> Array:
-	return [
-		QodotUtil.category_dict('Map'),
-		QodotUtil.property_dict('map_file', TYPE_STRING, PROPERTY_HINT_FILE, '*.map'),
-		QodotUtil.property_dict('inverse_scale_factor', TYPE_INT),
-		QodotUtil.category_dict('Entities'),
-		QodotUtil.property_dict('entity_fgd', TYPE_OBJECT, PROPERTY_HINT_RESOURCE_TYPE, 'Resource'),
-		QodotUtil.category_dict('Textures'),
-		QodotUtil.property_dict('base_texture_dir', TYPE_STRING, PROPERTY_HINT_DIR),
-		QodotUtil.property_dict('texture_file_extensions', TYPE_PACKED_STRING_ARRAY),
-		QodotUtil.property_dict('worldspawn_layers', TYPE_ARRAY),
-		QodotUtil.property_dict('brush_clip_texture', TYPE_STRING),
-		QodotUtil.property_dict('face_skip_texture', TYPE_STRING),
-		QodotUtil.property_dict('texture_wads', TYPE_ARRAY, -1),
-		QodotUtil.category_dict('Materials'),
-		QodotUtil.property_dict('material_file_extension', TYPE_STRING),
-		QodotUtil.property_dict('unshaded', TYPE_BOOL),
-		QodotUtil.property_dict('default_material_albedo_uniform', TYPE_STRING),
-		QodotUtil.property_dict('default_material', TYPE_OBJECT, PROPERTY_HINT_RESOURCE_TYPE, 'Material'),
-		QodotUtil.category_dict('UV Unwrap'),
-		QodotUtil.property_dict('uv_unwrap_texel_size', TYPE_FLOAT),
-		QodotUtil.category_dict('Build'),
-		QodotUtil.property_dict('print_profiling_data', TYPE_BOOL),
-		QodotUtil.property_dict('use_trenchbroom_group_hierarchy', TYPE_BOOL),
-		QodotUtil.property_dict('tree_attach_batch_size', TYPE_INT),
-		QodotUtil.property_dict('set_owner_batch_size', TYPE_INT)
-	]
-
 # Utility
+## Verify that Qodot is functioning and that [member map_file] exists. If so, build the map. If not, signal [signal build_failed]
 func verify_and_build():
 	if verify_parameters():
 		build_map()
 	else:
 		emit_signal("build_failed")
 
+## Build the map.
 func manual_build():
 	should_add_children = false
 	should_set_owners = false
 	verify_and_build()
 
+## Return true if parameters are valid; Qodot should be functioning and [member map_file] should exist.
 func verify_parameters():
 	if not qodot or DEBUG:
 		qodot = load("res://addons/qodot/src/core/Qodot.cs").new()
@@ -153,6 +151,7 @@ func verify_parameters():
 	
 	return true
 
+## Reset member variables that affect the current build
 func reset_build_context():
 	add_child_array = []
 	set_owner_array = []
@@ -179,12 +178,13 @@ func reset_build_context():
 	
 	if qodot:
 		qodot.Reset()
-
+## Record the start time of a build step for profiling
 func start_profile(item_name: String) -> void:
 	if print_profiling_data:
 		print(item_name)
 		profile_timestamps[item_name] = Time.get_ticks_usec()
 
+## Finish profiling for a build step; print associated timing data
 func stop_profile(item_name: String) -> void:
 	if print_profiling_data:
 		if item_name in profile_timestamps:
@@ -192,6 +192,7 @@ func stop_profile(item_name: String) -> void:
 			print("Done in %s sec\n" % [delta * 0.000001])
 			profile_timestamps.erase(item_name)
 
+## Run a build step. [code]step_name[/code] is the method corresponding to the step, [code]params[/code] are parameters to pass to the step, and [code]func_name[/code] does nothing.
 func run_build_step(step_name: String, params: Array = [], func_name: String = ""):
 	start_profile(step_name)
 	if func_name == "":
@@ -200,6 +201,7 @@ func run_build_step(step_name: String, params: Array = [], func_name: String = "
 	stop_profile(step_name)
 	return result
 
+## Add [code]node[/code] as a child of parent, or as a child of [code]below[/code] if non-null. Also queue for ownership assignment.
 func add_child_editor(parent, node, below = null) -> void:
 	var prev_parent = node.get_parent()
 	if prev_parent:
@@ -212,6 +214,7 @@ func add_child_editor(parent, node, below = null) -> void:
 	
 	set_owner_array.append(node)
 
+## Set the owner of [code]node[/code] to the current scene.
 func set_owner_editor(node):
 	var tree := get_tree()
 	
@@ -230,10 +233,14 @@ var build_step_count := 0
 var build_steps := []
 var post_attach_steps := []
 
+## Register a build step.
+## [code]build_step[/code] is a string that corresponds to a method on this class, [code]arguments[/code] a list of arguments to pass to this method, and [code]target[/code] is a property on this class to save the return value of the build step in. If [code]post_attach[/code] is true, the step will be run after the scene hierarchy is completed.
 func register_build_step(build_step: String, arguments := [], target := "", post_attach := false) -> void:
 	(post_attach_steps if post_attach else build_steps).append([build_step, arguments, target])
 	build_step_count += 1
 
+## Run all build steps. Emits [signal build_progress] after each step.
+## If [code]post_attach[/code] is true, run post-attach steps instead and signal [signal build_complete] when finished.
 func run_build_steps(post_attach := false) -> void:
 	var target_array = post_attach_steps if post_attach else build_steps
 	
@@ -257,6 +264,7 @@ func run_build_steps(post_attach := false) -> void:
 		start_profile('add_children')
 		add_children()
 
+## Register all steps for the build. See [method register_build_step] and [method run_build_steps]
 func register_build_steps() -> void:
 	register_build_step('remove_children')
 	register_build_step('load_map')
@@ -281,6 +289,7 @@ func register_build_steps() -> void:
 	register_build_step('build_entity_collision_shape_nodes', [], 'entity_collision_shapes')
 	register_build_step('build_worldspawn_layer_collision_shape_nodes', [], 'worldspawn_layer_collision_shapes')
 
+## Register all post-attach steps for the build. See [method register_build_step] and [method run_build_steps]
 func register_post_attach_steps() -> void:
 	register_build_step('build_entity_collision_shapes', [], "", true)
 	register_build_step('build_worldspawn_layer_collision_shapes', [], "", true)
@@ -291,6 +300,7 @@ func register_post_attach_steps() -> void:
 	register_build_step('remove_transient_nodes', [], "", true)
 
 # Actions
+## Build the map
 func build_map() -> void:
 	reset_build_context()
 	
@@ -302,6 +312,7 @@ func build_map() -> void:
 	
 	run_build_steps()
 
+## Recursively unwrap UV2s for [code]node[/code] and its children, in preparation for baked lighting.
 func unwrap_uv2(node: Node = null) -> void:
 	var target_node = null
 	
@@ -324,19 +335,22 @@ func unwrap_uv2(node: Node = null) -> void:
 		emit_signal("unwrap_uv2_complete")
 
 # Build Steps
-
+## Recursively remove and delete all children of this node
 func remove_children() -> void:
 	for child in get_children():
 		remove_child(child)
 		child.queue_free()
 
+## Parse and load [member map_file]
 func load_map() -> void:
 	var file: String = map_file
 	qodot.LoadMap(file)
 
+## Get textures found in [member map_file]
 func fetch_texture_list() -> Array:
 	return qodot.GetTextureList() as Array
 
+## Initialize texture loader, allowing textures in [member base_texture_dir] and [member texture_wads] to be turned into materials
 func init_texture_loader() -> QodotTextureLoader:
 	var tex_ldr := QodotTextureLoader.new(
 		base_texture_dir,
@@ -346,31 +360,40 @@ func init_texture_loader() -> QodotTextureLoader:
 	tex_ldr.unshaded = unshaded
 	return tex_ldr
 
+## Build a dictionary from Trenchbroom texture names to their corresponding Texture2D resources in Godot
 func load_textures() -> Dictionary:
 	return texture_loader.load_textures(texture_list) as Dictionary
 
+## Build a dictionary from Trenchbroom texture names to Godot materials
 func build_materials() -> Dictionary:
 	return texture_loader.create_materials(texture_list, material_file_extension, default_material, default_material_albedo_uniform)
 
+## Collect entity definitions from [member entity_fgd], as a dictionary from Trenchbroom classnames to entity definitions
 func fetch_entity_definitions() -> Dictionary:
 	return entity_fgd.get_entity_definitions()
 
+## Hand the Qodot C# core the entity definitions
 func set_qodot_entity_definitions() -> void:
 	qodot.SetEntityDefinitions(build_libmap_entity_definitions(entity_definitions))
 
+## Hand the Qodot C# core the worldspawn layer definitions. See [member worldspawn_layers]
 func set_qodot_worldspawn_layers() -> void:
 	qodot.SetWorldspawnLayers(build_libmap_worldspawn_layers(worldspawn_layers))
 
+## Generate geometry from map file
 func generate_geometry() -> void:
 	qodot.GenerateGeometry(texture_size_dict);
 
+## Get a list of dictionaries representing each entity from the Qodot C# core
 func fetch_entity_dicts() -> Array:
 	return qodot.GetEntityDicts()
 
+## Get a list of dictionaries representing each worldspawn layer from the Qodot C# core
 func fetch_worldspawn_layer_dicts() -> Array:
 	var layer_dicts = qodot.GetWorldspawnLayerDicts()
 	return layer_dicts if layer_dicts else []
 
+## Build a dictionary from Trenchbroom textures to the sizes of their corresponding Godot textures
 func build_texture_size_dict() -> Dictionary:
 	var texture_size_dict := {}
 	
@@ -383,6 +406,7 @@ func build_texture_size_dict() -> Dictionary:
 	
 	return texture_size_dict
 
+## Marshall Qodot FGD definitions for transfer to libmap
 func build_libmap_entity_definitions(entity_definitions: Dictionary) -> Dictionary:
 	var libmap_entity_definitions = {}
 	for classname in entity_definitions:
@@ -391,6 +415,7 @@ func build_libmap_entity_definitions(entity_definitions: Dictionary) -> Dictiona
 			libmap_entity_definitions[classname]['spawn_type'] = entity_definitions[classname].spawn_type
 	return libmap_entity_definitions
 
+## Marshall worldspawn layer definitions for transfer to libmap
 func build_libmap_worldspawn_layers(worldspawn_layers: Array) -> Array:
 	var libmap_worldspawn_layers := []
 	for worldspawn_layer in worldspawn_layers:
@@ -404,6 +429,7 @@ func build_libmap_worldspawn_layers(worldspawn_layers: Array) -> Array:
 		})
 	return libmap_worldspawn_layers
 
+## Build nodes from the entities in [member entity_dicts]
 func build_entity_nodes() -> Array:
 	var entity_nodes := []
 
@@ -460,6 +486,7 @@ func build_entity_nodes() -> Array:
 	
 	return entity_nodes
 
+## Build nodes from the worldspawn layers in [member worldspawn_layers]
 func build_worldspawn_layer_nodes() -> Array:
 	var worldspawn_layer_nodes := []
 	
@@ -474,6 +501,7 @@ func build_worldspawn_layer_nodes() -> Array:
 	
 	return worldspawn_layer_nodes
 
+## Resolve entity group hierarchy, turning Trenchbroom groups into nodes and queueing their contents to be added to said nodes as children
 func resolve_group_hierarchy() -> void:
 	if not use_trenchbroom_group_hierarchy:
 		return
@@ -569,6 +597,7 @@ func resolve_group_hierarchy() -> void:
 		
 		queue_add_child(parent, child, null, true)
 
+## Return the node associated with a Trenchbroom index. Unused.
 func get_node_by_tb_id(target_id: String, entity_nodes: Dictionary):
 	for node_idx in entity_nodes:
 		var node = entity_nodes[node_idx]
@@ -590,6 +619,7 @@ func get_node_by_tb_id(target_id: String, entity_nodes: Dictionary):
 		
 	return null
 
+## Build [CollisionShape3D] nodes for brush entities
 func build_entity_collision_shape_nodes() -> Array:
 	var entity_collision_shapes_arr := []
 	
@@ -637,6 +667,7 @@ func build_entity_collision_shape_nodes() -> Array:
 	
 	return entity_collision_shapes_arr
 
+## Build CollisionShape3D nodes for worldspawn layers
 func build_worldspawn_layer_collision_shape_nodes() -> Array:
 	var worldspawn_layer_collision_shapes := []
 	
@@ -678,6 +709,7 @@ func build_worldspawn_layer_collision_shape_nodes() -> Array:
 	
 	return worldspawn_layer_collision_shapes
 
+## Build the concrete [Shape3D] resources for each brush
 func build_entity_collision_shapes() -> void:
 	for entity_idx in range(0, entity_dicts.size()):
 		var entity_dict := entity_dicts[entity_idx] as Dictionary
@@ -749,6 +781,7 @@ func build_entity_collision_shapes() -> void:
 			var collision_shape = entity_collision_shapes[entity_idx][0]
 			collision_shape.set_shape(shape)
 
+## Build the concrete [Shape3D] resources for each worldspawn layer
 func build_worldspawn_layer_collision_shapes() -> void:
 	for layer_idx in range(0, worldspawn_layers.size()):
 		if layer_idx >= worldspawn_layer_dicts.size():
@@ -810,6 +843,7 @@ func build_worldspawn_layer_collision_shapes() -> void:
 			var collision_shape = worldspawn_layer_collision_shapes[layer_idx][0]
 			collision_shape.set_shape(shape)
 
+## Build Dictionary from entity indices to [ArrayMesh] instances
 func build_entity_mesh_dict() -> Dictionary:
 	var meshes := {}
 	
@@ -848,6 +882,7 @@ func build_entity_mesh_dict() -> Dictionary:
 			
 	return meshes
 
+## Build Dictionary from worldspawn layers (via textures) to [ArrayMesh] instances
 func build_worldspawn_layer_mesh_dict() -> Dictionary:
 	var meshes := {}
 	
@@ -867,6 +902,7 @@ func build_worldspawn_layer_mesh_dict() -> Dictionary:
 	
 	return meshes
 
+## Build [MeshInstance3D]s from brush entities and add them to the add child queue
 func build_entity_mesh_instances() -> Dictionary:
 	var entity_mesh_instances := {}
 	for entity_idx in entity_mesh_dict:
@@ -899,6 +935,7 @@ func build_entity_mesh_instances() -> Dictionary:
 	
 	return entity_mesh_instances
 
+## Build Dictionary from worldspawn layers (via textures) to [MeshInstance3D]s
 func build_worldspawn_layer_mesh_instances() -> Dictionary:
 	var worldspawn_layer_mesh_instances := {}
 	var idx = 0
@@ -925,6 +962,7 @@ func build_worldspawn_layer_mesh_instances() -> Dictionary:
 	
 	return worldspawn_layer_mesh_instances
 
+## Assign [ArrayMesh]es to their [MeshInstance3D] counterparts
 func apply_entity_meshes() -> void:
 	for entity_idx in entity_mesh_dict:
 		var mesh := entity_mesh_dict[entity_idx] as Mesh
@@ -937,6 +975,7 @@ func apply_entity_meshes() -> void:
 		
 		queue_add_child(entity_nodes[entity_idx], mesh_instance)
 
+## Assign [ArrayMesh]es to their [MeshInstance3D] counterparts for worldspawn layers
 func apply_worldspawn_layer_meshes() -> void:
 	for texture_name in worldspawn_layer_mesh_dict:
 		var mesh = worldspawn_layer_mesh_dict[texture_name]
@@ -947,9 +986,11 @@ func apply_worldspawn_layer_meshes() -> void:
 		
 		mesh_instance.set_mesh(mesh)
 
+## Add a child and its new parent to the add child queue. If [code]below[/code] is a node, add it as a child to that instead. If [code]relative[/code] is true, set the location of node relative to parent.
 func queue_add_child(parent, node, below = null, relative = false) -> void:
 	add_child_array.append({"parent": parent, "node": node, "below": below, "relative": relative})
 
+## Assign children to parents based on the contents of the add child queue (see [method queue_add_child])
 func add_children() -> void:
 	while true:
 		for i in range(0, set_owner_batch_size):
@@ -966,6 +1007,7 @@ func add_children() -> void:
 		if scene_tree and not block_until_complete:
 			await get_tree().create_timer(YIELD_DURATION).timeout
 
+## Set owners and start post-attach build steps
 func add_children_complete():
 	stop_profile('add_children')
 	
@@ -975,6 +1017,7 @@ func add_children_complete():
 	else:
 		run_build_steps(true)
 
+## Set owner of nodes generated by Qodot to scene root based on [member set_owner_array]
 func set_owners():
 	while true:
 		for i in range(0, set_owner_batch_size):
@@ -989,10 +1032,12 @@ func set_owners():
 		if scene_tree and not block_until_complete:
 			await get_tree().create_timer(YIELD_DURATION).timeout
 
+## Finish profiling for set_owners and start post-attach build steps
 func set_owners_complete():
 	stop_profile('set_owners')
 	run_build_steps(true)
 
+## Apply Trenchbroom properties to [QodotEntity] instances, transferring Trenchbroom dictionaries to [QodotEntity.properties]
 func apply_properties() -> void:
 	for entity_idx in range(0, entity_nodes.size()):
 		var entity_node = entity_nodes[entity_idx]
@@ -1045,6 +1090,7 @@ func apply_properties() -> void:
 		if 'properties' in entity_node:
 			entity_node.properties = properties
 
+## Wire signals based on Trenchbroom [code]target[/code] and [code]targetname[/code] properties
 func connect_signals() -> void:
 	for entity_idx in range(0, entity_nodes.size()):
 		var entity_node = entity_nodes[entity_idx]
@@ -1061,6 +1107,7 @@ func connect_signals() -> void:
 		for target_node in target_nodes:
 			connect_signal(entity_node, target_node)
 
+## Connect a signal on [code]entity_node[/code] to [code]target_node[/code], possibly mediated by the contents of a [code]signal[/code] or [code]receiver[/code] entity
 func connect_signal(entity_node: Node, target_node: Node) -> void:
 	if target_node.properties['classname'] == 'signal':
 		var signal_name = target_node.properties['signal_name']
@@ -1082,6 +1129,7 @@ func connect_signal(entity_node: Node, target_node: Node) -> void:
 				entity_node.connect("trigger",Callable(target_node,"use"),CONNECT_PERSIST)
 				break
 
+## Remove nodes marked transient. See [member QodotFGDClass.transient_node]
 func remove_transient_nodes() -> void:
 	for entity_idx in range(0, entity_nodes.size()):
 		var entity_node = entity_nodes[entity_idx]
@@ -1104,7 +1152,7 @@ func remove_transient_nodes() -> void:
 			entity_node.get_parent().remove_child(entity_node)
 			entity_node.queue_free()
 
-
+## Find all nodes with matching targetname property
 func get_nodes_by_targetname(targetname: String) -> Array:
 	var nodes := []
 	
@@ -1124,6 +1172,7 @@ func get_nodes_by_targetname(targetname: String) -> Array:
 	
 	return nodes
 
+# Cleanup after build is finished (internal)
 func _build_complete():
 	reset_build_context()
 	

@@ -2,5 +2,6 @@
 class_name QodotNode3D
 extends Node3D
 
+## Unused internal function
 func get_class() -> String:
 	return 'QodotSpatial'
