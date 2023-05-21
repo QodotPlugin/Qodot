@@ -332,10 +332,10 @@ namespace Qodot
 		private Vector2 GetValveUV(Vector3 vertex, ref Face face, int texW, int texH)
 		{
 			Vector2 uvOut = Vector2.Zero;
-			Vector3 uAxis = face.uvValve.u.axis;
-			Vector3 vAxis = face.uvValve.v.axis;
-			float uShift = face.uvValve.u.offset;
-			float vShift = face.uvValve.v.offset;
+			Vector3 uAxis = face.uvValve.U.axis;
+			Vector3 vAxis = face.uvValve.V.axis;
+			float uShift = face.uvValve.U.offset;
+			float vShift = face.uvValve.V.offset;
 	
 			uvOut.X = uAxis.Dot(vertex);
 			uvOut.Y = vAxis.Dot(vertex);
@@ -388,8 +388,8 @@ namespace Qodot
 
 		private Vector4 GetValveTangent(ref Face face)
 		{
-			Vector3 uAxis = face.uvValve.u.axis.Normalized();
-			Vector3 vAxis = face.uvValve.v.axis.Normalized();
+			Vector3 uAxis = face.uvValve.U.axis.Normalized();
+			Vector3 vAxis = face.uvValve.V.axis.Normalized();
 			float vSign = -Mathf.Sign(face.planeNormal.Cross(uAxis).Dot(vAxis));
 
 			return new Vector4(uAxis.X, uAxis.Y, uAxis.Z, vSign);

@@ -40,9 +40,6 @@ namespace Qodot
 		private string currentProperty = "";
 		private bool valveUVs = false;
 		
-		private int entityIdx = -1;
-		private int brushIdx = -1;
-		private int faceIdx = -1;
 		private int componentIdx = 0;
 		private Entity currentEntity;
 		private Brush currentBrush;
@@ -53,10 +50,7 @@ namespace Qodot
 			currentEntity = new Entity();
 			currentBrush = new Brush();
 			currentFace = new Face();
-
-			entityIdx = -1;
-			brushIdx = -1;
-			faceIdx = -1;
+			
 			componentIdx = 0;
 			valveUVs = false;
 
@@ -118,8 +112,6 @@ namespace Qodot
 				case ParseScope.FILE:
 					if (token == "{")
 					{
-						entityIdx++;
-						brushIdx = -1;
 						scope = ParseScope.ENTITY;
 					}
 
@@ -136,8 +128,6 @@ namespace Qodot
 					}
 					else if (token == "{")
 					{
-						brushIdx++;
-						faceIdx = -1;
 						scope = ParseScope.BRUSH;
 					}
 					else if (token == "}")
@@ -168,7 +158,6 @@ namespace Qodot
 				case ParseScope.BRUSH:
 					if (token == "(")
 					{
-						faceIdx++;
 						componentIdx = 0;
 						scope = ParseScope.PLANE_0;
 					}
@@ -294,16 +283,16 @@ namespace Qodot
 						switch (componentIdx)
 						{
 							case 0:
-								currentFace.uvValve.u.axis.X = (float)Convert.ToDouble(token, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+								currentFace.uvValve.U.axis.X = (float)Convert.ToDouble(token, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
 								break;
 							case 1:
-								currentFace.uvValve.u.axis.Y = (float)Convert.ToDouble(token, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+								currentFace.uvValve.U.axis.Y = (float)Convert.ToDouble(token, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
 								break;
 							case 2:
-								currentFace.uvValve.u.axis.Z = (float)Convert.ToDouble(token, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+								currentFace.uvValve.U.axis.Z = (float)Convert.ToDouble(token, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
 								break;
 							case 3:
-								currentFace.uvValve.u.offset = (float)Convert.ToDouble(token, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+								currentFace.uvValve.U.offset = (float)Convert.ToDouble(token, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
 								break;
 						}
 
@@ -323,16 +312,16 @@ namespace Qodot
 							switch (componentIdx)
 							{
 								case 0:
-									currentFace.uvValve.v.axis.X = (float)Convert.ToDouble(token, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+									currentFace.uvValve.V.axis.X = (float)Convert.ToDouble(token, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
 									break;
 								case 1:
-									currentFace.uvValve.v.axis.Y = (float)Convert.ToDouble(token, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+									currentFace.uvValve.V.axis.Y = (float)Convert.ToDouble(token, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
 									break;
 								case 2:
-									currentFace.uvValve.v.axis.Z = (float)Convert.ToDouble(token, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+									currentFace.uvValve.V.axis.Z = (float)Convert.ToDouble(token, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
 									break;
 								case 3:
-									currentFace.uvValve.v.offset = (float)Convert.ToDouble(token, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+									currentFace.uvValve.V.offset = (float)Convert.ToDouble(token, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
 									break;
 							}
 

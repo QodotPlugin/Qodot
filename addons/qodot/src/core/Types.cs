@@ -25,7 +25,7 @@ namespace Qodot
 
 	public struct ValveUV
 	{
-		public ValveTextureAxis u, v;
+		public ValveTextureAxis U, V;
 	}
 
 	public struct FaceUVExtra
