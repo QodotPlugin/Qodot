@@ -12,9 +12,9 @@ Quake *.map* file support for Godot 4.x. **For the original Godot 3.x plugin, se
 
 # About this version
 
-Latest Tested Engine Version: **4.0.stable.mono**
+Latest Tested Engine Version: **4.0.3.stable.mono**
 
-This is a port of Qodot to Godot 4.x. It requires the .NET build of Godot to function correctly.
+This is a port of Qodot to Godot 4.x. It requires the .NET build of Godot to import maps correctly. Games can be exported with the standard editor/export templates however.
 
 Moving forward this will be the official version of the plugin and where active development will continue.
 
