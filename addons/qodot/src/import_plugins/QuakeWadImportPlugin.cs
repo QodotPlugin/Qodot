@@ -68,7 +68,7 @@ public partial class QuakeWadImportPlugin : EditorImportPlugin
 	
 	public override string _GetSaveExtension()
 	{
-		return "tres";
+		return "res";
 	}
 
 	public override bool _GetOptionVisibility(
