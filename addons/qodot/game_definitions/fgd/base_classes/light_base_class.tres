@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=2 format=3 uid="uid://c5o31v30rw7v5"]
+[gd_resource type="Resource" script_class="QodotFGDBaseClass" load_steps=2 format=3 uid="uid://c5o31v30rw7v5"]
 
 [ext_resource type="Script" path="res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_base_class.gd" id="1"]
 
@@ -8,7 +8,7 @@ class_options = "---------------------------------------------------------------
 classname = "Light"
 description = ""
 qodot_internal = false
-base_classes = []
+base_classes = Array[Resource]([])
 class_properties = {
 "_color": Color(1, 1, 1, 1),
 "delay": {
