@@ -1,5 +1,4 @@
-class_name QodotEntity
-extends QodotNode3D
+class_name QodotEntity extends QodotNode3D
 
 ## Base class for entities created by Qodot
 ##
@@ -9,17 +8,15 @@ extends QodotNode3D
 ## @tutorial: https://qodotplugin.github.io/docs/entities/scripting-entities
 
 ## Properties for this entity. Populated from Trenchbroom's entity property editor when building a [QodotMap].
-@export var properties: Dictionary :
+@export var properties: Dictionary:
 	get:
-		return properties # TODOConverter40 Non existent get function 
+		return properties  # TODO Converter40 Non existent get function
 	set(new_properties):
-		if(properties != new_properties):
+		if properties != new_properties:
 			properties = new_properties
 			update_properties()
+
 
 ## Handle updates to [member properties]
 func update_properties() -> void:
 	pass
-
-func get_class() -> String:
-	return 'QodotEntity'
