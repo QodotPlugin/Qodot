@@ -7,7 +7,7 @@ extends Resource
 #psuedo-button to export
 @export var export_file: bool:
 	get:
-		return export_file # TODOConverter40 Non existent get function 
+		return export_file # TODO Converter40 Non existent get function
 	set(new_export_file):
 		if new_export_file != export_file:
 			do_export_file()
@@ -34,7 +34,6 @@ func do_export_file():
 	preload("res://addons/qodot/game_definitions/fgd/solid_classes/group_solid_class.tres"),
 	preload("res://addons/qodot/game_definitions/fgd/solid_classes/detail_solid_class.tres"),
 	preload("res://addons/qodot/game_definitions/fgd/solid_classes/illusionary_solid_class.tres"),
-	preload("res://addons/qodot/game_definitions/fgd/solid_classes/worldspawn_solid_class.tres"),
 	preload("res://addons/qodot/game_definitions/fgd/base_classes/light_base_class.tres"),
 	preload("res://addons/qodot/game_definitions/fgd/point_classes/light_point_class.tres"),
 ]
@@ -111,13 +110,13 @@ func get_entity_definitions() -> Dictionary:
 
 func _generate_base_class_list(entity_def : Resource, visited_base_classes = []) -> Array:
 	var base_classes : Array = []
-	
+
 	visited_base_classes.append(entity_def.classname)
-	
+
 	# End recursive search if no more base_classes
 	if len(entity_def.base_classes) == 0:
 		return base_classes
-	
+
 	# Traverse up to the next level of hierarchy, if not already visited
 	for base_class in entity_def.base_classes:
 		if not base_class.classname in visited_base_classes:
