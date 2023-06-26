@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=4 format=3 uid="uid://ccwosedfa8v8d"]
+[gd_resource type="Resource" script_class="QodotFGDPointClass" load_steps=4 format=3 uid="uid://ccwosedfa8v8d"]
 
 [ext_resource type="Script" path="res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_point_class.gd" id="1"]
 [ext_resource type="Script" path="res://addons/qodot/game_definitions/fgd/point_classes/light.gd" id="2"]
@@ -13,7 +13,7 @@ class_options = "---------------------------------------------------------------
 classname = "light"
 description = "Invisible light source"
 qodot_internal = false
-base_classes = [ExtResource("3")]
+base_classes = Array[Resource]([ExtResource("3")])
 class_properties = {
 "angle": 0.0
 }

@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=2 format=3 uid="uid://dxp37dladbquv"]
+[gd_resource type="Resource" script_class="QodotFGDSolidClass" load_steps=2 format=3 uid="uid://dxp37dladbquv"]
 
 [ext_resource type="Script" path="res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_solid_class.gd" id="1"]
 
@@ -15,7 +15,7 @@ class_options = "---------------------------------------------------------------
 classname = "worldspawn"
 description = "World Entity"
 qodot_internal = false
-base_classes = []
+base_classes = Array[Resource]([])
 class_properties = {}
 class_property_descriptions = {}
 meta_properties = {}

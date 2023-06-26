@@ -1,14 +1,14 @@
-[gd_resource type="Resource" load_steps=3 format=2]
+[gd_resource type="Resource" script_class="QodotWorldspawnLayer" load_steps=3 format=3 uid="uid://clidbhxth4icl"]
 
-[ext_resource path="res://addons/qodot/src/resources/worldspawn_layer.gd" type="Script" id=1]
-[ext_resource path="res://addons/qodot/game_definitions/worldspawn_layers/liquid/lava.gd" type="Script" id=2]
+[ext_resource type="Script" path="res://addons/qodot/src/resources/worldspawn_layer.gd" id="1"]
+[ext_resource type="Script" path="res://addons/qodot/game_definitions/worldspawn_layers/liquid/lava.gd" id="2"]
 
 [resource]
 resource_name = "Lava Layer"
-script = ExtResource( 1 )
+script = ExtResource("1")
 name = "lava"
 texture = "layers/lava"
 node_class = "Area"
 build_visuals = true
 collision_shape_type = 1
-script_class = ExtResource( 2 )
+script_class = ExtResource("2")

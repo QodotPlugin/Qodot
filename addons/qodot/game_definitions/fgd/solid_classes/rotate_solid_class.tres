@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=3 format=3 uid="uid://de6w02sa4ckl5"]
+[gd_resource type="Resource" script_class="QodotFGDSolidClass" load_steps=3 format=3 uid="uid://de6w02sa4ckl5"]
 
 [ext_resource type="Script" path="res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_solid_class.gd" id="1"]
 [ext_resource type="Script" path="res://addons/qodot/game_definitions/fgd/solid_classes/rotate.gd" id="2_kxqod"]
@@ -17,7 +17,7 @@ class_options = "---------------------------------------------------------------
 classname = "rotate"
 description = "Rotating Brush"
 qodot_internal = false
-base_classes = []
+base_classes = Array[Resource]([])
 class_properties = {
 "axis": Vector3(0, 1, 0),
 "speed": 360.0
