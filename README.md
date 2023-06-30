@@ -7,7 +7,7 @@ Quake *.map* file support for Godot 4.x. **For the original Godot 3.x plugin, se
 1. [Use Godot Engine .NET / mono build](https://godotengine.org/download/).
 2. [Download .NET SDK](https://dotnet.microsoft.com/en-us/download), **must be .NET SDK 7.0 or higher**.
 3. Run the .NET SDK installer, ensure it completes successfully.
-4. Go to Project > C# > Create C# Solution. Then click *Build* in the top-right corner.
+4. Go to Project > Tools > C# > Create C# Solution. Then click *Build* in the top-right corner.
 5. Go to Project > Project Settings > Plugins, then enable Qodot.
 
 # About this version
