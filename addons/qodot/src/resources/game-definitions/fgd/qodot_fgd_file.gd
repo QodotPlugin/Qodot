@@ -26,16 +26,10 @@ func do_export_file():
 				var file_obj := FileAccess.open(fgd_file, FileAccess.WRITE)
 				file_obj.store_string(build_class_text())
 				file_obj.close()
-@export var target_folder : String # (String, DIR, GLOBAL)
+@export_global_dir var target_folder : String # (String, DIR, GLOBAL)
 @export var fgd_name: String = "Qodot"
 @export var base_fgd_files: Array[Resource] = [] # (Array, Resource)
 @export var entity_definitions: Array[Resource] = [ # (Array, Resource)
-	preload("res://addons/qodot/game_definitions/fgd/solid_classes/worldspawn_solid_class.tres"),
-	preload("res://addons/qodot/game_definitions/fgd/solid_classes/group_solid_class.tres"),
-	preload("res://addons/qodot/game_definitions/fgd/solid_classes/detail_solid_class.tres"),
-	preload("res://addons/qodot/game_definitions/fgd/solid_classes/illusionary_solid_class.tres"),
-	preload("res://addons/qodot/game_definitions/fgd/base_classes/light_base_class.tres"),
-	preload("res://addons/qodot/game_definitions/fgd/point_classes/light_point_class.tres"),
 ]
 
 func build_class_text() -> String:
