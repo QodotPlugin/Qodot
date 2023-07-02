@@ -206,6 +206,26 @@ namespace Qodot
 						Vector3? vertex = IntersectFaces(ref faces[f0], ref faces[f1], ref faces[f2]);
 						if (vertex == null || !VertexInHull(brush.faces, vertex.Value)) continue;
 
+						// If we already generated a vertex close enough to this one, then merge them.
+						bool merged = false;
+						for (int f3 = 0; f3 <= f0; f3++)
+						{
+							ref FaceGeometry otherFaceGeo = ref faceGeos[f3];
+							for (int i = 0; i < otherFaceGeo.vertices.Count; i++)
+							{
+								if (otherFaceGeo.vertices[i].vertex.DistanceTo(vertex.Value) < CMP_EPSILON)
+								{
+									vertex = otherFaceGeo.vertices[i].vertex;
+									merged = true;
+									break;
+								}
+							}
+							if (merged)
+							{
+								break;
+							}
+						}
+
 						Vector3 normal = Vector3.Zero;
 						if (phong)
 						{
@@ -235,6 +255,7 @@ namespace Qodot
 							tangent = GetStandardTangent(ref face);
 						}
 
+						// Check for a duplicate vertex in the current face.
 						int duplicateIdx = -1;
 						for (int i = 0; i < faceGeo.vertices.Count; i++)
 						{
