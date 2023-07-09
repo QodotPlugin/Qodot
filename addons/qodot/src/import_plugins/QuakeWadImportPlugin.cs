@@ -121,7 +121,7 @@ public partial class QuakeWadImportPlugin : EditorImportPlugin
 
 		string savePathStr = savePath + "." + _GetSaveExtension();
 
-		var file = FileAccess.Open(sourceFile, FileAccess.ModeFlags.Read);
+		using var file = FileAccess.Open(sourceFile, FileAccess.ModeFlags.Read);
 		if (file == null)
 		{
 			Error err = FileAccess.GetOpenError();
