@@ -56,7 +56,7 @@ namespace Qodot
 
 			scope = ParseScope.FILE;
 
-			FileAccess file = FileAccess.Open(filename, FileAccess.ModeFlags.Read);
+			using FileAccess file = FileAccess.Open(filename, FileAccess.ModeFlags.Read);
 			if (file == null)
 			{
 				GD.PrintErr("Error: Failed to open map file (" + filename + ")");
