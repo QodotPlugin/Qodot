@@ -15,19 +15,19 @@ enum CollisionShapeType {
 	CONCAVE ## Should have a concave collision shape
 }
 
-@export var spawn : String = QodotUtil.CATEGORY_STRING
+@export_group("Spawn")
 ## Controls whether a given SolidClass is the worldspawn, is combined with the worldspawn, or is spawned as its own free-standing entity
 @export var spawn_type: SpawnType = SpawnType.ENTITY
 
-@export var visual_build: String = QodotUtil.CATEGORY_STRING
+@export_group("Visual Build")
 ## Controls whether a visual mesh is built for this SolidClass
 @export var build_visuals := true
 
-@export var collision_build : String = QodotUtil.CATEGORY_STRING
+@export_group("Collision Build")
 ## Controls how collisions are built for this SolidClass
 @export var collision_shape_type: CollisionShapeType = CollisionShapeType.CONVEX
 
-@export var scripting: String = QodotUtil.CATEGORY_STRING
+@export_group("Scripting")
 ## The script file to associate with this SolidClass
 ## On building the map, this will be attached to any brush entities created via this classname
 @export var script_class: Script
