@@ -1,9 +1,11 @@
-[gd_resource type="Resource" script_class="QodotFGDFile" load_steps=5 format=3 uid="uid://c36hv0o6g0udo"]
+[gd_resource type="Resource" script_class="QodotFGDFile" load_steps=7 format=3 uid="uid://c36hv0o6g0udo"]
 
 [ext_resource type="Resource" uid="uid://ehtx4xq4rs3k" path="res://addons/qodot/game_definitions/fgd/solid_classes/func_group_solid_class.tres" id="2"]
 [ext_resource type="Script" path="res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_file.gd" id="6"]
+[ext_resource type="Resource" uid="uid://dm14su4xyfiu" path="res://addons/qodot/game_definitions/fgd/solid_classes/illusionary_solid_class.tres" id="8"]
 [ext_resource type="Resource" uid="uid://dxp37dladbquv" path="res://addons/qodot/game_definitions/fgd/solid_classes/worldspawn_solid_class.tres" id="9"]
 [ext_resource type="Resource" uid="uid://ddqr3i6ispfhn" path="res://addons/qodot/game_definitions/fgd/solid_classes/group_solid_class.tres" id="10"]
+[ext_resource type="Resource" uid="uid://blfd0wxw230pq" path="res://addons/qodot/game_definitions/fgd/solid_classes/physics_solid_class.tres" id="16"]
 
 [resource]
 script = ExtResource("6")
@@ -11,4 +13,4 @@ export_file = false
 target_folder = ""
 fgd_name = "Qodot"
 base_fgd_files = Array[Resource]([])
-entity_definitions = Array[Resource]([ExtResource("9"), ExtResource("2"), ExtResource("10"), null])
+entity_definitions = Array[Resource]([ExtResource("9"), ExtResource("2"), ExtResource("10"), ExtResource("8"), ExtResource("16")])
