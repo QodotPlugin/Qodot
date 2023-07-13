@@ -14,11 +14,11 @@ If you modify any C# scripts in the plugin, press <kbd>Alt</kbd> + <kbd>B</kbd> 
 
 # About this version
 
-Latest Tested Engine Version: **4.0.3.stable.mono**
+Latest Tested Engine Version: **4.1.stable.mono**
 
 This is a port of Qodot to Godot 4.x. It requires the .NET build of Godot to import maps correctly. Games can be exported with the standard editor/export templates however.
 
-Moving forward this will be the official version of the plugin and where active development will continue.
+Unlike [Qodot-plugin](https://github.com/QodotPlugin/qodot-plugin/), this [Qodot](https://github.com/QodotPlugin/Qodot/) repository is currently the official version of the plugin and where active development continues. You can also find the plugin on Godot's Asset Library.
 
 ## Documentation
 
