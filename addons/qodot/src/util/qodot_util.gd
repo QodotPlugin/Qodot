@@ -5,9 +5,6 @@ class_name QodotUtil
 ## Print debug messages. True to print, false to ignore
 const DEBUG := true
 
-## String for "category" exports
-const CATEGORY_STRING := '----------------------------------------------------------------'
-
 # Const-predicated print function to avoid excess log spam
 ## Print msg if [constant DEBUG] is true
 static func debug_print(msg) -> void:
