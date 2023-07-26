@@ -5,15 +5,10 @@
 
 [resource]
 script = ExtResource("1")
-spawn = "----------------------------------------------------------------"
 spawn_type = 2
-visual_build = "----------------------------------------------------------------"
 build_visuals = true
-collision_build = "----------------------------------------------------------------"
 collision_shape_type = 1
-scripting = "----------------------------------------------------------------"
 script_class = ExtResource("2")
-class_options = "----------------------------------------------------------------"
 classname = "button"
 description = "Interactive button brush."
 qodot_internal = false
@@ -27,8 +22,15 @@ class_properties = {
 "speed": 8.0,
 "trigger_signal_delay": 0.0
 }
-class_property_descriptions = {}
+class_property_descriptions = {
+"axis": "Direction of movement when pressed.",
+"depth": "How far to move along the axis when pressed.",
+"press_signal_delay": "Seconds after press() is called, before emitting is own pressed signal.",
+"release_delay": "Seconds after a physics body exits, before calling release()",
+"release_signal_delay": "Seconds after release() is called, before emitting is own released signal.",
+"speed": "Delta multiplier for a lerp weight to move the button to its desired position.",
+"trigger_signal_delay": "Seconds after press() is called, before emitting the trigger signal."
+}
 meta_properties = {}
-node_options = "----------------------------------------------------------------"
 node_class = "Area3D"
 transient_node = false
