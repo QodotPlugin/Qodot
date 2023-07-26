@@ -6,10 +6,7 @@
 
 [resource]
 script = ExtResource("1")
-scene = "----------------------------------------------------------------"
-scripting = "----------------------------------------------------------------"
 script_class = ExtResource("2")
-class_options = "----------------------------------------------------------------"
 classname = "light"
 description = "Invisible light source"
 qodot_internal = false
@@ -23,6 +20,5 @@ class_property_descriptions = {
 meta_properties = {
 "size": AABB(-8, -8, -8, 8, 8, 8)
 }
-node_options = "----------------------------------------------------------------"
 node_class = "Node3D"
 transient_node = false
