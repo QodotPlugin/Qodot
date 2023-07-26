@@ -18,7 +18,9 @@ classname = "trigger"
 description = "Trigger Volume"
 qodot_internal = false
 base_classes = Array[Resource]([])
-class_properties = {}
+class_properties = {
+"target": ""
+}
 class_property_descriptions = {}
 meta_properties = {}
 node_options = "----------------------------------------------------------------"
