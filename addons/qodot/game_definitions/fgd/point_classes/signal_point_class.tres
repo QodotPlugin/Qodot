@@ -6,22 +6,18 @@
 
 [resource]
 script = ExtResource("3")
-scene = "----------------------------------------------------------------"
-scripting = "----------------------------------------------------------------"
-class_options = "----------------------------------------------------------------"
 classname = "signal"
-description = "Signal"
+description = "Name of signal to call target."
 qodot_internal = false
 base_classes = Array[Resource]([ExtResource("2"), ExtResource("1")])
 class_properties = {
 "signal_name": ""
 }
 class_property_descriptions = {
-"signal_name": "Signal to target"
+"signal_name": "Name of signal to call on target."
 }
 meta_properties = {
 "size": AABB(-8, -8, -8, 8, 8, 8)
 }
-node_options = "----------------------------------------------------------------"
 node_class = ""
 transient_node = true

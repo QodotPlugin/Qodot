@@ -5,15 +5,10 @@
 
 [resource]
 script = ExtResource("2")
-spawn = "----------------------------------------------------------------"
 spawn_type = 2
-visual_build = "----------------------------------------------------------------"
 build_visuals = true
-collision_build = "----------------------------------------------------------------"
 collision_shape_type = 1
-scripting = "----------------------------------------------------------------"
 script_class = ExtResource("1")
-class_options = "----------------------------------------------------------------"
 classname = "physics"
 description = "Physics Brush"
 qodot_internal = false
@@ -24,6 +19,5 @@ class_properties = {
 }
 class_property_descriptions = {}
 meta_properties = {}
-node_options = "----------------------------------------------------------------"
 node_class = "RigidBody"
 transient_node = false

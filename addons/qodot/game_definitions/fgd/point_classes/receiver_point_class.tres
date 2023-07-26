@@ -6,22 +6,18 @@
 
 [resource]
 script = ExtResource("1")
-scene = "----------------------------------------------------------------"
-scripting = "----------------------------------------------------------------"
-class_options = "----------------------------------------------------------------"
 classname = "receiver"
-description = "Receiver"
+description = "Calls methods on target."
 qodot_internal = false
 base_classes = Array[Resource]([ExtResource("3"), ExtResource("2")])
 class_properties = {
 "receiver_name": ""
 }
 class_property_descriptions = {
-"slot_name": "Receiver method to target"
+"reciever_name": "Name of method to call on target. "
 }
 meta_properties = {
 "size": AABB(-8, -8, -8, 8, 8, 8)
 }
-node_options = "----------------------------------------------------------------"
 node_class = ""
 transient_node = true
