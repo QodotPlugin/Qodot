@@ -17,7 +17,8 @@ class_properties = {
 "rotation": Vector3(0, 0, 0),
 "scale": Vector3(1, 1, 1),
 "speed": 1.0,
-"translation": Vector3(0, 0, 0)
+"translation": Vector3(0, 0, 0),
+"targetname": ""
 }
 class_property_descriptions = {}
 meta_properties = {}
