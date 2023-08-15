@@ -10,19 +10,21 @@ Quake *.map* file support for Godot 4.x. **For the original Godot 3.x plugin, se
 5. Build your C# scripts by pressing <kbd>Alt</kbd> + <kbd>B</kbd>, or click the square *Build* button in the top-right corner.
 6. Go to Project > Project Settings > Plugins, then enable Qodot.
 
-If you modify any C# scripts in the plugin, press <kbd>Alt</kbd> + <kbd>B</kbd> or click the square *Build* button to bring back the "Full Build" toolbar in the 3D Viewport.
+If plugin errors appear when you enable the plugin, restart the engine first. If any plugin errors persist after a restart, please [make an issue](https://github.com/QodotPlugin/Qodot/issues/new).
+
+To bring back the "Full Build" toolbar, press <kbd>Alt</kbd> + <kbd>B</kbd> and re-select your QodotMap node.
 
 # About this version
 
-Latest Tested Engine Version: **4.1.stable.mono**
+Latest Tested Engine Version: **4.1.1.stable.mono**
 
-This is a port of Qodot to Godot 4.x. It requires the .NET build of Godot to import maps correctly. Games can be exported with the standard editor/export templates however.
+This is a port of Qodot to Godot 4.x. It requires the .NET build of Godot to import maps correctly. Games can still be exported with the standard editor/export templates.
 
 Unlike [Qodot-plugin](https://github.com/QodotPlugin/qodot-plugin/), this [Qodot](https://github.com/QodotPlugin/Qodot/) repository is currently the official version of the plugin and where active development continues. You can also find the plugin on Godot's Asset Library.
 
 ## Documentation
 
-Consult the [Qodot User Guide](https://qodotplugin.github.io/). Documentation may not be up to date for 4.0, but most things should be the same.
+We have official [Qodot Documentation](https://qodotplugin.github.io/). The docs are undergoing maintenance, so feel free to ask questions in [Issues](https://github.com/QodotPlugin/Qodot/issues) or the [Official Discord](https://discord.gg/c72WBuG).
 
 ## Overview
 
@@ -54,7 +56,7 @@ Qodot extends the Godot editor to import Quake *.map* files, and provides a data
 
 Assorted props by [@SunkPer](https://twitter.com/SunkPer)
 
-[![](https://raw.githubusercontent.com/Shfty/qodot-extras/master/showcase/sunkper-summer-island.gif)](https://cdn.discordapp.com/attachments/651209074930876416/659427504309796876/Project_Summer_Island_WIP_25.mp4)
+[![](https://raw.githubusercontent.com/Shfty/qodot-extras/master/showcase/sunkper-summer-island.gif)](https://cdn.app.com/attachments/651209074930876416/659427504309796876/Project_Summer_Island_WIP_25.mp4)
 
 Summer Island by [@SunkPer](https://twitter.com/SunkPer)
 
