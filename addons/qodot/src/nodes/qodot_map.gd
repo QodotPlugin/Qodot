@@ -43,7 +43,7 @@ signal unwrap_uv2_complete()
 ## Base directory for textures. When building materials, Qodot will search this directory for texture files matching the textures assigned to Trenchbroom faces.
 @export_dir var base_texture_dir := "res://textures"
 ## File extensions to search for texture data.
-@export var texture_file_extensions := PackedStringArray(["png"])
+@export var texture_file_extensions := PackedStringArray(["png", "jpg", "jpeg", "bmp"])
 ## Optional. List of worldspawn layers.
 ## A worldspawn layer converts any brush of a certain texture to a certain kind of node. See example 1-2.
 @export var worldspawn_layers: Array[QodotWorldspawnLayer]
