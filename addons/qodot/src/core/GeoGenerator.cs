@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Godot;
@@ -151,7 +151,6 @@ namespace Qodot
 				{
 					ref Brush brush = ref brushSpan[b];
 					brush.center = Vector3.Zero;
-
 					int vertexCount = 0;
 					
 					GenerateBrushVertices(e, b);
@@ -167,12 +166,17 @@ namespace Qodot
 						}
 					}
 
-					if (vertexCount > 0) brush.center /= (float)vertexCount;
-
-					entity.center += brush.center;
+					if (vertexCount > 0)
+						{
+							brush.center /= (float)vertexCount;
+//							entity.center += brush.center;
+						}
 				}
 
-				if (brushSpan.Length > 0) entity.center /= (float)brushSpan.Length;
+				if (brushSpan.Length > 0)
+					{
+						entity.center /= (float)brushSpan.Length;
+					}
 			}
 		}
 
