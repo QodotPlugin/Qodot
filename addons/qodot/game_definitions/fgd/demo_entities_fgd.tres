@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QodotFGDFile" load_steps=4 format=3 uid="uid://c6c7ca1bms133"]
+
+[ext_resource type="Resource" uid="uid://cubvqwi3p77sq" path="res://addons/qodot/game_definitions/fgd/point_classes/physics_ball_point_class.tres" id="1_2rn6e"]
+[ext_resource type="Script" path="res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_file.gd" id="2_8n53b"]
+[ext_resource type="Resource" uid="uid://1feqnpy3upl3" path="res://addons/qodot/game_definitions/fgd/point_classes/demo_model_point_class.tres" id="2_jgsyr"]
+
+[resource]
+script = ExtResource("2_8n53b")
+export_file = false
+target_folder = ""
+fgd_name = "QodotDemoEntities"
+base_fgd_files = Array[Resource]([])
+entity_definitions = Array[Resource]([ExtResource("1_2rn6e"), ExtResource("2_jgsyr")])

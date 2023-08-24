@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="QodotFGDFile" load_steps=7 format=3 uid="uid://bkmh5qlqkolvt"]
+
+[ext_resource type="Resource" uid="uid://dbh35xj5q8gvc" path="res://addons/qodot/game_definitions/fgd/point_classes/receiver_point_class.tres" id="1_t1n22"]
+[ext_resource type="Resource" uid="uid://bu3h1cvdigp1i" path="res://addons/qodot/game_definitions/fgd/point_classes/signal_point_class.tres" id="2_mdwbq"]
+[ext_resource type="Resource" uid="uid://ckg61cpr5p63l" path="res://addons/qodot/game_definitions/fgd/solid_classes/button_solid_class.tres" id="3_wpyde"]
+[ext_resource type="Resource" uid="uid://b3yn012fy6782" path="res://addons/qodot/game_definitions/fgd/solid_classes/mover_solid_class.tres" id="4_liyxl"]
+[ext_resource type="Script" path="res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_file.gd" id="5_juf5y"]
+[ext_resource type="Resource" uid="uid://v3fbh0xn5d2h" path="res://addons/qodot/game_definitions/fgd/solid_classes/physics_solid_class.tres" id="5_mxy6p"]
+
+[resource]
+script = ExtResource("5_juf5y")
+export_file = false
+target_folder = ""
+fgd_name = "QodotRecieverSignal"
+base_fgd_files = Array[Resource]([])
+entity_definitions = Array[Resource]([ExtResource("1_t1n22"), ExtResource("2_mdwbq"), ExtResource("3_wpyde"), ExtResource("4_liyxl"), ExtResource("5_mxy6p")])

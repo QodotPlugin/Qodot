@@ -20,8 +20,8 @@ class_properties = {
 "release_delay": 0.0,
 "release_signal_delay": 0.0,
 "speed": 8.0,
-"trigger_signal_delay": 0.0,
-"target": ""
+"target": "",
+"trigger_signal_delay": 0.0
 }
 class_property_descriptions = {
 "axis": "Direction of movement when pressed.",

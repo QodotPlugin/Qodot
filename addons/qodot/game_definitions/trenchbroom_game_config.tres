@@ -1,12 +1,14 @@
-[gd_resource type="Resource" script_class="TrenchBroomGameConfig" load_steps=8 format=3 uid="uid://clrlcaks60tgr"]
+[gd_resource type="Resource" script_class="TrenchBroomGameConfig" load_steps=10 format=3 uid="uid://clrlcaks60tgr"]
 
 [ext_resource type="Resource" path="res://addons/qodot/game_definitions/brush_tags/detail_tag.tres" id="1_bjrlk"]
-[ext_resource type="Resource" uid="uid://c36hv0o6g0udo" path="res://addons/qodot/game_definitions/fgd/qodot_fgd.tres" id="1_y22p1"]
 [ext_resource type="Texture2D" uid="uid://b2k2iutnsgjfy" path="res://addons/qodot/icon.png" id="2_jej4n"]
 [ext_resource type="Resource" uid="uid://bd23tengu5m5u" path="res://addons/qodot/game_definitions/brush_tags/trigger_tag.tres" id="2_kk04y"]
 [ext_resource type="Script" path="res://addons/qodot/src/resources/game-definitions/trenchbroom_game_config.gd" id="3_8vw40"]
 [ext_resource type="Resource" uid="uid://dpjjh0hst6xj" path="res://addons/qodot/game_definitions/face_tags/clip_tag.tres" id="3_hren3"]
 [ext_resource type="Resource" uid="uid://b3ec6041xnoec" path="res://addons/qodot/game_definitions/face_tags/skip_tag.tres" id="4_y3jqb"]
+[ext_resource type="Resource" uid="uid://blnk7qwd7u1ls" path="res://addons/qodot/game_definitions/fgd/quake_compat_fgd.tres" id="5_j6v5h"]
+[ext_resource type="Resource" uid="uid://c6c7ca1bms133" path="res://addons/qodot/game_definitions/fgd/demo_entities_fgd.tres" id="6_6fyp8"]
+[ext_resource type="Resource" uid="uid://bkmh5qlqkolvt" path="res://addons/qodot/game_definitions/fgd/reciever_signal_fgd.tres" id="6_8ndd7"]
 
 [resource]
 script = ExtResource("3_8vw40")
@@ -14,7 +16,7 @@ export_file = false
 trenchbroom_games_folder = ""
 game_name = "Qodot"
 icon = ExtResource("2_jej4n")
-fgd_files = Array[Resource]([ExtResource("1_y22p1")])
+fgd_files = Array[Resource]([ExtResource("5_j6v5h"), ExtResource("6_8ndd7"), ExtResource("6_6fyp8"), null])
 brush_tags = Array[Resource]([ExtResource("1_bjrlk"), ExtResource("2_kk04y")])
 face_tags = Array[Resource]([ExtResource("3_hren3"), ExtResource("4_y3jqb")])
 face_attrib_surface_flags = Array[Resource]([])

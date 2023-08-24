@@ -4,7 +4,7 @@ extends RigidBody3D
 
 @export var properties: Dictionary :
 	get:
-		return properties # TODOConverter40 Non existent get function 
+		return properties
 	set(new_properties):
 		if(properties != new_properties):
 			properties = new_properties

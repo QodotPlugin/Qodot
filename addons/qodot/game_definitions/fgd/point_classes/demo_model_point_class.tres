@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="QodotFGDPointClass" load_steps=2 format=3 uid="uid://1feqnpy3upl3"]
+
+[ext_resource type="Script" path="res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_point_class.gd" id="1_gjc4m"]
+
+[resource]
+script = ExtResource("1_gjc4m")
+classname = "demo_model"
+description = "A demonstration of importing a model into trenchbroom from Godot."
+qodot_internal = false
+base_classes = Array[Resource]([])
+class_properties = {}
+class_property_descriptions = {}
+meta_properties = {
+"color": Color(1, 1, 1, 1),
+"frame": 0,
+"path": "",
+"scale": "",
+"size": AABB(-8, -8, -8, 8, 8, 8),
+"skin": 0
+}
+node_class = ""
+transient_node = false

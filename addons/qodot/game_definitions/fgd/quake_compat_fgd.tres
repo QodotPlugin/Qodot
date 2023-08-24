@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="QodotFGDFile" load_steps=14 format=3 uid="uid://blnk7qwd7u1ls"]
+
+[ext_resource type="Resource" uid="uid://ckg61cpr5p63l" path="res://addons/qodot/game_definitions/fgd/solid_classes/button_solid_class.tres" id="1_cxjfy"]
+[ext_resource type="Script" path="res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_file.gd" id="1_w8ykl"]
+[ext_resource type="Resource" uid="uid://b8aisardk4k4u" path="res://addons/qodot/game_definitions/fgd/solid_classes/detail_solid_class.tres" id="2_5hpyv"]
+[ext_resource type="Resource" uid="uid://cw4s1hnxqetee" path="res://addons/qodot/game_definitions/fgd/solid_classes/func_group_solid_class.tres" id="3_t8t2a"]
+[ext_resource type="Resource" uid="uid://bnbdy0cky2bo" path="res://addons/qodot/game_definitions/fgd/solid_classes/group_solid_class.tres" id="4_1afvb"]
+[ext_resource type="Resource" uid="uid://dy7undvxjvodx" path="res://addons/qodot/game_definitions/fgd/solid_classes/illusionary_solid_class.tres" id="5_4368m"]
+[ext_resource type="Resource" uid="uid://b3yn012fy6782" path="res://addons/qodot/game_definitions/fgd/solid_classes/mover_solid_class.tres" id="6_ctmq0"]
+[ext_resource type="Resource" uid="uid://v3fbh0xn5d2h" path="res://addons/qodot/game_definitions/fgd/solid_classes/physics_solid_class.tres" id="7_aw0en"]
+[ext_resource type="Resource" uid="uid://de6w02sa4ckl5" path="res://addons/qodot/game_definitions/fgd/solid_classes/rotate_solid_class.tres" id="8_mwlgy"]
+[ext_resource type="Resource" uid="uid://b70dbh5v15xno" path="res://addons/qodot/game_definitions/fgd/solid_classes/trigger_solid_class.tres" id="9_3imc6"]
+[ext_resource type="Resource" uid="uid://bu2f3lupsjhfp" path="res://addons/qodot/game_definitions/fgd/solid_classes/wall_solid_class.tres" id="10_nvy6q"]
+[ext_resource type="Resource" uid="uid://dxp37dladbquv" path="res://addons/qodot/game_definitions/fgd/solid_classes/worldspawn_solid_class.tres" id="11_4x00y"]
+[ext_resource type="Resource" uid="uid://ccwosedfa8v8d" path="res://addons/qodot/game_definitions/fgd/point_classes/light_point_class.tres" id="12_es8us"]
+
+[resource]
+script = ExtResource("1_w8ykl")
+export_file = false
+target_folder = ""
+fgd_name = "QodotQuakeCompat"
+base_fgd_files = Array[Resource]([])
+entity_definitions = Array[Resource]([ExtResource("1_cxjfy"), ExtResource("2_5hpyv"), ExtResource("3_t8t2a"), ExtResource("4_1afvb"), ExtResource("5_4368m"), ExtResource("6_ctmq0"), ExtResource("7_aw0en"), ExtResource("8_mwlgy"), ExtResource("9_3imc6"), ExtResource("10_nvy6q"), ExtResource("11_4x00y"), ExtResource("12_es8us")])
