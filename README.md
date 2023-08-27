@@ -92,13 +92,13 @@ Enter the traditional level editor: Simple tools built for games like Doom, Quak
 
 [Hannah "EMBYR" Crawford](https://twitter.com/STUDIOEMBYR) - Godot 4.x & C# port & maintainance
 
+[Emberlynn Bland](https://github.com/deertears/) - Starting the docs & community support & maintenance
+
 [Kristian Duske](https://twitter.com/kristianduske) - For creating TrenchBroom and inspiring the creation of Qodot
 
 [Arkii](https://github.com/GoomiChan) - For example code and handy documentation of the Valve 220 format
 
 [TheRektafire](https://github.com/TheRektafire) - For a variety of useful tidbits on the .map format
-
-[Ember](https://github.com/deertears/) - For creating the user guide
 
 [Calinou](https://github.com/Calinou) - For making Qodot work on case-sensitive systems
 
