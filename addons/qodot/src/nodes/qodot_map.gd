@@ -527,7 +527,7 @@ func resolve_group_hierarchy() -> void:
 		
 		if not classname in entity_definitions: continue
 		var entity_definition = entity_definitions[classname]
-		
+		# TODO: Add clause on this line for point entities, which do not have a spawn type. Add as child of the current group owner.
 		if entity_definition.spawn_type == QodotFGDSolidClass.SpawnType.GROUP:
 			group_entities[node_idx] = node
 		else:
