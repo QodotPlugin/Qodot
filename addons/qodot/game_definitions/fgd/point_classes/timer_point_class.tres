@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="QodotFGDPointClass" load_steps=2 format=3 uid="uid://dhtuwhdulj6uw"]
+
+[ext_resource type="Script" path="res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_point_class.gd" id="1_kg3q4"]
+
+[resource]
+script = ExtResource("1_kg3q4")
+classname = ""
+description = ""
+qodot_internal = false
+base_classes = Array[Resource]([])
+class_properties = {
+"oneshot": false,
+"time": 0.0
+}
+class_property_descriptions = {
+"oneshot": "If the timer should repeatedly emit a \"timeout\" signal when its time elapses.",
+"time": "How long in seconds before the timer emits \"timeout\"."
+}
+meta_properties = {
+"color": Color(0, 0.94902, 0.568627, 1),
+"size": AABB(-8, -8, -8, 8, 8, 8)
+}
+node_class = ""
+transient_node = false
