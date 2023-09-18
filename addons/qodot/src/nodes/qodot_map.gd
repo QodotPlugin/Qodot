@@ -477,9 +477,10 @@ func build_entity_nodes() -> Array:
 		if 'origin' in properties:
 			var origin_comps = properties['origin'].split(' ')
 			var origin_vec = Vector3(origin_comps[1].to_float(), origin_comps[2].to_float(), origin_comps[0].to_float())
-			node.position = origin_vec / inverse_scale_factor
+			if (node.get("position")):
+				node.position = origin_vec / inverse_scale_factor
 		else:
-			if entity_idx != 0:
+			if entity_idx != 0 and node.get("position"):
 				node.position = entity_dict['center'] / inverse_scale_factor
 		
 		entity_nodes.append(node)
@@ -717,7 +718,10 @@ func build_entity_collision_shapes() -> void:
 	for entity_idx in range(0, entity_dicts.size()):
 		var entity_dict := entity_dicts[entity_idx] as Dictionary
 		var properties = entity_dict['properties']
-		var entity_position: Vector3 = Vector3.ZERO if entity_nodes[entity_idx] == null else entity_nodes[entity_idx].position
+		var entity_position: Vector3 = Vector3.ZERO
+		if entity_nodes[entity_idx] != null and entity_nodes[entity_idx].get("position"):
+			if entity_nodes[entity_idx].position is Vector3:
+				entity_position = entity_nodes[entity_idx].position
 		var entity_collision_shape = entity_collision_shapes[entity_idx]
 		
 		if entity_collision_shape == null:
