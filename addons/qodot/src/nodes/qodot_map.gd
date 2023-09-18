@@ -1092,7 +1092,25 @@ func apply_properties() -> void:
 				# Assign properties not defined with defaults from the entity definition
 				for property in entity_definitions[classname].class_properties:
 					if not property in properties:
-						properties[property] = entity_definition.class_properties[property]
+						var prop_default = entity_definition.class_properties[property]
+						# Flags
+						if prop_default is Array:
+							var prop_flags_sum := 0
+							for prop_flag in prop_default:
+								if prop_flag is Array and prop_flag.size() == 3:
+									if prop_flag[2] and prop_flag[1] is int:
+										prop_flags_sum += prop_flag[1]
+							properties[property] = prop_flags_sum
+						# Choices
+						elif prop_default is Dictionary:
+							var prop_desc = entity_definition.class_property_descriptions[property]
+							if prop_desc is Array and prop_desc.size() > 1 and prop_desc[1] is int:
+								properties[property] = prop_desc[1]
+							else:
+								properties[property] = 0
+						# Everything else
+						else:
+							properties[property] = prop_default
 						
 		if 'properties' in entity_node:
 			entity_node.properties = properties
