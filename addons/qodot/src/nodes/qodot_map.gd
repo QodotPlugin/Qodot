@@ -477,10 +477,10 @@ func build_entity_nodes() -> Array:
 		if 'origin' in properties:
 			var origin_comps = properties['origin'].split(' ')
 			var origin_vec = Vector3(origin_comps[1].to_float(), origin_comps[2].to_float(), origin_comps[0].to_float())
-			if (node.get("position")):
+			if "position" in node:
 				node.position = origin_vec / inverse_scale_factor
 		else:
-			if entity_idx != 0 and node.get("position"):
+			if entity_idx != 0 and "position" in node:
 				node.position = entity_dict['center'] / inverse_scale_factor
 		
 		entity_nodes.append(node)
