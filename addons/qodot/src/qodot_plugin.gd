@@ -10,6 +10,8 @@ var qodot_map_control: Control = null
 var qodot_map_progress_bar: Control = null
 var edited_object_ref: WeakRef = weakref(null)
 
+static var editor_settings: EditorSettings
+
 func _get_plugin_name() -> String:
 	return "Qodot"
 
@@ -29,6 +31,9 @@ func _make_visible(visible: bool) -> void:
 func _enter_tree() -> void:
 	# Project settings
 	setup_project_settings()
+	
+	# Editor settings
+	setup_editor_settings()
 
 	var csharp_support := QodotUtil.has_csharp_support()
 	if not csharp_support:
@@ -81,6 +86,18 @@ func _exit_tree() -> void:
 		remove_control_from_container(EditorPlugin.CONTAINER_SPATIAL_EDITOR_BOTTOM, qodot_map_progress_bar)
 		qodot_map_progress_bar.queue_free()
 		qodot_map_progress_bar = null
+
+func setup_editor_settings() -> void:
+	editor_settings = get_editor_interface().get_editor_settings()
+	if !editor_settings.has_setting('qodot/trenchbroom/game_config_path'):
+		editor_settings.set_setting('qodot/trenchbroom/game_config_path', '')
+	
+	var pinfo = {
+		'name': 'qodot/trenchbroom/game_config_path',
+		'type': TYPE_STRING,
+		'hint': PROPERTY_HINT_GLOBAL_DIR,
+	}
+	editor_settings.add_property_info(pinfo)
 
 ## Add Qodot-specific settings to Godot's Project Settings
 func setup_project_settings() -> void:

@@ -172,7 +172,12 @@ func parse_flags(flags: Array) -> String:
 
 ## Exports or updates a folder in the /games directory, with an icon, .cfg, and all accompanying FGDs.
 func do_export_file():
-	if trenchbroom_games_folder.is_empty():
+	# Try the folder from settings first
+	var folder = QodotPlugin.editor_settings.get_setting("qodot/trenchbroom/game_config_path")
+	if !folder || folder.is_empty():
+		# Try the folder on the resource
+		folder = trenchbroom_games_folder
+	if folder.is_empty():
 		print("Skipping export: No TrenchBroom games folder")
 		return
 	# Create config folder name by combining games folder with the game name as a directory
