@@ -167,16 +167,16 @@ namespace Qodot
 					}
 
 					if (vertexCount > 0)
-						{
-							brush.center /= (float)vertexCount;
-//							entity.center += brush.center;
-						}
+					{
+						brush.center /= (float)vertexCount;
+					}
+					entity.center += brush.center;
 				}
 
 				if (brushSpan.Length > 0)
-					{
-						entity.center /= (float)brushSpan.Length;
-					}
+				{
+					entity.center /= (float)brushSpan.Length;
+				}
 			}
 		}
 
