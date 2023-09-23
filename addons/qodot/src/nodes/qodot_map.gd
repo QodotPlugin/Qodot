@@ -485,7 +485,6 @@ func build_entity_nodes() -> Array:
 		else:
 			if entity_idx != 0 and "position" in node:
 				if node.position is Vector3:
-					print(entity_dict['center'])
 					node.position = entity_dict['center'] / inverse_scale_factor
 		
 		entity_nodes.append(node)
