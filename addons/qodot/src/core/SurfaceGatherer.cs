@@ -34,6 +34,7 @@ namespace Qodot
 			if (splitType == SurfaceSplitType.NONE)
 			{
 				surfIdx = AddSurface();
+				index_offset = outSurfaces[surfIdx].vertices.Count;
 			}
 
 			Span<Entity> entitySpan = mapData.GetEntitiesSpan();
