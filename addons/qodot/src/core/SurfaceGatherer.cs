@@ -31,7 +31,10 @@ namespace Qodot
 
 			int surfIdx = -1;
 
-			if (splitType == SurfaceSplitType.NONE) AddSurface();
+			if (splitType == SurfaceSplitType.NONE)
+			{
+				surfIdx = AddSurface();
+			}
 
 			Span<Entity> entitySpan = mapData.GetEntitiesSpan();
 			for (int e = 0; e < entitySpan.Length; e++)
