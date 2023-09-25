@@ -263,13 +263,13 @@ namespace Qodot
 					else
 					{
 						valveUVs = false;
-						currentFace.uvStandard.X = token.ToFloat();
+						currentFace.uvStandard.X = (float)Convert.ToDouble(token, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
 						scope = ParseScope.V;
 					}
 
 					break;
 				case ParseScope.V:
-					currentFace.uvStandard.Y = token.ToFloat();
+					currentFace.uvStandard.Y = (float)Convert.ToDouble(token, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
 					scope = ParseScope.ROT;
 					break;
 				case ParseScope.VALVE_U:
