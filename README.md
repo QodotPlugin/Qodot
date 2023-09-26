@@ -90,7 +90,7 @@ Enter the traditional level editor: Simple tools built for games like Doom, Quak
 
 [Josh "Shifty" Palmer](https://twitter.com/ShiftyAxel) - Original Qodot plugin
 
-Hannah "EMBYR" Crawford - Godot 4.x & C# port & maintainance
+[Hannah "EMBYR" Crawford](https://embyr.dev/) - Godot 4.x & C# port & maintainance
 
 [Emberlynn Bland](https://github.com/deertears/) - Starting the docs & community support & maintenance
 
