@@ -84,23 +84,19 @@ Enter the traditional level editor: Simple tools built for games like Doom, Quak
 
 [Reddit - Qodot](https://www.reddit.com/r/godot/comments/e41ldk/qodot_quake_map_file_support_for_godot/)
 
-[Godot Forums - Qodot](https://godotforums.org/discussion/21573/qodot-quake-map-file-support-for-godot)
-
 [Godot Asset Library - Qodot 3.x](https://godotengine.org/asset-library/asset/446)
-
-[Hannah's Twitter](https://twitter.com/STUDIOEMBYR)
 
 ## Credits
 
 [Josh "Shifty" Palmer](https://twitter.com/ShiftyAxel) - Original Qodot plugin
 
-[Hannah "EMBYR" Crawford](https://twitter.com/STUDIOEMBYR) - Godot 4.x & C# port & maintainance
+Hannah "EMBYR" Crawford - Godot 4.x & C# port & maintainance
 
 [Emberlynn Bland](https://github.com/deertears/) - Starting the docs & community support & maintenance
 
 [Kristian Duske](https://twitter.com/kristianduske) - For creating TrenchBroom and inspiring the creation of Qodot
 
-[Arkii](https://github.com/GoomiChan) - For example code and handy documentation of the Valve 220 format
+Arkii - For example code and handy documentation of the Valve 220 format
 
 [TheRektafire](https://github.com/TheRektafire) - For a variety of useful tidbits on the .map format
 
@@ -108,7 +104,7 @@ Enter the traditional level editor: Simple tools built for games like Doom, Quak
 
 [SunkPer](https://twitter.com/SunkPer) - For showcase screenshots
 
-[lordee](https://github.com/lordee), [DistractedMOSFET](https://github.com/distractedmosfet) and [winadam](https://github.com/winadam) - For laying the groundwork of the FGD export and entity scripting systems.
+[lordee](https://github.com/lordee), [DistractedMOSFET](https://github.com/distractedmosfet) and winadam- For laying the groundwork of the FGD export and entity scripting systems.
 
 [fossegutten](https://github.com/fossegutten) - For a typed GDScript pass
 
