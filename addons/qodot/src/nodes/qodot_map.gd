@@ -764,11 +764,10 @@ func build_entity_collision_shapes() -> void:
 				var vertices := surface_verts[Mesh.ARRAY_VERTEX] as PackedVector3Array
 				var indices := surface_verts[Mesh.ARRAY_INDEX] as PackedInt32Array
 				for vert_idx in indices:
-					entity_verts.append(vertices[vert_idx] + entity_position)
+					entity_verts.append(vertices[vert_idx])
 			else:
 				var shape_points = PackedVector3Array()
 				for vertex in surface_verts[Mesh.ARRAY_VERTEX]:
-					vertex += entity_position
 					if not vertex in shape_points:
 						shape_points.append(vertex)
 				

@@ -31,7 +31,11 @@ namespace Qodot
 
 			int surfIdx = -1;
 
-			if (splitType == SurfaceSplitType.NONE) AddSurface();
+			if (splitType == SurfaceSplitType.NONE)
+			{
+				surfIdx = AddSurface();
+				index_offset = outSurfaces[surfIdx].vertices.Count;
+			}
 
 			Span<Entity> entitySpan = mapData.GetEntitiesSpan();
 			for (int e = 0; e < entitySpan.Length; e++)
@@ -56,6 +60,7 @@ namespace Qodot
 				Span<BrushGeometry> brushGeoSpan = mapData.GetBrushGeoSpan(e);
 				for (int b = 0; b < brushGeoSpan.Length; b++)
 				{
+					if (FilterBrush(e, b)) continue;
 
 					if (splitType == SurfaceSplitType.BRUSH)
 					{
@@ -73,13 +78,14 @@ namespace Qodot
 						Span<FaceVertex> vertexSpan = CollectionsMarshal.AsSpan(faceGeo.vertices);
 						for (int v = 0; v < vertexSpan.Length; v++)
 						{
+							FaceVertex vertex = vertexSpan[v];
+							
 							if (entitySpan[e].spawnType == EntitySpawnType.ENTITY ||
 								entitySpan[e].spawnType == EntitySpawnType.GROUP)
 							{
-								vertexSpan[v].vertex -= entitySpan[e].center;
+								vertex.vertex -= entitySpan[e].center;
 							}
-							if(FilterBrush(e, b)) continue;
-							outSurfaces[surfIdx].vertices.Add(vertexSpan[v]);
+							outSurfaces[surfIdx].vertices.Add(vertex);
 						}
 						
 						for (int i = 0; i < (faceGeo.vertices.Count - 2) * 3; i++)
