@@ -154,6 +154,9 @@ namespace Qodot
 			Span<Face> faceSpan = mapData.GetFacesSpan(entityIdx, brushIdx);
 			Span<FaceGeometry> faceGeoSpan = mapData.GetFaceGeoSpan(entityIdx, brushIdx);
 			if (faceGeoSpan[faceIdx].vertices.Count < 3) return true;
+
+			// Omit faces textured with clip.
+			if (brushFilterTextureIdx != -1 && faceSpan[faceIdx].textureIdx == brushFilterTextureIdx) return true;
 			
 			// Omit faces textured with skip.
 			if (faceFilterTextureIdx != -1 && faceSpan[faceIdx].textureIdx == faceFilterTextureIdx) return true;
