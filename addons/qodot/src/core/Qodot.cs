@@ -189,9 +189,9 @@ namespace Qodot
 			GatherConvexCollisionSurfaces(entityIdx, true);
 		}
 		
-		public void GatherEntityConcaveCollisionSurfaces(int entityIdx)
+		public void GatherEntityConcaveCollisionSurfaces(int entityIdx, string faceFilterTex)
 		{
-			GatherConcaveCollisionSurfaces(entityIdx, true);
+			GatherConcaveCollisionSurfaces(entityIdx, faceFilterTex, true);
 		}
 
 		public void GatherWorldspawnLayerCollisionSurfaces(int entityIdx)
@@ -209,11 +209,12 @@ namespace Qodot
 			surfaceGatherer.Run();
 		}
 		
-		private void GatherConcaveCollisionSurfaces(int entityIdx, bool filterLayers)
+		private void GatherConcaveCollisionSurfaces(int entityIdx, string faceFilterTex, bool filterLayers)
 		{
 			surfaceGatherer.ResetParams();
 			surfaceGatherer.splitType = SurfaceSplitType.NONE;
 			surfaceGatherer.entityFilterIdx = entityIdx;
+			surfaceGatherer.SetFaceFilterTexture(faceFilterTex);
 			surfaceGatherer.filterWorldspawnLayers = filterLayers;
 			
 			surfaceGatherer.Run();
