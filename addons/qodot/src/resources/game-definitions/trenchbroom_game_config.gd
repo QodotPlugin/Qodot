@@ -28,6 +28,9 @@ extends Resource
 	preload("res://addons/qodot/game_definitions/fgd/qodot_fgd.tres")
 ]
 
+## Scale expression that modifies the default display scale of entities in Trenchbroom. See the [**Trenchbroom Documentation**](https://trenchbroom.github.io/manual/latest/#game_configuration_files_entities) for more information.
+@export var entity_scale: String = "1"
+
 ## Arrays containing the TrenchbroomTag resource type.
 @export_category("Editor hint tags")
 
@@ -76,7 +79,8 @@ var _base_text: String = """{
 	"entities": {
 		"definitions": [ %s ],
 		"defaultcolor": "0.6 0.6 0.6 1.0",
-		"modelformats": [ "mdl", "md2", "md3", "bsp", "dkm" ]
+		"modelformats": [ "mdl", "md2", "md3", "bsp", "dkm" ],
+		"scale": %s
 	},
 	"tags": {
 		"brush": [
@@ -129,6 +133,7 @@ func build_class_text() -> String:
 	return _base_text % [
 		game_name,
 		fgd_filename_str,
+		entity_scale,
 		brush_tags_str,
 		face_tags_str,
 		surface_flags_str,
