@@ -18,7 +18,7 @@ enum TagMatchType {
 
 ## The attributes applied to matching faces or brushes. Only "_transparent" is
 ## supported in Trenchbroom, which makes matching faces or brushes transparent.
-@export var tag_attributes : Array[String] = ["_transparent"]
+@export var tag_attributes : Array[String] = ["transparent"]
 
 ## Detemines how the tag is matched. See [constant TagMatchType].
 @export var tag_match_type: TagMatchType
