@@ -14,8 +14,8 @@ namespace Qodot
 		public SurfaceSplitType splitType = SurfaceSplitType.NONE;
 		public int entityFilterIdx = -1;
 		public int textureFilterIdx = -1;
-		public int brushFilterTextureIdx;
-		public int faceFilterTextureIdx;
+		public int clipFilterTextureIdx;
+		public int skipFilterTextureIdx;
 		public bool filterWorldspawnLayers;
 		
 		public SurfaceGatherer(MapData mapData)
@@ -104,14 +104,14 @@ namespace Qodot
 			textureFilterIdx = mapData.FindTexture(textureName);
 		}
 
-		public void SetBrushFilterTexture(string textureName)
+		public void SetclipFilterTexture(string textureName)
 		{
-			brushFilterTextureIdx = mapData.FindTexture(textureName);
+			clipFilterTextureIdx = mapData.FindTexture(textureName);
 		}
 
-		public void SetFaceFilterTexture(string textureName)
+		public void SetskipFilterTexture(string textureName)
 		{
-			faceFilterTextureIdx = mapData.FindTexture(textureName);
+			skipFilterTextureIdx = mapData.FindTexture(textureName);
 		}
 
 		private bool FilterEntity(int entityIdx)
@@ -123,12 +123,12 @@ namespace Qodot
 		{
 			Span<Face> faceSpan = mapData.GetFacesSpan(entityIdx, brushIdx);
 
-			if (brushFilterTextureIdx != -1)
+			if (clipFilterTextureIdx != -1)
 			{
 				bool fullyTextured = true;
 				for (int f = 0; f < faceSpan.Length; f++)
 				{
-					if (faceSpan[f].textureIdx != brushFilterTextureIdx)
+					if (faceSpan[f].textureIdx != clipFilterTextureIdx)
 					{
 						fullyTextured = false;
 						break;
@@ -154,9 +154,12 @@ namespace Qodot
 			Span<Face> faceSpan = mapData.GetFacesSpan(entityIdx, brushIdx);
 			Span<FaceGeometry> faceGeoSpan = mapData.GetFaceGeoSpan(entityIdx, brushIdx);
 			if (faceGeoSpan[faceIdx].vertices.Count < 3) return true;
+
+			// Omit faces textured with clip.
+			if (clipFilterTextureIdx != -1 && faceSpan[faceIdx].textureIdx == clipFilterTextureIdx) return true;
 			
 			// Omit faces textured with skip.
-			if (faceFilterTextureIdx != -1 && faceSpan[faceIdx].textureIdx == faceFilterTextureIdx) return true;
+			if (skipFilterTextureIdx != -1 && faceSpan[faceIdx].textureIdx == skipFilterTextureIdx) return true;
 			
 			// Omit filtered texture indices.
 			if (textureFilterIdx != -1 && faceSpan[faceIdx].textureIdx != textureFilterIdx) return true;
@@ -175,8 +178,8 @@ namespace Qodot
 			splitType = SurfaceSplitType.NONE;
 			entityFilterIdx = -1;
 			textureFilterIdx = -1;
-			brushFilterTextureIdx = -1;
-			faceFilterTextureIdx = -1;
+			clipFilterTextureIdx = -1;
+			skipFilterTextureIdx = -1;
 			filterWorldspawnLayers = true;
 		}
 	}

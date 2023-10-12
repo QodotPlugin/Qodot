@@ -750,7 +750,7 @@ func build_entity_collision_shapes() -> void:
 			continue
 		
 		if concave:
-			qodot.GatherEntityConcaveCollisionSurfaces(entity_idx)
+			qodot.GatherEntityConcaveCollisionSurfaces(entity_idx, face_skip_texture)
 		else:
 			qodot.GatherEntityConvexCollisionSurfaces(entity_idx)
 		

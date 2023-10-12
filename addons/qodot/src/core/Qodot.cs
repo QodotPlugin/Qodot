@@ -161,24 +161,24 @@ namespace Qodot
 			return entDicts;
 		}
 
-		public void GatherTextureSurfaces(string texName, string brushFilterTex, string faceFilterTex)
+		public void GatherTextureSurfaces(string texName, string clipFilterTex, string skipFilterTex)
 		{
-			GatherTextureSurfacesInternal(texName, brushFilterTex, faceFilterTex, true);
+			GatherTextureSurfacesInternal(texName, clipFilterTex, skipFilterTex, true);
 		}
 
-		public void GatherWorldspawnLayerSurfaces(string texName, string brushFilterTex, string faceFilterTex)
+		public void GatherWorldspawnLayerSurfaces(string texName, string clipFilterTex, string skipFilterTex)
 		{
-			GatherTextureSurfacesInternal(texName, brushFilterTex, faceFilterTex, false);
+			GatherTextureSurfacesInternal(texName, clipFilterTex, skipFilterTex, false);
 		}
 
-		private void GatherTextureSurfacesInternal(string texName, string brushFilterTex, string faceFilterTex,
+		private void GatherTextureSurfacesInternal(string texName, string clipFilterTex, string skipFilterTex,
 			bool filterLayers)
 		{
 			surfaceGatherer.ResetParams();
 			surfaceGatherer.splitType = SurfaceSplitType.ENTITY;
 			surfaceGatherer.SetTextureFilter(texName);
-			surfaceGatherer.SetBrushFilterTexture(brushFilterTex);
-			surfaceGatherer.SetFaceFilterTexture(faceFilterTex);
+			surfaceGatherer.SetclipFilterTexture(clipFilterTex);
+			surfaceGatherer.SetskipFilterTexture(skipFilterTex);
 			surfaceGatherer.filterWorldspawnLayers = filterLayers;
 			
 			surfaceGatherer.Run();
@@ -189,9 +189,9 @@ namespace Qodot
 			GatherConvexCollisionSurfaces(entityIdx, true);
 		}
 		
-		public void GatherEntityConcaveCollisionSurfaces(int entityIdx)
+		public void GatherEntityConcaveCollisionSurfaces(int entityIdx, string skipFilterTex)
 		{
-			GatherConcaveCollisionSurfaces(entityIdx, true);
+			GatherConcaveCollisionSurfaces(entityIdx, skipFilterTex, true);
 		}
 
 		public void GatherWorldspawnLayerCollisionSurfaces(int entityIdx)
@@ -209,11 +209,12 @@ namespace Qodot
 			surfaceGatherer.Run();
 		}
 		
-		private void GatherConcaveCollisionSurfaces(int entityIdx, bool filterLayers)
+		private void GatherConcaveCollisionSurfaces(int entityIdx, string skipFilterTex, bool filterLayers)
 		{
 			surfaceGatherer.ResetParams();
 			surfaceGatherer.splitType = SurfaceSplitType.NONE;
 			surfaceGatherer.entityFilterIdx = entityIdx;
+			surfaceGatherer.SetskipFilterTexture(skipFilterTex);
 			surfaceGatherer.filterWorldspawnLayers = filterLayers;
 			
 			surfaceGatherer.Run();
