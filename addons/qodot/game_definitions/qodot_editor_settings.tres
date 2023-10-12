@@ -1,0 +1,6 @@
+[gd_resource type="Resource" script_class="QodotEditorSettings" load_steps=2 format=3 uid="uid://lweelxemje8g"]
+
+[ext_resource type="Script" path="res://addons/qodot/src/util/qodot_editor_settings.gd" id="1_7148f"]
+
+[resource]
+script = ExtResource("1_7148f")

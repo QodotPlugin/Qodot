@@ -469,6 +469,22 @@ func build_entity_nodes() -> Array:
 					elif entity_definition.node_class != "":
 						node.queue_free()
 						node = ClassDB.instantiate(entity_definition.node_class)
+					if entity_definition is QodotFGDModelPointClass and 'rotation_degrees' in node and entity_definition.apply_rotation_on_import:
+						var angles := Vector3()
+						if 'angles' in properties or 'mangle' in properties:
+							var key := 'angles' if 'angles' in properties else 'mangle'
+							var angles_raw = properties[key]
+							if not angles_raw is Vector3:
+								angles_raw = angles_raw.split_floats(' ')
+							angles = Vector3(angles_raw[0], angles_raw[1], angles_raw[2])
+						elif 'angle' in properties:
+							var angle = properties['angle']
+							if not angle is float:
+								angle = float(angle)
+							angles.y += angle
+						node.rotation_degrees = (Vector3(angles.y, angles.x + 180, -angles.z) if entity_definition.classname.begins_with('light')
+							else Vector3(-angles.x, angles.y + 180, -angles.z) if entity_definition.classname == 'info_intermission'
+							else Vector3(angles.x, angles.y + 180, -angles.z))
 				if entity_definition.script_class:
 					node.set_script(entity_definition.script_class)
 		

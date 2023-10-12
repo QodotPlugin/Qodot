@@ -42,6 +42,7 @@ func build_class_text() -> String:
 	for ent in entities:
 		if ent.qodot_internal:
 			continue
+		
 		var ent_text = ent.build_def_text()
 		res += ent_text
 		if ent != entities[-1]:

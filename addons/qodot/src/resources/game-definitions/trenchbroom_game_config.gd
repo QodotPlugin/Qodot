@@ -192,7 +192,10 @@ func parse_default_uv_scale(texture_scale : Vector2) -> String:
 
 ## Exports or updates a folder in the /games directory, with an icon, .cfg, and all accompanying FGDs.
 func do_export_file():
-	if trenchbroom_games_folder.is_empty():
+	var folder = trenchbroom_games_folder
+	if folder.is_empty():
+		folder = QodotEditorSettings.get_trenchbroom_game_config_path()
+	if folder.is_empty():
 		print("Skipping export: No TrenchBroom games folder")
 		return
 	# Create config folder name by combining games folder with the game name as a directory
