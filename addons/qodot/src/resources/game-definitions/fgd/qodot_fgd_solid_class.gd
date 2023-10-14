@@ -26,6 +26,14 @@ enum CollisionShapeType {
 @export_group("Collision Build")
 ## Controls how collisions are built for this SolidClass
 @export var collision_shape_type: CollisionShapeType = CollisionShapeType.CONVEX
+## The physics layers this SolidClass is in.
+@export_flags_3d_physics var collision_layer: int = 1
+## The physics layers this SolidClass scans.
+@export_flags_3d_physics var collision_mask: int = 1
+## The priority used to solve colliding when occurring penetration. The higher the priority is, the lower the penetration into the SolidClass will be. This can for example be used to prevent the player from breaking through the boundaries of a level.
+@export var collision_priority: float = 1.0
+## The collision margin for the SolidClass' collision shapes. Not used in Godot Physics. See Shape3D docs for details.
+@export var collision_shape_margin: float = 0.04
 
 @export_group("Scripting")
 ## The script file to associate with this SolidClass
