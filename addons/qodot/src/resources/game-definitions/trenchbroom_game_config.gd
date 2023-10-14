@@ -31,6 +31,9 @@ extends Resource
 ## Scale expression that modifies the default display scale of entities in Trenchbroom. See the [**Trenchbroom Documentation**](https://trenchbroom.github.io/manual/latest/#game_configuration_files_entities) for more information.
 @export var entity_scale: String = "1"
 
+## Scale of textures on new brushes.
+@export var default_uv_scale : Vector2 = Vector2(1, 1)
+
 ## Arrays containing the TrenchbroomTag resource type.
 @export_category("Editor hint tags")
 
@@ -90,7 +93,10 @@ var _base_text: String = """{
 			%s
 		]
 	},
-	"faceattribs": {
+	"faceattribs": { 
+		"defaults": {
+			%s
+		},
 		"surfaceflags": [
 			%s
 		],
@@ -129,13 +135,14 @@ func build_class_text() -> String:
 	var face_tags_str = parse_tags(face_tags)
 	var surface_flags_str = parse_flags(face_attrib_surface_flags)
 	var content_flags_str = parse_flags(face_attrib_content_flags)
-
+	var uv_scale_str = parse_default_uv_scale(default_uv_scale)
 	return _base_text % [
 		game_name,
 		fgd_filename_str,
 		entity_scale,
 		brush_tags_str,
 		face_tags_str,
+		uv_scale_str,
 		surface_flags_str,
 		content_flags_str
 	]
@@ -174,6 +181,14 @@ func parse_flags(flags: Array) -> String:
 		if attrib_flag != flags[-1]:
 			flags_str += ","
 	return flags_str
+
+## Converts default uv scale vector to .cfg String.
+func parse_default_uv_scale(texture_scale : Vector2) -> String:
+	var entry_str = "\"scale\": [{x}, {y}]"
+	return entry_str.format({
+		"x": texture_scale.x,
+		"y": texture_scale.y
+	})
 
 ## Exports or updates a folder in the /games directory, with an icon, .cfg, and all accompanying FGDs.
 func do_export_file():
