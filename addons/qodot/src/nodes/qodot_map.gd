@@ -924,7 +924,7 @@ func build_entity_mesh_instances() -> Dictionary:
 		if classname in entity_definitions:
 			var entity_definition = entity_definitions[classname] as QodotFGDSolidClass
 			if entity_definition:
-				if entity_definition.spawn_type == QodotFGDSolidClass.SpawnType.WORLDSPAWN or entity_definition.spawn_type == QodotFGDSolidClass.SpawnType.GROUP:
+				if entity_definition.use_in_baked_light:
 					use_in_baked_light = true
 				elif '_shadow' in properties:
 					if properties['_shadow'] == "1":
