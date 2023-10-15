@@ -23,7 +23,7 @@ enum CollisionShapeType {
 ## Controls whether a visual mesh is built for this SolidClass
 @export var build_visuals := true
 ## Automatically unwrap the UV2 for lightmapping on build
-@export var unwrap_uv2 := true
+@export var use_in_baked_light := true
 
 @export_group("Collision Build")
 ## Controls how collisions are built for this SolidClass
