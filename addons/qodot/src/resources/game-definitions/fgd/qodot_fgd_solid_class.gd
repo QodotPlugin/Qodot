@@ -25,7 +25,7 @@ enum CollisionShapeType {
 ## Automatically unwrap the UV2 for lightmapping on build
 @export var use_in_baked_light := true
 ## Shadow casting setting allows for further lightmapping customization
-@export var shadow_casting_setting := GeometryInstance3D.SHADOW_CASTING_SETTING_DOUBLE_SIDED
+@export var shadow_casting_setting := GeometryInstance3D.SHADOW_CASTING_SETTING_ON
 
 @export_group("Collision Build")
 ## Controls how collisions are built for this SolidClass
