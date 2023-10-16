@@ -927,6 +927,7 @@ func build_entity_mesh_instances() -> Dictionary:
 	for entity_idx in entity_mesh_dict:
 		var use_in_baked_light = false
 		var shadow_casting_setting := GeometryInstance3D.SHADOW_CASTING_SETTING_DOUBLE_SIDED
+		var render_layers: int = 1
 		
 		var entity_dict := entity_dicts[entity_idx] as Dictionary
 		var properties = entity_dict['properties']
@@ -940,6 +941,7 @@ func build_entity_mesh_instances() -> Dictionary:
 					if properties['_shadow'] == "1":
 						use_in_baked_light = true
 				shadow_casting_setting = entity_definition.shadow_casting_setting
+				render_layers = entity_definition.render_layers
 		
 		var mesh := entity_mesh_dict[entity_idx] as Mesh
 		
@@ -950,6 +952,7 @@ func build_entity_mesh_instances() -> Dictionary:
 		mesh_instance.name = 'entity_%s_mesh_instance' % entity_idx
 		mesh_instance.gi_mode = MeshInstance3D.GI_MODE_STATIC if use_in_baked_light else GeometryInstance3D.GI_MODE_DYNAMIC
 		mesh_instance.cast_shadow = shadow_casting_setting
+		mesh_instance.layers = render_layers
 		
 		queue_add_child(entity_nodes[entity_idx], mesh_instance)
 		
