@@ -654,6 +654,11 @@ func build_entity_collision_shape_nodes() -> Array:
 					if entity_definition.spawn_type == QodotFGDSolidClass.SpawnType.MERGE_WORLDSPAWN:
 						# TODO: Find the worldspawn object instead of assuming index 0
 						node = entity_nodes[0] as Node
+
+					if node and node is CollisionObject3D:
+						(node as CollisionObject3D).collision_layer = entity_definition.collision_layer
+						(node as CollisionObject3D).collision_mask = entity_definition.collision_mask
+						(node as CollisionObject3D).collision_priority = entity_definition.collision_priority
 		
 		# don't create collision shapes that wont be attached to a CollisionObject3D as they are a waste
 		if not node or (not node is CollisionObject3D):
@@ -731,7 +736,8 @@ func build_entity_collision_shapes() -> void:
 		if entity_collision_shape == null:
 			continue
 		
-		var concave = false
+		var concave: bool = false
+		var shape_margin: float = 0.04
 		
 		if 'classname' in properties:
 			var classname = properties['classname']
@@ -745,6 +751,7 @@ func build_entity_collision_shapes() -> void:
 							concave = false
 						QodotFGDSolidClass.CollisionShapeType.CONCAVE:
 							concave = true
+					shape_margin = entity_definition.collision_shape_margin
 		
 		if entity_collision_shapes[entity_idx] == null:
 			continue
@@ -777,6 +784,7 @@ func build_entity_collision_shapes() -> void:
 				
 				var shape = ConvexPolygonShape3D.new()
 				shape.set_points(shape_points)
+				shape.margin = shape_margin
 				
 				var collision_shape = entity_collision_shape[surface_idx]
 				collision_shape.set_shape(shape)
@@ -787,6 +795,7 @@ func build_entity_collision_shapes() -> void:
 			
 			var shape = ConcavePolygonShape3D.new()
 			shape.set_faces(entity_verts)
+			shape.margin = shape_margin
 			
 			var collision_shape = entity_collision_shapes[entity_idx][0]
 			collision_shape.set_shape(shape)
