@@ -60,7 +60,7 @@ var _fgd_filenames : Array = []
 var _base_text: String = """{
 	version: 3,
 	name: "%s",
-	icon: "Icon.png",
+	icon: "icon.png",
 	"fileformats": [
 		{ "format": "Standard", "initialmap": "initial_standard.map" },
 		{ "format": "Valve", "initialmap": "initial_valve.map" },
