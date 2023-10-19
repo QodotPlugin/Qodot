@@ -5,14 +5,14 @@ extends Resource
 var trenchbroom_game_config_path: String:
     get: 
         _try_loading()
-        return settings_dict[trenchbroom_game_config_key]
+        return settings_dict.get(trenchbroom_game_config_key, '')
     set(val):
         settings_dict[trenchbroom_game_config_key] = val
         _save_settings()
 var trenchbroom_project_path: String:
     get: 
         _try_loading()
-        return settings_dict[trenchbroom_project_setting_key]
+        return settings_dict.get(trenchbroom_project_setting_key, '')
     set(val):
         settings_dict[trenchbroom_project_setting_key] = val
         _save_settings()
@@ -57,9 +57,9 @@ func _load_settings() -> void:
     loaded = true
     var path = _get_path()
     var settings = FileAccess.get_file_as_string(path)
-    settings = JSON.parse_string(settings)
-
     settings_dict = {}
+    if not settings or settings.is_empty(): return
+    settings = JSON.parse_string(settings)
     for key in settings.keys():
         settings_dict[key] = settings[key]
     print("Loaded settings from ", path)
