@@ -4,7 +4,8 @@ extends QodotFGDPointClass
 
 ## Optional - if empty, will use the game dir provided when exported.
 @export_global_dir var trenchbroom_game_dir = ""
-@export var model_export_dir := "trenchbroom/export"
+## Display model export folder. Optional - if empty, will use the settings from the project config
+@export var trenchbroom_models_folder := ""
 ## Scale expression applied to model in Trenchbroom. See https://trenchbroom.github.io/manual/latest/#display-models-for-entities for more info.
 @export var scale_expression := ""
 @export var generate_bounding_box := true
@@ -47,13 +48,22 @@ func _get_node() -> Node3D:
 
 
 func _get_export_dir() -> String:
-	var tb_game_dir = QodotEditorSettings.get_trenchbroom_project_path() if trenchbroom_game_dir.is_empty() else trenchbroom_game_dir
-	var export_dir = model_export_dir
+	var tb_game_dir = _get_working_dir()
+	var export_dir = _get_model_folder()
 	return tb_game_dir.path_join(export_dir).path_join('%s.glb' % classname)
 
 func _get_local_path() -> String:
-	var export_dir = model_export_dir
-	return export_dir.path_join('%s.glb' % classname)
+	return _get_model_folder().path_join('%s.glb' % classname)
+
+func _get_model_folder() -> String:
+	return (QodotProjectConfig.get_setting(QodotProjectConfig.PROPERTY.TRENCHBROOM_MODELS_FOLDER) 
+		if trenchbroom_models_folder.is_empty() 
+		else trenchbroom_models_folder)
+
+func _get_working_dir() -> String:
+	return (QodotProjectConfig.get_setting(QodotProjectConfig.PROPERTY.TRENCHBROOM_WORKING_FOLDER)
+		if trenchbroom_game_dir.is_empty()
+		else trenchbroom_game_dir)
 
 func _create_gltf_file(gltf_state: GLTFState, path: String, node: Node3D, create_ignore_files: bool) -> bool:
 	var error := 0 
