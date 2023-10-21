@@ -3,10 +3,9 @@ class_name QodotProjectConfig
 extends Resource
 
 enum PROPERTY {
-	NONE = 0,
-	TRENCHBROOM_GAMES_FOLDER = 1,
-	TRENCHBROOM_WORKING_FOLDER = 2,
-	TRENCHBROOM_MODELS_FOLDER = 3
+	TRENCHBROOM_GAMES_FOLDER = 0,
+	TRENCHBROOM_WORKING_FOLDER = 1,
+	TRENCHBROOM_MODELS_FOLDER = 2
 }
 
 @export var export_qodot_settings: bool: set = _save_settings
@@ -68,7 +67,7 @@ func _get_default_value(type):
 	return null
 
 func _get_config_property(name: StringName) -> Variant:
-	for config in CONFIG_PROPERTIES.duplicate():
+	for config in CONFIG_PROPERTIES:
 		if config['name'] == name: 
 			return config
 	return null
@@ -83,7 +82,6 @@ func _load_settings() -> void:
 	settings = JSON.parse_string(settings)
 	for key in settings.keys():
 		settings_dict[key] = settings[key]
-	print("Loaded settings from ", path)
 	notify_property_list_changed()
 
 func _try_loading() -> void:
