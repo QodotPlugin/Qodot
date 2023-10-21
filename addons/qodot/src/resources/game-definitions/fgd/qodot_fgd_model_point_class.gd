@@ -2,18 +2,25 @@
 class_name QodotFGDModelPointClass
 extends QodotFGDPointClass
 
-## Optional - if empty, will use the game dir provided when exported.
-@export_global_dir var trenchbroom_game_dir = ""
-## Display model export folder. Optional - if empty, will use the settings from the project config
+## The game's working path set in Trenchbroom. Optional - if empty, this entity will use the working folder set by QodotProjectConfig.
+@export_global_dir var trenchbroom_working_folder = ""
+## Display model export folder within your Trenchbroom working folder. Optional - if empty, this entity will use the model folder set by QodotProjectConfig.
 @export var trenchbroom_models_folder := ""
 ## Scale expression applied to model in Trenchbroom. See https://trenchbroom.github.io/manual/latest/#display-models-for-entities for more info.
 @export var scale_expression := ""
-@export var generate_bounding_box := true
-@export var apply_rotation_on_import := true
+## Model Point Class can override the 'size' meta property by auto-generating a value from the meshes' AABB. Proper generation requires 'scale_expression' set to a float or Vector3.
+## WARNING: Generated size property unlikely to align cleanly to grid!
+@export var generate_size_property := false
+## Entity will use `angles`, `mangle`, or `angle` to determine rotations on QodotMap build, prioritizing the key value pairs in that order.
+@export var apply_rotation_on_map_build := true
+## Will auto-generate a .gdignore file in the model export folder to prevent Godot from importing the display models.
+## Only needs to be generated once and will reset itself on FGD export, so you don't have to track down the right resource if you want to reverse it.
 @export var generate_gd_ignore_file := false
+
 func build_def_text() -> String:
 	_generate_model()
 	return super()
+	generate_gd_ignore_file = false
 
 func _generate_model():
 	if not scene_file:
@@ -36,8 +43,8 @@ func _generate_model():
 			_get_local_path(), 
 			scale_expression
 		]
-	if generate_bounding_box:
-		meta_properties[size_key] = _get_bounding_box(gltf_state.meshes)
+	if generate_size_property:
+		meta_properties[size_key] = _generate_size_from_aabb(gltf_state.meshes)
 
 func _get_node() -> Node3D:
 	var node := scene_file.instantiate()
@@ -46,11 +53,10 @@ func _get_node() -> Node3D:
 	printerr("Scene is not of type 'Node3D'")
 	return null
 
-
 func _get_export_dir() -> String:
-	var tb_game_dir = _get_working_dir()
-	var export_dir = _get_model_folder()
-	return tb_game_dir.path_join(export_dir).path_join('%s.glb' % classname)
+	var tb_work_dir = _get_working_folder()
+	var model_dir = _get_model_folder()
+	return tb_work_dir.path_join(model_dir).path_join('%s.glb' % classname)
 
 func _get_local_path() -> String:
 	return _get_model_folder().path_join('%s.glb' % classname)
@@ -60,10 +66,10 @@ func _get_model_folder() -> String:
 		if trenchbroom_models_folder.is_empty() 
 		else trenchbroom_models_folder)
 
-func _get_working_dir() -> String:
+func _get_working_folder() -> String:
 	return (QodotProjectConfig.get_setting(QodotProjectConfig.PROPERTY.TRENCHBROOM_WORKING_FOLDER)
-		if trenchbroom_game_dir.is_empty()
-		else trenchbroom_game_dir)
+		if trenchbroom_working_folder.is_empty()
+		else trenchbroom_working_folder)
 
 func _create_gltf_file(gltf_state: GLTFState, path: String, node: Node3D, create_ignore_files: bool) -> bool:
 	var error := 0 
@@ -104,8 +110,31 @@ func _create_ignore_files(path: String):
 	fileAccess.store_string('')
 	fileAccess.close()
 
-func _get_bounding_box(meshes: Array[GLTFMesh]) -> AABB:
+func _generate_size_from_aabb(meshes: Array[GLTFMesh]) -> AABB:
 	var aabb := AABB()
 	for mesh in meshes:
-		aabb.merge(mesh.mesh.get_mesh().get_aabb())
-	return aabb
+		aabb = aabb.merge(mesh.mesh.get_mesh().get_aabb())
+
+	# Reorient the AABB so it matches TrenchBroom's coordinate system
+	var size_prop := AABB()
+	size_prop.position = Vector3(aabb.position.z, aabb.position.x, aabb.position.y)
+	size_prop.size = Vector3(aabb.size.z, aabb.size.x, aabb.size.y)
+
+	# Scale the size bounds to our scale factor
+	# Scale factor will need to be set if we decide to auto-generate our bounds
+	var scale_factor: Vector3 = Vector3.ONE
+	if scale_expression.begins_with('\''):
+		var scale_arr := scale_expression.split_floats(' ', false)
+		if scale_arr.size() == 3:
+			scale_factor *= Vector3(scale_arr[0], scale_arr[1], scale_arr[2])
+	elif scale_expression.to_float() > 0:
+		scale_factor *= scale_expression.to_float()
+	
+	size_prop.position *= scale_factor
+	size_prop.size *= scale_factor
+	size_prop.size += size_prop.position
+	## Round the size so it can stay on grid level 1 at least
+	for i in 3:
+		size_prop.position[i] = round(size_prop.position[i])
+		size_prop.size[i] = round(size_prop.size[i])
+	return size_prop
