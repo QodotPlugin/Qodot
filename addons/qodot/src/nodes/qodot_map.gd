@@ -480,7 +480,7 @@ func build_entity_nodes() -> Array:
 			if origin_comps.size() > 2:
 				origin_vec = Vector3(origin_comps[1], origin_comps[2], origin_comps[0])
 			else:
-				push_error("Invalid vector format for \'origin\' in " + node.name + ": " + prop_string)
+				push_error("Invalid vector format for \'origin\' in " + node.name)
 			if "position" in node:
 				if node.position is Vector3:
 					node.position = origin_vec / inverse_scale_factor
