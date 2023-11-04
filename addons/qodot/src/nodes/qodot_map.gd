@@ -475,8 +475,12 @@ func build_entity_nodes() -> Array:
 		node.name = node_name
 		
 		if 'origin' in properties:
-			var origin_comps = properties['origin'].split(' ')
-			var origin_vec = Vector3(origin_comps[1].to_float(), origin_comps[2].to_float(), origin_comps[0].to_float())
+			var origin_vec = Vector3.ZERO
+			var origin_comps = properties['origin'].split_floats(' ')
+			if origin_comps.size() > 2:
+				origin_vec = Vector3(origin_comps[1], origin_comps[2], origin_comps[0])
+			else:
+				push_error("Invalid vector format for \'origin\' in " + node.name)
 			if "position" in node:
 				if node.position is Vector3:
 					node.position = origin_vec / inverse_scale_factor
@@ -1086,20 +1090,26 @@ func apply_properties() -> void:
 						elif prop_default is float:
 							properties[property] = prop_string.to_float()
 						elif prop_default is Vector3:
-							var prop_comps = prop_string.split(" ")
-							properties[property] = Vector3(prop_comps[0].to_float(), prop_comps[1].to_float(), prop_comps[2].to_float())
-						elif prop_default is Color:
-							var prop_comps = prop_string.split(" ")
-							var prop_color = Color()
-							
-							if "." in prop_comps[0] or "." in prop_comps[1] or "." in prop_comps[2]:
-								prop_color.r = prop_comps[0].to_float()
-								prop_color.g = prop_comps[1].to_float()
-								prop_color.b = prop_comps[2].to_float()
+							var prop_comps = prop_string.split_floats(" ")
+							if prop_comps.size() > 2:
+								properties[property] = Vector3(prop_comps[0], prop_comps[1], prop_comps[2])
 							else:
-								prop_color.r8 = prop_comps[0].to_int()
-								prop_color.g8 = prop_comps[1].to_int()
-								prop_color.b8 = prop_comps[2].to_int()
+								push_error("Invalid vector format for \'" + property + "\' in entity \'" + classname + "\': " + prop_string)
+								properties[property] = prop_default
+						elif prop_default is Color:
+							var prop_color = prop_default
+							var prop_comps = prop_string.split(" ")
+							if prop_comps.size() > 2:
+								if "." in prop_comps[0] or "." in prop_comps[1] or "." in prop_comps[2]:
+									prop_color.r = prop_comps[0].to_float()
+									prop_color.g = prop_comps[1].to_float()
+									prop_color.b = prop_comps[2].to_float()
+								else:
+									prop_color.r8 = prop_comps[0].to_int()
+									prop_color.g8 = prop_comps[1].to_int()
+									prop_color.b8 = prop_comps[2].to_int()
+							else:
+								push_error("Invalid color format for \'" + property + "\' in entity \'" + classname + "\': " + prop_string)
 								
 							properties[property] = prop_color
 						elif prop_default is Dictionary:
@@ -1115,7 +1125,7 @@ func apply_properties() -> void:
 						if prop_default is Array:
 							var prop_flags_sum := 0
 							for prop_flag in prop_default:
-								if prop_flag is Array and prop_flag.size() == 3:
+								if prop_flag is Array and prop_flag.size() > 2:
 									if prop_flag[2] and prop_flag[1] is int:
 										prop_flags_sum += prop_flag[1]
 							properties[property] = prop_flags_sum
