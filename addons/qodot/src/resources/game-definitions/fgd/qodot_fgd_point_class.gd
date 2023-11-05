@@ -15,3 +15,7 @@ func _init():
 # via this classname if no scene_file is specified
 @export_group ("Scripting")
 @export var script_class: Script
+
+@export_group("Build")
+## Entity will use `angles`, `mangle`, or `angle` to determine rotations on QodotMap build, prioritizing the key value pairs in that order.
+@export var apply_rotation_on_map_build := true
