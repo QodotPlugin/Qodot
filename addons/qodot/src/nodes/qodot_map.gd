@@ -469,7 +469,7 @@ func build_entity_nodes() -> Array:
 					elif entity_definition.node_class != "":
 						node.queue_free()
 						node = ClassDB.instantiate(entity_definition.node_class)
-					if entity_definition is QodotFGDModelPointClass and 'rotation_degrees' in node and entity_definition.apply_rotation_on_map_build:
+					if 'rotation_degrees' in node and entity_definition.apply_rotation_on_map_build:
 						var angles := Vector3()
 						if 'angles' in properties or 'mangle' in properties:
 							var key := 'angles' if 'angles' in properties else 'mangle'
