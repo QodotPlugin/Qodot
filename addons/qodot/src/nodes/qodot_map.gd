@@ -491,8 +491,12 @@ func build_entity_nodes() -> Array:
 		node.name = node_name
 		
 		if 'origin' in properties:
-			var origin_comps = properties['origin'].split(' ')
-			var origin_vec = Vector3(origin_comps[1].to_float(), origin_comps[2].to_float(), origin_comps[0].to_float())
+			var origin_vec = Vector3.ZERO
+			var origin_comps = properties['origin'].split_floats(' ')
+			if origin_comps.size() > 2:
+				origin_vec = Vector3(origin_comps[1], origin_comps[2], origin_comps[0])
+			else:
+				push_error("Invalid vector format for \'origin\' in " + node.name)
 			if "position" in node:
 				if node.position is Vector3:
 					node.position = origin_vec / inverse_scale_factor
@@ -942,6 +946,8 @@ func build_entity_mesh_instances() -> Dictionary:
 	var entity_mesh_instances := {}
 	for entity_idx in entity_mesh_dict:
 		var use_in_baked_light = false
+		var shadow_casting_setting := GeometryInstance3D.SHADOW_CASTING_SETTING_DOUBLE_SIDED
+		var render_layers: int = 1
 		
 		var entity_dict := entity_dicts[entity_idx] as Dictionary
 		var properties = entity_dict['properties']
@@ -949,11 +955,13 @@ func build_entity_mesh_instances() -> Dictionary:
 		if classname in entity_definitions:
 			var entity_definition = entity_definitions[classname] as QodotFGDSolidClass
 			if entity_definition:
-				if entity_definition.spawn_type == QodotFGDSolidClass.SpawnType.WORLDSPAWN or entity_definition.spawn_type == QodotFGDSolidClass.SpawnType.GROUP:
+				if entity_definition.use_in_baked_light:
 					use_in_baked_light = true
 				elif '_shadow' in properties:
 					if properties['_shadow'] == "1":
 						use_in_baked_light = true
+				shadow_casting_setting = entity_definition.shadow_casting_setting
+				render_layers = entity_definition.render_layers
 		
 		var mesh := entity_mesh_dict[entity_idx] as Mesh
 		
@@ -963,6 +971,8 @@ func build_entity_mesh_instances() -> Dictionary:
 		var mesh_instance := MeshInstance3D.new()
 		mesh_instance.name = 'entity_%s_mesh_instance' % entity_idx
 		mesh_instance.gi_mode = MeshInstance3D.GI_MODE_STATIC if use_in_baked_light else GeometryInstance3D.GI_MODE_DYNAMIC
+		mesh_instance.cast_shadow = shadow_casting_setting
+		mesh_instance.layers = render_layers
 		
 		queue_add_child(entity_nodes[entity_idx], mesh_instance)
 		
@@ -1096,20 +1106,26 @@ func apply_properties() -> void:
 						elif prop_default is float:
 							properties[property] = prop_string.to_float()
 						elif prop_default is Vector3:
-							var prop_comps = prop_string.split(" ")
-							properties[property] = Vector3(prop_comps[0].to_float(), prop_comps[1].to_float(), prop_comps[2].to_float())
-						elif prop_default is Color:
-							var prop_comps = prop_string.split(" ")
-							var prop_color = Color()
-							
-							if "." in prop_comps[0] or "." in prop_comps[1] or "." in prop_comps[2]:
-								prop_color.r = prop_comps[0].to_float()
-								prop_color.g = prop_comps[1].to_float()
-								prop_color.b = prop_comps[2].to_float()
+							var prop_comps = prop_string.split_floats(" ")
+							if prop_comps.size() > 2:
+								properties[property] = Vector3(prop_comps[0], prop_comps[1], prop_comps[2])
 							else:
-								prop_color.r8 = prop_comps[0].to_int()
-								prop_color.g8 = prop_comps[1].to_int()
-								prop_color.b8 = prop_comps[2].to_int()
+								push_error("Invalid vector format for \'" + property + "\' in entity \'" + classname + "\': " + prop_string)
+								properties[property] = prop_default
+						elif prop_default is Color:
+							var prop_color = prop_default
+							var prop_comps = prop_string.split(" ")
+							if prop_comps.size() > 2:
+								if "." in prop_comps[0] or "." in prop_comps[1] or "." in prop_comps[2]:
+									prop_color.r = prop_comps[0].to_float()
+									prop_color.g = prop_comps[1].to_float()
+									prop_color.b = prop_comps[2].to_float()
+								else:
+									prop_color.r8 = prop_comps[0].to_int()
+									prop_color.g8 = prop_comps[1].to_int()
+									prop_color.b8 = prop_comps[2].to_int()
+							else:
+								push_error("Invalid color format for \'" + property + "\' in entity \'" + classname + "\': " + prop_string)
 								
 							properties[property] = prop_color
 						elif prop_default is Dictionary:
@@ -1125,7 +1141,7 @@ func apply_properties() -> void:
 						if prop_default is Array:
 							var prop_flags_sum := 0
 							for prop_flag in prop_default:
-								if prop_flag is Array and prop_flag.size() == 3:
+								if prop_flag is Array and prop_flag.size() > 2:
 									if prop_flag[2] and prop_flag[1] is int:
 										prop_flags_sum += prop_flag[1]
 							properties[property] = prop_flags_sum
