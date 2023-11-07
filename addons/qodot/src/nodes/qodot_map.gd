@@ -477,12 +477,12 @@ func build_entity_nodes() -> Array:
 							if not angles_raw is Vector3:
 								angles_raw = angles_raw.split_floats(' ')
 							if angles_raw.size() > 2:
-								angles = Vector3(angles_raw[0], angles_raw[1], -angles_raw[2])
+								angles = Vector3(-angles_raw[0], angles_raw[1], -angles_raw[2])
 								if key == 'mangle':
 									if entity_definition.classname.begins_with('light'):
 										angles = Vector3(angles_raw[1], angles_raw[0], -angles_raw[2])
 									elif entity_definition.classname == 'info_intermission':
-										angles = Vector3(-angles_raw[0], angles_raw[1], -angles_raw[2])
+										angles = Vector3(angles_raw[0], angles_raw[1], -angles_raw[2])
 							else:
 								push_error("Invalid vector format for \'" + key + "\' in entity \'" + classname + "\'")
 						elif 'angle' in properties:
