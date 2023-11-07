@@ -469,6 +469,29 @@ func build_entity_nodes() -> Array:
 					elif entity_definition.node_class != "":
 						node.queue_free()
 						node = ClassDB.instantiate(entity_definition.node_class)
+					if 'rotation_degrees' in node and entity_definition.apply_rotation_on_map_build:
+						var angles := Vector3.ZERO
+						if 'angles' in properties or 'mangle' in properties:
+							var key := 'angles' if 'angles' in properties else 'mangle'
+							var angles_raw = properties[key]
+							if not angles_raw is Vector3:
+								angles_raw = angles_raw.split_floats(' ')
+							if angles_raw.size() > 2:
+								angles = Vector3(-angles_raw[0], angles_raw[1], -angles_raw[2])
+								if key == 'mangle':
+									if entity_definition.classname.begins_with('light'):
+										angles = Vector3(angles_raw[1], angles_raw[0], -angles_raw[2])
+									elif entity_definition.classname == 'info_intermission':
+										angles = Vector3(angles_raw[0], angles_raw[1], -angles_raw[2])
+							else:
+								push_error("Invalid vector format for \'" + key + "\' in entity \'" + classname + "\'")
+						elif 'angle' in properties:
+							var angle = properties['angle']
+							if not angle is float:
+								angle = float(angle)
+							angles.y += angle
+						angles.y += 180
+						node.rotation_degrees = angles
 				if entity_definition.script_class:
 					node.set_script(entity_definition.script_class)
 		
