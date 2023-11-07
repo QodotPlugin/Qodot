@@ -11,8 +11,7 @@ extends QodotFGDPointClass
 ## Model Point Class can override the 'size' meta property by auto-generating a value from the meshes' AABB. Proper generation requires 'scale_expression' set to a float or Vector3.
 ## WARNING: Generated size property unlikely to align cleanly to grid!
 @export var generate_size_property := false
-## Will auto-generate a .gdignore file in the model export folder to prevent Godot from importing the display models.
-## Only needs to be generated once and will reset itself on FGD export, so you don't have to track down the right resource if you want to reverse it.
+## Will auto-generate a .gdignore file in the model export folder to prevent Godot from importing the display models. Only needs to be generated once.
 @export var generate_gd_ignore_file := false
 
 func build_def_text() -> String:
