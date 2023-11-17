@@ -112,7 +112,7 @@ func load_texture(texture_name: String) -> Texture2D:
 
 func create_materials(texture_list: Array, material_extension: String, default_material: Material, default_material_albedo_uniform: String) -> Dictionary:
 	var texture_materials := {}
-	prints("TEXLI", texture_list)
+	# prints("TEXLI", texture_list)
 	for texture in texture_list:
 		texture_materials[texture] = create_material(
 			texture,
