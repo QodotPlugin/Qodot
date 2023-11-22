@@ -47,13 +47,13 @@ func _get_import_options(path, preset) -> Array[Dictionary]:
 func _get_preset_count() -> int:
 	return 0
 	
-func _get_import_order():
+func _get_import_order() -> int:
 	return 0
 	
 func _get_priority() -> float:
 	return 1.0
 	
-func _import(source_file, save_path, options, r_platform_variants, r_gen_files) -> int:
+func _import(source_file, save_path, options, r_platform_variants, r_gen_files) -> Error:
 	var save_path_str : String = '%s.%s' % [save_path, _get_save_extension()]
 
 	var file = FileAccess.open(source_file, FileAccess.READ)
