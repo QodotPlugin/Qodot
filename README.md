@@ -2,27 +2,9 @@
 
 Quake *.map* file support for Godot 4.x. **For the original Godot 3.x plugin, see [Qodot-Plugin](https://github.com/QodotPlugin/qodot-plugin/).**
 
-# Before you enable Qodot
-
-1. [Use Godot Engine .NET / mono build](https://godotengine.org/download/). **You can still use GDScript with .NET build.**
-![godot_dl](https://github.com/QodotPlugin/Qodot/assets/47726614/7a831e4b-dc85-43d5-bb70-e4369d7650da)
-2. [Download 7.0 .NET SDK](https://dotnet.microsoft.com/en-us/download) and run the 7.0 SDK installer.
-![dotnet_dl](https://github.com/QodotPlugin/Qodot/assets/47726614/18d82487-c66b-47d8-83fc-bc7322720d85)
-3. In your Godot Project, go to Project > Tools > C# > Create C# Solution.
-![csharpsol](https://github.com/QodotPlugin/Qodot/assets/47726614/6f6f71f7-0db0-4ae9-9acb-81827706675b)
-4. Build your C# scripts by pressing <kbd>Alt</kbd> + <kbd>B</kbd>, or click the square *Build* button in the top-right corner.
-![image](https://github.com/QodotPlugin/Qodot/assets/47726614/af88e7a0-a6da-43dd-bc8f-50b6877a799a)
-5. Go to Project > Project Settings > Plugins, then enable Qodot.
-
-If plugin errors appear when you enable the plugin, restart the engine first. If any plugin errors persist after a restart, please [make an issue](https://github.com/QodotPlugin/Qodot/issues/new).
-
-To bring back the "Full Build" toolbar, press <kbd>Alt</kbd> + <kbd>B</kbd> and re-select your QodotMap node.
-
 # About this version
 
-Latest Tested Engine Version: **4.1.1.stable.mono**
-
-This is a port of Qodot to Godot 4.x. It requires the .NET build of Godot to import maps correctly. Games can still be exported with the standard editor/export templates.
+Latest Tested Engine Version: **4.2 rc1**
 
 Unlike [Qodot-plugin](https://github.com/QodotPlugin/qodot-plugin/), this [Qodot](https://github.com/QodotPlugin/Qodot/) repository is currently the official version of the plugin and where active development continues. You can also find the plugin on Godot's Asset Library.
 
@@ -90,7 +72,7 @@ Enter the traditional level editor: Simple tools built for games like Doom, Quak
 
 [Josh "Shifty" Palmer](https://twitter.com/ShiftyAxel) - Original Qodot plugin
 
-[Hannah "EMBYR" Crawford](https://embyr.sh/) - Godot 4.x & C# port & maintainance
+[Hannah "EMBYR" Crawford](https://embyr.sh/) - Godot 4.x & ~C#~ GDScript port & maintainance
 
 [Emberlynn Bland](https://github.com/deertears/) - Starting the docs & community support & maintenance
 
