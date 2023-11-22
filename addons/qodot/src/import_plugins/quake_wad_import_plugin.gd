@@ -1,6 +1,5 @@
 @tool
-class_name QuakeWadImportPlugin
-extends EditorImportPlugin
+class_name QuakeWadImportPlugin extends EditorImportPlugin
 
 enum WadEntryType {
 	Palette = 0x40,

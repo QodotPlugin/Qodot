@@ -1,6 +1,6 @@
 class_name QodotSurfaceGatherer extends RefCounted
 
-var map_data: QodotMapParser.MapData
+var map_data: QodotMapData
 var split_type: SurfaceSplitType = SurfaceSplitType.NONE
 var entity_filter_idx: int = -1
 var texture_filter_idx: int = -1
@@ -8,9 +8,9 @@ var clip_filter_texture_idx: int
 var skip_filter_texture_idx: int
 var filter_worldspawn_layers: bool
 
-var out_surfaces: Array[QodotMapParser.FaceGeometry]
+var out_surfaces: Array[QodotMapData.FaceGeometry]
 
-func _init(in_map_data: QodotMapParser.MapData) -> void:
+func _init(in_map_data: QodotMapData) -> void:
 	map_data = in_map_data
 
 func set_texture_filter(texture_name: String) -> void:
@@ -74,7 +74,7 @@ func run() -> void:
 	out_surfaces.clear()
 	
 	var index_offset: int = 0
-	var surf: QodotMapParser.FaceGeometry
+	var surf: QodotMapData.FaceGeometry
 	
 	if split_type == SurfaceSplitType.NONE:
 		surf = add_surface()
@@ -88,7 +88,7 @@ func run() -> void:
 			continue
 			
 		if split_type == SurfaceSplitType.ENTITY:
-			if entity.spawn_type == QodotMapParser.EntitySpawnType.MERGE_WORLDSPAWN:
+			if entity.spawn_type == QodotMapData.EntitySpawnType.MERGE_WORLDSPAWN:
 				add_surface()
 				surf = out_surfaces[0]
 				index_offset = surf.vertices.size()
@@ -116,8 +116,8 @@ func run() -> void:
 				for v in range(face_geo.vertices.size()):
 					var vert:= face_geo.vertices[v].duplicate()
 					
-					if 	entity.spawn_type == QodotMapParser.EntitySpawnType.ENTITY or\
-						entity.spawn_type == QodotMapParser.EntitySpawnType.GROUP:
+					if 	entity.spawn_type == QodotMapData.EntitySpawnType.ENTITY or\
+						entity.spawn_type == QodotMapData.EntitySpawnType.GROUP:
 						vert.vertex -= entity.center
 						
 					surf.vertices.append(vert)
@@ -127,8 +127,8 @@ func run() -> void:
 				
 				index_offset += face_geo.vertices.size()
 
-func add_surface() -> QodotMapParser.FaceGeometry:
-	var surf:= QodotMapParser.FaceGeometry.new()
+func add_surface() -> QodotMapData.FaceGeometry:
+	var surf:= QodotMapData.FaceGeometry.new()
 	out_surfaces.append(surf)
 	return surf
 

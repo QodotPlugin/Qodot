@@ -16,8 +16,6 @@ extends QodotNode3D
 const DEBUG := false
 ## How long to wait between child/owner batches
 const YIELD_DURATION := 0.0
-## Unused
-const YIELD_SIGNAL := "timeout"
 
 ## Emitted when the build process successfully completes
 signal build_complete()
@@ -176,6 +174,7 @@ func reset_build_context():
 	
 	if qodot:
 		qodot = load("res://addons/qodot/src/core/qodot.gd").new()
+		
 ## Record the start time of a build step for profiling
 func start_profile(item_name: String) -> void:
 	if print_profiling_data:

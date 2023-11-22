@@ -1,6 +1,6 @@
 class_name Qodot extends RefCounted
 
-var map_data:= QodotMapParser.MapData.new()
+var map_data:= QodotMapData.new()
 var map_parser:= QodotMapParser.new(map_data)
 var geo_generator = preload("res://addons/qodot/src/core/qodot_geo_generator.gd").new(map_data)
 var surface_gatherer:= QodotSurfaceGatherer.new(map_data)
@@ -21,8 +21,8 @@ func get_texture_list() -> PackedStringArray:
 func set_entity_definitions(entity_defs: Dictionary) -> void:
 	for i in range(entity_defs.size()):
 		var key: String = entity_defs.keys()[i]
-		var val: int = entity_defs.values()[i].get("spawn_type", QodotMapParser.EntitySpawnType.ENTITY)
-		map_data.set_spawn_type_by_classname(key, val as QodotMapParser.EntitySpawnType)
+		var val: int = entity_defs.values()[i].get("spawn_type", QodotMapData.EntitySpawnType.ENTITY)
+		map_data.set_spawn_type_by_classname(key, val as QodotMapData.EntitySpawnType)
 
 func set_worldspawn_layers(worldspawn_layers: Array) -> void:
 	for layer in worldspawn_layers:

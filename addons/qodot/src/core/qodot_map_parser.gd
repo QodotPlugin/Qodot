@@ -10,19 +10,19 @@ var prop_key: String = ""
 var current_property: String = ""
 var valve_uvs: bool = false
 
-var current_face: Face
-var current_brush: Brush
-var current_entity: Entity
+var current_face: QodotMapData.Face
+var current_brush: QodotMapData.Brush
+var current_entity: QodotMapData.Entity
 
-var map_data: MapData
+var map_data: QodotMapData
 
-func _init(in_map_data: MapData) -> void:
+func _init(in_map_data: QodotMapData) -> void:
 	map_data = in_map_data
 
 func load(map_file: String) -> bool:
-	current_face = Face.new()
-	current_brush = Brush.new()
-	current_entity = Entity.new()
+	current_face = QodotMapData.Face.new()
+	current_brush = QodotMapData.Brush.new()
+	current_entity = QodotMapData.Entity.new()
 	
 	scope = ParseScope.FILE
 	comment = false
@@ -36,17 +36,18 @@ func load(map_file: String) -> bool:
 	if map == null:
 		printerr("Error: Failed to open map file (" + map_file + ")")
 		return false
-		
+	
 	while not map.eof_reached():
 		var line: String = map.get_line()
-		newline()
+		if comment:
+			comment = false
 		
-		var tokens: Array[String] = split_string(line, [" ", "\t"], true)
+		var tokens := split_string(line, [" ", "\t"], true)
 		for s in tokens:
 			token(s)
 	
 	return true
-		
+
 func split_string(s: String, delimeters: Array[String], allow_empty: bool = true) -> Array[String]:
 	var parts: Array[String] = []
 	
@@ -254,17 +255,17 @@ func token(buf_str: String) -> void:
 			set_scope(ParseScope.BRUSH)
 				
 func commit_entity() -> void:
-	var new_entity:= Entity.new()
-	new_entity.spawn_type = EntitySpawnType.ENTITY
+	var new_entity:= QodotMapData.Entity.new()
+	new_entity.spawn_type = QodotMapData.EntitySpawnType.ENTITY
 	new_entity.properties = current_entity.properties
 	new_entity.brushes = current_entity.brushes
 	
 	map_data.entities.append(new_entity)
-	current_entity = Entity.new()
+	current_entity = QodotMapData.Entity.new()
 	
 func commit_brush() -> void:
 	current_entity.brushes.append(current_brush)
-	current_brush = Brush.new()
+	current_brush = QodotMapData.Brush.new()
 	
 func commit_face() -> void:
 	var v0v1: Vector3 = current_face.plane_points.v1 - current_face.plane_points.v0
@@ -274,12 +275,7 @@ func commit_face() -> void:
 	current_face.is_valve_uv = valve_uvs
 	
 	current_brush.faces.append(current_face)
-	current_face = Face.new()
-	
-
-func newline() -> void:
-	if comment:
-		comment = false
+	current_face = QodotMapData.Face.new()
 
 # Nested
 enum ParseScope{
@@ -301,146 +297,6 @@ enum ParseScope{
 	V_SCALE
 }
 
-enum EntitySpawnType{
-	WORLDSPAWN = 0,
-	MERGE_WORLDSPAWN = 1,
-	ENTITY = 2,
-	GROUP = 3
-}
 
-class FacePoints:
-	var v0: Vector3
-	var v1: Vector3
-	var v2: Vector3
+	
 
-class ValveTextureAxis:
-	var axis: Vector3
-	var offset: float
-	
-class ValveUV:
-	var u: ValveTextureAxis
-	var v: ValveTextureAxis
-	
-	func _init() -> void:
-		u = ValveTextureAxis.new()
-		v = ValveTextureAxis.new()
-	
-class FaceUVExtra:
-	var rot: float
-	var scale_x: float
-	var scale_y: float
-	
-class Face:
-	var plane_points: FacePoints
-	var plane_normal: Vector3
-	var plane_dist: float
-	var texture_idx: int
-	var is_valve_uv: bool
-	var uv_standard: Vector2
-	var uv_valve: ValveUV
-	var uv_extra: FaceUVExtra
-	
-	func _init() -> void:
-		plane_points = FacePoints.new()
-		uv_valve = ValveUV.new()
-		uv_extra = FaceUVExtra.new()
-
-class Brush:
-	var faces: Array[Face]
-	var center: Vector3
-
-class Entity:
-	var properties: Dictionary
-	var brushes: Array[Brush]
-	var center: Vector3
-	var spawn_type: EntitySpawnType
-	
-class FaceVertex:
-	var vertex: Vector3
-	var normal: Vector3
-	var uv: Vector2
-	var tangent: Vector4
-	
-	func duplicate() -> FaceVertex:
-		var new_vert := FaceVertex.new()
-		new_vert.vertex = vertex
-		new_vert.normal = normal
-		new_vert.uv = uv
-		new_vert.tangent = tangent
-		return new_vert
-	
-class FaceGeometry:
-	var vertices: Array[FaceVertex]
-	var indicies: Array[int]
-
-class BrushGeometry:
-	var faces: Array[FaceGeometry]
-	
-class EntityGeometry:
-	var brushes: Array[BrushGeometry]
-
-class TextureData:
-	var name: String
-	var width: int
-	var height: int
-	
-	func _init(in_name: String):
-		name = in_name
-	
-class WorldspawnLayer:
-	var texture_idx: int
-	var build_visuals: bool
-	
-	func _init(in_texture_idx: int, in_build_visuals: bool):
-		texture_idx = in_texture_idx
-		build_visuals = in_build_visuals
-	
-class MapData:
-	var entities: Array[Entity]
-	var entity_geo: Array[EntityGeometry]
-	var textures: Array[TextureData]
-	var worldspawn_layers: Array[WorldspawnLayer]
-		
-	func register_worldspawn_layer(name: String, build_visuals: bool) -> void:
-		worldspawn_layers.append(WorldspawnLayer.new(find_texture(name), build_visuals))
-		
-	func find_worldspawn_layer(texture_idx: int) -> int:
-		for i in range(worldspawn_layers.size()):
-			if worldspawn_layers[i].texture_idx == texture_idx:
-				return i
-		return -1
-	
-	func register_texture(name: String) -> int:
-		for i in range(textures.size()):
-			if textures[i].name == name:
-				return i
-		
-		textures.append(TextureData.new(name))
-		return textures.size() - 1
-	
-	func set_texture_size(name: String, width: int, height: int) -> void:
-		for i in range(textures.size()):
-			if textures[i].name == name:
-				textures[i].width = width
-				textures[i].height = height
-				return
-	
-	func find_texture(texture_name: String) -> int:
-		for i in range(textures.size()):
-			if textures[i].name == texture_name:
-				return i
-		return -1
-	
-	func set_spawn_type_by_classname(key: String, spawn_type: EntitySpawnType) -> void:
-		for entity in entities:
-			if entity.properties.has("classname") and entity.properties["classname"] == key:
-				entity.spawn_type = spawn_type
-	
-	func clear() -> void:
-		entities.clear()
-		entity_geo.clear()
-		textures.clear()
-		worldspawn_layers.clear()
-	
-	func print_entities() -> void:
-		print("Yet to implement LMMapData::map_data_print_entities...")

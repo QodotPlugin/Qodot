@@ -7,7 +7,7 @@ const UP_VECTOR:= Vector3(0.0, 0.0, 1.0)
 const RIGHT_VECTOR:= Vector3(0.0, 1.0, 0.0)
 const FORWARD_VECTOR:= Vector3(1.0, 0.0, 0.0)
 
-var map_data: QodotMapParser.MapData
+var map_data: QodotMapData
 
 var wind_entity_idx: int = 0
 var wind_brush_idx: int = 0
@@ -16,7 +16,7 @@ var wind_face_center: Vector3
 var wind_face_basis: Vector3
 var wind_face_normal: Vector3
 
-func _init(in_map_data: QodotMapParser.MapData) -> void:
+func _init(in_map_data: QodotMapData) -> void:
 	map_data = in_map_data
 
 func sort_vertices_by_winding(a, b) -> bool:
@@ -43,21 +43,21 @@ func run() -> void:
 	# resize arrays
 	map_data.entity_geo.resize(map_data.entities.size())
 	for i in range(map_data.entity_geo.size()):
-		map_data.entity_geo[i] = QodotMapParser.EntityGeometry.new()
+		map_data.entity_geo[i] = QodotMapData.EntityGeometry.new()
 	
 	for e in range(map_data.entities.size()):
 		var entity:= map_data.entities[e]
 		var entity_geo:= map_data.entity_geo[e]
 		entity_geo.brushes.resize(entity.brushes.size())
 		for i in range(entity_geo.brushes.size()):
-			entity_geo.brushes[i] = QodotMapParser.BrushGeometry.new()
+			entity_geo.brushes[i] = QodotMapData.BrushGeometry.new()
 		
 		for b in range(entity.brushes.size()):
 			var brush:= entity.brushes[b]
 			var brush_geo:= entity_geo.brushes[b]
 			brush_geo.faces.resize(brush.faces.size())
 			for i in range(brush_geo.faces.size()):
-				brush_geo.faces[i] = QodotMapParser.FaceGeometry.new()
+				brush_geo.faces[i] = QodotMapData.FaceGeometry.new()
 	
 	var generate_vertices_task = func(e):
 		var entity:= map_data.entities[e]
@@ -210,7 +210,7 @@ func generate_brush_vertices(entity_idx: int, brush_idx: int) -> void:
 						break
 				
 				if duplicate_idx < 0:
-					var new_face_vert:= QodotMapParser.FaceVertex.new()
+					var new_face_vert:= QodotMapData.FaceVertex.new()
 					new_face_vert.vertex = vertex
 					new_face_vert.normal = normal
 					new_face_vert.tangent = tangent
@@ -225,7 +225,7 @@ func generate_brush_vertices(entity_idx: int, brush_idx: int) -> void:
 			face_geo.vertices[i].normal = face_geo.vertices[i].normal.normalized()
 	
 # returns null if no intersection, else intersection vertex.
-func intersect_faces(f0: QodotMapParser.Face, f1: QodotMapParser.Face, f2: QodotMapParser.Face):
+func intersect_faces(f0: QodotMapData.Face, f1: QodotMapData.Face, f2: QodotMapData.Face):
 	var n0:= f0.plane_normal
 	var n1:= f1.plane_normal
 	var n2:= f2.plane_normal
@@ -236,7 +236,7 @@ func intersect_faces(f0: QodotMapParser.Face, f1: QodotMapParser.Face, f2: Qodot
 	
 	return (n1.cross(n2) * f0.plane_dist + n2.cross(n0) * f1.plane_dist + n0.cross(n1) * f2.plane_dist) / denom
 	
-func vertex_in_hull(faces: Array[QodotMapParser.Face], vertex: Vector3) -> bool:
+func vertex_in_hull(faces: Array[QodotMapData.Face], vertex: Vector3) -> bool:
 	for face in faces:
 		var proj: float = face.plane_normal.dot(vertex)
 		if proj > face.plane_dist and absf(face.plane_dist - proj) > CMP_EPSILON:
@@ -244,7 +244,7 @@ func vertex_in_hull(faces: Array[QodotMapParser.Face], vertex: Vector3) -> bool:
 	
 	return true
 	
-func get_standard_uv(vertex: Vector3, face: QodotMapParser.Face, texture_width: int, texture_height: int) -> Vector2:
+func get_standard_uv(vertex: Vector3, face: QodotMapData.Face, texture_width: int, texture_height: int) -> Vector2:
 	var uv_out: Vector2
 	var du:= absf(face.plane_normal.dot(UP_VECTOR))
 	var dr:= absf(face.plane_normal.dot(RIGHT_VECTOR))
@@ -273,7 +273,7 @@ func get_standard_uv(vertex: Vector3, face: QodotMapParser.Face, texture_width: 
 	
 	return uv_out
 
-func get_valve_uv(vertex: Vector3, face: QodotMapParser.Face, texture_width: int, texture_height: int) -> Vector2:
+func get_valve_uv(vertex: Vector3, face: QodotMapData.Face, texture_width: int, texture_height: int) -> Vector2:
 	var uv_out: Vector2
 	var u_axis:= face.uv_valve.u.axis
 	var v_axis:= face.uv_valve.v.axis
@@ -294,7 +294,7 @@ func get_valve_uv(vertex: Vector3, face: QodotMapParser.Face, texture_width: int
 	
 	return uv_out
 
-func get_standard_tangent(face: QodotMapParser.Face) -> Vector4:
+func get_standard_tangent(face: QodotMapData.Face) -> Vector4:
 	var du:= face.plane_normal.dot(UP_VECTOR)
 	var dr:= face.plane_normal.dot(RIGHT_VECTOR)
 	var df:= face.plane_normal.dot(FORWARD_VECTOR)
@@ -320,14 +320,14 @@ func get_standard_tangent(face: QodotMapParser.Face) -> Vector4:
 	
 	return Vector4(u_axis.x, u_axis.y, u_axis.z, v_sign)
 
-func get_valve_tangent(face: QodotMapParser.Face) -> Vector4:
+func get_valve_tangent(face: QodotMapData.Face) -> Vector4:
 	var u_axis:= face.uv_valve.u.axis.normalized()
 	var v_axis:= face.uv_valve.v.axis.normalized()
 	var v_sign = -signf(face.plane_normal.cross(u_axis).dot(v_axis))
 	
 	return Vector4(u_axis.x, u_axis.y, u_axis.z, v_sign)
 
-func get_entities() -> Array[QodotMapParser.EntityGeometry]:
+func get_entities() -> Array[QodotMapData.EntityGeometry]:
 	return map_data.entity_geo
 
 func get_brush_vertex_count(entity_idx: int, brush_idx: int) -> int:
