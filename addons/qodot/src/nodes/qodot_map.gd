@@ -984,7 +984,7 @@ func build_entity_mesh_instances() -> Dictionary:
 		
 		var mesh_instance := MeshInstance3D.new()
 		mesh_instance.name = 'entity_%s_mesh_instance' % entity_idx
-		mesh_instance.gi_mode = MeshInstance3D.GI_MODE_STATIC if use_in_baked_light else GeometryInstance3D.GI_MODE_DYNAMIC
+		mesh_instance.gi_mode = MeshInstance3D.GI_MODE_STATIC if use_in_baked_light else GeometryInstance3D.GI_MODE_DISABLED
 		mesh_instance.cast_shadow = shadow_casting_setting
 		mesh_instance.layers = render_layers
 		
