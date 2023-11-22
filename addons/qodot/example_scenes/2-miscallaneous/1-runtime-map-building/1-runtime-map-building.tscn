@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://addons/qodot/src/nodes/qodot_map.gd" id="3"]
 [ext_resource type="Script" path="res://addons/qodot/example_scenes/2-miscallaneous/1-runtime-map-building/orbit_arm.gd" id="5"]
-[ext_resource type="Resource" uid="uid://7h57nuq1xmoi" path="res://addons/qodot/game_definitions/fgd/qodot_fgd.tres" id="14"]
+[ext_resource type="Resource" uid="uid://c36hv0o6g0udo" path="res://addons/qodot/game_definitions/fgd/qodot_fgd.tres" id="14"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_87nb4"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
