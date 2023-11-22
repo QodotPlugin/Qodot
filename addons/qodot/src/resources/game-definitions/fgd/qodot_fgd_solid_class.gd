@@ -26,6 +26,8 @@ enum CollisionShapeType {
 @export var use_in_baked_light := true
 ## Shadow casting setting allows for further lightmapping customization
 @export var shadow_casting_setting := GeometryInstance3D.SHADOW_CASTING_SETTING_ON
+## Automatically build OccluderInstance3D for this entity
+@export var build_occlusion := false
 ## This entity will only be visible for Camera3Ds whose cull mask includes any of the render layers this VisualInstance3D is set to
 @export_flags_3d_render var render_layers: int = 1
 

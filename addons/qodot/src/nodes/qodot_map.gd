@@ -101,6 +101,7 @@ var worldspawn_layer_mesh_dict := {}
 var entity_nodes := []
 var worldspawn_layer_nodes := []
 var entity_mesh_instances := {}
+var entity_occluder_instances := {}
 var worldspawn_layer_mesh_instances := {}
 var entity_collision_shapes := []
 var worldspawn_layer_collision_shapes := []
@@ -165,6 +166,7 @@ func reset_build_context():
 	entity_nodes = []
 	worldspawn_layer_nodes = []
 	entity_mesh_instances = {}
+	entity_occluder_instances = {}
 	worldspawn_layer_mesh_instances = {}
 	entity_collision_shapes = []
 	worldspawn_layer_collision_shapes = []
@@ -286,6 +288,7 @@ func register_build_steps() -> void:
 	register_build_step('build_entity_mesh_dict', [], 'entity_mesh_dict')
 	register_build_step('build_worldspawn_layer_mesh_dict', [], 'worldspawn_layer_mesh_dict')
 	register_build_step('build_entity_mesh_instances', [], 'entity_mesh_instances')
+	register_build_step('build_entity_occluder_instances', [], 'entity_occluder_instances')
 	register_build_step('build_worldspawn_layer_mesh_instances', [], 'worldspawn_layer_mesh_instances')
 	register_build_step('build_entity_collision_shape_nodes', [], 'entity_collision_shapes')
 	register_build_step('build_worldspawn_layer_collision_shape_nodes', [], 'worldspawn_layer_collision_shapes')
@@ -295,6 +298,7 @@ func register_post_attach_steps() -> void:
 	register_build_step('build_entity_collision_shapes', [], "", true)
 	register_build_step('build_worldspawn_layer_collision_shapes', [], "", true)
 	register_build_step('apply_entity_meshes', [], "", true)
+	register_build_step('apply_entity_occluders', [], "", true)
 	register_build_step('apply_worldspawn_layer_meshes', [], "", true)
 	register_build_step('apply_properties', [], "", true)
 	register_build_step('connect_signals', [], "", true)
@@ -679,7 +683,7 @@ func build_entity_collision_shape_nodes() -> Array:
 					if entity_definition.spawn_type == QodotFGDSolidClass.SpawnType.MERGE_WORLDSPAWN:
 						# TODO: Find the worldspawn object instead of assuming index 0
 						node = entity_nodes[0] as Node
-
+					
 					if node and node is CollisionObject3D:
 						(node as CollisionObject3D).collision_layer = entity_definition.collision_layer
 						(node as CollisionObject3D).collision_mask = entity_definition.collision_mask
@@ -919,7 +923,7 @@ func build_entity_mesh_dict() -> Dictionary:
 						if entity_definition.spawn_type == QodotFGDSolidClass.SpawnType.MERGE_WORLDSPAWN:
 							entity_surface = null
 							
-						if not entity_definition.build_visuals:
+						if not entity_definition.build_visuals and not entity_definition.build_occlusion:
 							entity_surface = null
 						
 			if entity_surface == null:
@@ -969,6 +973,9 @@ func build_entity_mesh_instances() -> Dictionary:
 		if classname in entity_definitions:
 			var entity_definition = entity_definitions[classname] as QodotFGDSolidClass
 			if entity_definition:
+				if not entity_definition.build_visuals:
+					continue
+				
 				if entity_definition.use_in_baked_light:
 					use_in_baked_light = true
 				elif '_shadow' in properties:
@@ -977,9 +984,7 @@ func build_entity_mesh_instances() -> Dictionary:
 				shadow_casting_setting = entity_definition.shadow_casting_setting
 				render_layers = entity_definition.render_layers
 		
-		var mesh := entity_mesh_dict[entity_idx] as Mesh
-		
-		if not mesh:
+		if not entity_mesh_dict[entity_idx]:
 			continue
 		
 		var mesh_instance := MeshInstance3D.new()
@@ -993,6 +998,27 @@ func build_entity_mesh_instances() -> Dictionary:
 		entity_mesh_instances[entity_idx] = mesh_instance
 	
 	return entity_mesh_instances
+
+func build_entity_occluder_instances() -> Dictionary:
+	var entity_occluder_instances := {}
+	for entity_idx in entity_mesh_dict:
+		var entity_dict := entity_dicts[entity_idx] as Dictionary
+		var properties = entity_dict['properties']
+		var classname = properties['classname']
+		if classname in entity_definitions:
+			var entity_definition = entity_definitions[classname] as QodotFGDSolidClass
+			if entity_definition:
+				if entity_definition.build_occlusion:
+					if not entity_mesh_dict[entity_idx]:
+						continue
+					
+					var occluder_instance := OccluderInstance3D.new()
+					occluder_instance.name = 'entity_%s_occluder_instance' % entity_idx
+					
+					queue_add_child(entity_nodes[entity_idx], occluder_instance)
+					entity_occluder_instances[entity_idx] = occluder_instance
+	
+	return entity_occluder_instances
 
 ## Build Dictionary from worldspawn layers (via textures) to [MeshInstance3D]s
 func build_worldspawn_layer_mesh_instances() -> Dictionary:
@@ -1023,17 +1049,38 @@ func build_worldspawn_layer_mesh_instances() -> Dictionary:
 
 ## Assign [ArrayMesh]es to their [MeshInstance3D] counterparts
 func apply_entity_meshes() -> void:
-	for entity_idx in entity_mesh_dict:
+	for entity_idx in entity_mesh_instances:
 		var mesh := entity_mesh_dict[entity_idx] as Mesh
 		var mesh_instance := entity_mesh_instances[entity_idx] as MeshInstance3D
-		
 		if not mesh or not mesh_instance:
 			continue
 		
 		mesh_instance.set_mesh(mesh)
-		
 		queue_add_child(entity_nodes[entity_idx], mesh_instance)
 
+func apply_entity_occluders() -> void:
+	for entity_idx in entity_mesh_dict:
+		var mesh := entity_mesh_dict[entity_idx] as Mesh
+		var occluder_instance := entity_occluder_instances[entity_idx] as OccluderInstance3D
+		
+		if not mesh or not occluder_instance:
+			continue
+		
+		var verts: PackedVector3Array
+		var indices: PackedInt32Array
+		for surf_idx in range(mesh.get_surface_count()):
+			var vert_count := verts.size()
+			var surf_array := mesh.surface_get_arrays(surf_idx)
+			verts.append_array(surf_array[Mesh.ARRAY_VERTEX])
+			indices.resize(indices.size() + surf_array[Mesh.ARRAY_INDEX].size())
+			for new_index in surf_array[Mesh.ARRAY_INDEX]:
+				indices.append(new_index + vert_count)
+		
+		var occluder := ArrayOccluder3D.new()
+		occluder.set_arrays(verts, indices)
+		
+		occluder_instance.occluder = occluder
+		
 ## Assign [ArrayMesh]es to their [MeshInstance3D] counterparts for worldspawn layers
 func apply_worldspawn_layer_meshes() -> void:
 	for texture_name in worldspawn_layer_mesh_dict:
