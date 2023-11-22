@@ -1,6 +1,6 @@
 class_name QodotMapParser extends RefCounted
 
-var scope: ParseScope = ParseScope.FILE
+var scope:= QodotMapParser.ParseScope.FILE
 var comment: bool = false
 var entity_idx: int = -1
 var brush_idx: int = -1
@@ -24,7 +24,7 @@ func load(map_file: String) -> bool:
 	current_brush = QodotMapData.Brush.new()
 	current_entity = QodotMapData.Entity.new()
 	
-	scope = ParseScope.FILE
+	scope = QodotMapParser.ParseScope.FILE
 	comment = false
 	entity_idx = -1
 	brush_idx = -1
@@ -66,7 +66,7 @@ func split_string(s: String, delimeters: Array[String], allow_empty: bool = true
 	
 	return parts
 	
-func set_scope(new_scope: ParseScope) -> void:
+func set_scope(new_scope: QodotMapParser.ParseScope) -> void:
 	"""
 	match new_scope:
 		ParseScope.FILE:
@@ -110,25 +110,25 @@ func token(buf_str: String) -> void:
 		return
 	
 	match scope:
-		ParseScope.FILE:
+		QodotMapParser.ParseScope.FILE:
 			if buf_str == "{":
 				entity_idx += 1
 				brush_idx = -1
-				set_scope(ParseScope.ENTITY)
-		ParseScope.ENTITY:
+				set_scope(QodotMapParser.ParseScope.ENTITY)
+		QodotMapParser.ParseScope.ENTITY:
 			if buf_str.begins_with('"'):
 				prop_key = buf_str.substr(1)
 				if prop_key.ends_with('"'):
 					prop_key = prop_key.left(-1)
-					set_scope(ParseScope.PROPERTY_VALUE)
+					set_scope(QodotMapParser.ParseScope.PROPERTY_VALUE)
 			elif buf_str == "{":
 				brush_idx += 1
 				face_idx = -1
-				set_scope(ParseScope.BRUSH)
+				set_scope(QodotMapParser.ParseScope.BRUSH)
 			elif buf_str == "}":
 				commit_entity()
-				set_scope(ParseScope.FILE)
-		ParseScope.PROPERTY_VALUE:
+				set_scope(QodotMapParser.ParseScope.FILE)
+		QodotMapParser.ParseScope.PROPERTY_VALUE:
 			var is_first = buf_str[0] == '"'
 			var is_last = buf_str.right(1) == '"'
 			
@@ -143,19 +143,19 @@ func token(buf_str: String) -> void:
 				
 			if is_last:
 				current_entity.properties[prop_key] = current_property.substr(1, len(current_property) - 2)
-				set_scope(ParseScope.ENTITY)
-		ParseScope.BRUSH:
+				set_scope(QodotMapParser.ParseScope.ENTITY)
+		QodotMapParser.ParseScope.BRUSH:
 			if buf_str == "(":
 				face_idx += 1
 				component_idx = 0
-				set_scope(ParseScope.PLANE_0)
+				set_scope(QodotMapParser.ParseScope.PLANE_0)
 			elif buf_str == "}":
 				commit_brush()
-				set_scope(ParseScope.ENTITY)
-		ParseScope.PLANE_0:
+				set_scope(QodotMapParser.ParseScope.ENTITY)
+		QodotMapParser.ParseScope.PLANE_0:
 			if buf_str == ")":
 				component_idx = 0
-				set_scope(ParseScope.PLANE_1)
+				set_scope(QodotMapParser.ParseScope.PLANE_1)
 			else:
 				match component_idx:
 					0:
@@ -166,11 +166,11 @@ func token(buf_str: String) -> void:
 						current_face.plane_points.v0.z = float(buf_str)
 						
 				component_idx += 1
-		ParseScope.PLANE_1:
+		QodotMapParser.ParseScope.PLANE_1:
 			if buf_str != "(":
 				if buf_str == ")":
 					component_idx = 0
-					set_scope(ParseScope.PLANE_2)
+					set_scope(QodotMapParser.ParseScope.PLANE_2)
 				else:
 					match component_idx:
 						0:
@@ -181,11 +181,11 @@ func token(buf_str: String) -> void:
 							current_face.plane_points.v1.z = float(buf_str)
 							
 					component_idx += 1
-		ParseScope.PLANE_2:
+		QodotMapParser.ParseScope.PLANE_2:
 			if buf_str != "(":
 				if buf_str == ")":
 					component_idx = 0
-					set_scope(ParseScope.TEXTURE)
+					set_scope(QodotMapParser.ParseScope.TEXTURE)
 				else:
 					match component_idx:
 						0:
@@ -196,25 +196,25 @@ func token(buf_str: String) -> void:
 							current_face.plane_points.v2.z = float(buf_str)
 							
 					component_idx += 1
-		ParseScope.TEXTURE:
+		QodotMapParser.ParseScope.TEXTURE:
 			current_face.texture_idx = map_data.register_texture(buf_str)
-			set_scope(ParseScope.U)
-		ParseScope.U:
+			set_scope(QodotMapParser.ParseScope.U)
+		QodotMapParser.ParseScope.U:
 			if buf_str == "[":
 				valve_uvs = true
 				component_idx = 0
-				set_scope(ParseScope.VALVE_U)
+				set_scope(QodotMapParser.ParseScope.VALVE_U)
 			else:
 				valve_uvs = false
 				current_face.uv_standard.x = float(buf_str)
-				set_scope(ParseScope.V)
-		ParseScope.V:
+				set_scope(QodotMapParser.ParseScope.V)
+		QodotMapParser.ParseScope.V:
 				current_face.uv_standard.y = float(buf_str)
-				set_scope(ParseScope.ROT)
-		ParseScope.VALVE_U:
+				set_scope(QodotMapParser.ParseScope.ROT)
+		QodotMapParser.ParseScope.VALVE_U:
 			if buf_str == "]":
 				component_idx = 0
-				set_scope(ParseScope.VALVE_V)
+				set_scope(QodotMapParser.ParseScope.VALVE_V)
 			else:
 				match component_idx:
 					0:
@@ -227,10 +227,10 @@ func token(buf_str: String) -> void:
 						current_face.uv_valve.u.offset = float(buf_str)
 					
 				component_idx += 1
-		ParseScope.VALVE_V:
+		QodotMapParser.ParseScope.VALVE_V:
 			if buf_str != "[":
 				if buf_str == "]":
-					set_scope(ParseScope.ROT)
+					set_scope(QodotMapParser.ParseScope.ROT)
 				else:
 					match component_idx:
 						0:
@@ -243,16 +243,16 @@ func token(buf_str: String) -> void:
 							current_face.uv_valve.v.offset = float(buf_str)
 						
 					component_idx += 1
-		ParseScope.ROT:
+		QodotMapParser.ParseScope.ROT:
 			current_face.uv_extra.rot = float(buf_str)
-			set_scope(ParseScope.U_SCALE)
-		ParseScope.U_SCALE:
+			set_scope(QodotMapParser.ParseScope.U_SCALE)
+		QodotMapParser.ParseScope.U_SCALE:
 			current_face.uv_extra.scale_x = float(buf_str)
-			set_scope(ParseScope.V_SCALE)
-		ParseScope.V_SCALE:
+			set_scope(QodotMapParser.ParseScope.V_SCALE)
+		QodotMapParser.ParseScope.V_SCALE:
 			current_face.uv_extra.scale_y = float(buf_str)
 			commit_face()
-			set_scope(ParseScope.BRUSH)
+			set_scope(QodotMapParser.ParseScope.BRUSH)
 				
 func commit_entity() -> void:
 	var new_entity:= QodotMapData.Entity.new()
@@ -296,7 +296,3 @@ enum ParseScope{
 	U_SCALE,
 	V_SCALE
 }
-
-
-	
-
