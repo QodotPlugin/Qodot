@@ -16,8 +16,6 @@ extends QodotNode3D
 const DEBUG := false
 ## How long to wait between child/owner batches
 const YIELD_DURATION := 0.0
-## Unused
-const YIELD_SIGNAL := "timeout"
 
 ## Emitted when the build process successfully completes
 signal build_complete()
@@ -76,8 +74,6 @@ signal unwrap_uv2_complete()
 @export var use_trenchbroom_group_hierarchy := false
 ## If true, stop the whole editor until build is complete
 @export var block_until_complete := false
-## Unused
-@export var tree_attach_batch_size := 0
 ## How many nodes to set the owner of, or add children of, at once. Higher values may lead to quicker build times, but a less responsive editor.
 @export var set_owner_batch_size := 1000
 
@@ -134,11 +130,8 @@ func manual_build():
 
 ## Return true if parameters are valid; Qodot should be functioning and [member map_file] should exist.
 func verify_parameters():
-	if not QodotUtil.has_csharp_support():
-		push_warning("Editor does not support C#, map build support is disabled.")
-		return false
-	elif not qodot or DEBUG:
-		qodot = load("res://addons/qodot/src/core/Qodot.cs").new()
+	if not qodot or DEBUG:
+		qodot = load("res://addons/qodot/src/core/qodot.gd").new()
 	
 	if not qodot:
 		push_error("Error: Failed to load qodot.")
@@ -180,19 +173,20 @@ func reset_build_context():
 	build_step_count = 0
 	
 	if qodot:
-		qodot.Reset()
+		qodot = load("res://addons/qodot/src/core/qodot.gd").new()
+		
 ## Record the start time of a build step for profiling
 func start_profile(item_name: String) -> void:
 	if print_profiling_data:
 		print(item_name)
-		profile_timestamps[item_name] = Time.get_ticks_usec()
+		profile_timestamps[item_name] = Time.get_unix_time_from_system()
 
 ## Finish profiling for a build step; print associated timing data
 func stop_profile(item_name: String) -> void:
 	if print_profiling_data:
 		if item_name in profile_timestamps:
-			var delta = Time.get_ticks_usec() - profile_timestamps[item_name]
-			print("Done in %s sec\n" % [delta * 0.000001])
+			var delta: float = Time.get_unix_time_from_system() - profile_timestamps[item_name]
+			print("Done in %s sec.\n" % snapped(delta, 0.01))
 			profile_timestamps.erase(item_name)
 
 ## Run a build step. [code]step_name[/code] is the method corresponding to the step, [code]params[/code] are parameters to pass to the step, and [code]func_name[/code] does nothing.
@@ -249,15 +243,19 @@ func run_build_steps(post_attach := false) -> void:
 	
 	while target_array.size() > 0:
 		var build_step = target_array.pop_front()
+		emit_signal("build_progress", build_step[0], float(build_step_index + 1) / float(build_step_count))
+		
+		var scene_tree := get_tree()
+		if scene_tree and not block_until_complete:
+			await get_tree().create_timer(YIELD_DURATION).timeout
+		
 		var result = run_build_step(build_step[0], build_step[1])
 		var target = build_step[2]
 		if target != "":
 			set(target, result)
-		
-		emit_signal("build_progress", build_step[0], float(build_step_index + 1) / float(build_step_count))
+			
 		build_step_index += 1
 		
-		var scene_tree := get_tree()
 		if scene_tree and not block_until_complete:
 			await get_tree().create_timer(YIELD_DURATION).timeout
 
@@ -347,11 +345,11 @@ func remove_children() -> void:
 ## Parse and load [member map_file]
 func load_map() -> void:
 	var file: String = map_file
-	qodot.LoadMap(file)
+	qodot.load_map(file)
 
 ## Get textures found in [member map_file]
 func fetch_texture_list() -> Array:
-	return qodot.GetTextureList() as Array
+	return qodot.get_texture_list() as Array
 
 ## Initialize texture loader, allowing textures in [member base_texture_dir] and [member texture_wads] to be turned into materials
 func init_texture_loader() -> QodotTextureLoader:
@@ -377,23 +375,23 @@ func fetch_entity_definitions() -> Dictionary:
 
 ## Hand the Qodot C# core the entity definitions
 func set_qodot_entity_definitions() -> void:
-	qodot.SetEntityDefinitions(build_libmap_entity_definitions(entity_definitions))
+	qodot.set_entity_definitions(build_libmap_entity_definitions(entity_definitions))
 
 ## Hand the Qodot C# core the worldspawn layer definitions. See [member worldspawn_layers]
 func set_qodot_worldspawn_layers() -> void:
-	qodot.SetWorldspawnLayers(build_libmap_worldspawn_layers(worldspawn_layers))
+	qodot.set_worldspawn_layers(build_libmap_worldspawn_layers(worldspawn_layers))
 
 ## Generate geometry from map file
 func generate_geometry() -> void:
-	qodot.GenerateGeometry(texture_size_dict);
+	qodot.generate_geometry(texture_size_dict);
 
 ## Get a list of dictionaries representing each entity from the Qodot C# core
 func fetch_entity_dicts() -> Array:
-	return qodot.GetEntityDicts()
+	return qodot.get_entity_dicts()
 
 ## Get a list of dictionaries representing each worldspawn layer from the Qodot C# core
 func fetch_worldspawn_layer_dicts() -> Array:
-	var layer_dicts = qodot.GetWorldspawnLayerDicts()
+	var layer_dicts = qodot.get_worldspawn_layer_dicts()
 	return layer_dicts if layer_dicts else []
 
 ## Build a dictionary from Trenchbroom textures to the sizes of their corresponding Godot textures
@@ -784,11 +782,11 @@ func build_entity_collision_shapes() -> void:
 			continue
 		
 		if concave:
-			qodot.GatherEntityConcaveCollisionSurfaces(entity_idx, face_skip_texture)
+			qodot.gather_entity_concave_collision_surfaces(entity_idx, face_skip_texture)
 		else:
-			qodot.GatherEntityConvexCollisionSurfaces(entity_idx)
+			qodot.gather_entity_convex_collision_surfaces(entity_idx)
 		
-		var entity_surfaces := qodot.FetchSurfaces(inverse_scale_factor) as Array
+		var entity_surfaces := qodot.fetch_surfaces(inverse_scale_factor) as Array
 		
 		var entity_verts := PackedVector3Array()
 		
@@ -849,7 +847,7 @@ func build_worldspawn_layer_collision_shapes() -> void:
 		if not worldspawn_layer_collision_shapes[layer_idx]:
 			continue
 		
-		qodot.GatherWorldspawnLayerCollisionSurfaces(0)
+		qodot.gather_worldspawn_layer_collision_surfaces(0)
 		
 		var layer_surfaces := qodot.FetchSurfaces(inverse_scale_factor) as Array
 		
@@ -893,9 +891,19 @@ func build_worldspawn_layer_collision_shapes() -> void:
 func build_entity_mesh_dict() -> Dictionary:
 	var meshes := {}
 	
+	var texture_surf_map: Dictionary
 	for texture in texture_dict:
-		qodot.GatherTextureSurfaces(texture, brush_clip_texture, face_skip_texture)
-		var texture_surfaces := qodot.FetchSurfaces(inverse_scale_factor) as Array
+		texture_surf_map[texture] = Array()
+	
+	var gather_task = func(i):
+		var texture = texture_dict.keys()[i]
+		texture_surf_map[texture] = qodot.gather_texture_surfaces_mt(texture, brush_clip_texture, face_skip_texture, inverse_scale_factor)
+	
+	var task_id:= WorkerThreadPool.add_group_task(gather_task, texture_dict.keys().size(), 4, true)
+	WorkerThreadPool.wait_for_group_task_completion(task_id)
+	
+	for texture in texture_dict:
+		var texture_surfaces := texture_surf_map[texture] as Array
 		
 		for entity_idx in range(0, texture_surfaces.size()):
 			var entity_dict := entity_dicts[entity_idx] as Dictionary
@@ -917,15 +925,14 @@ func build_entity_mesh_dict() -> Dictionary:
 			if entity_surface == null:
 				continue
 			
-			var mesh: Mesh = null
 			if not entity_idx in meshes:
 				meshes[entity_idx] = ArrayMesh.new()
 			
-			mesh = meshes[entity_idx]
+			var mesh: ArrayMesh = meshes[entity_idx]
 			mesh.add_surface_from_arrays(ArrayMesh.PRIMITIVE_TRIANGLES, entity_surface)
 			mesh.surface_set_name(mesh.get_surface_count() - 1, texture)
 			mesh.surface_set_material(mesh.get_surface_count() - 1, material_dict[texture])
-			
+	
 	return meshes
 
 ## Build Dictionary from worldspawn layers (via textures) to [ArrayMesh] instances
@@ -934,8 +941,8 @@ func build_worldspawn_layer_mesh_dict() -> Dictionary:
 	
 	for layer in worldspawn_layer_dicts:
 		var texture = layer.texture
-		qodot.GatherWorldspawnLayerSurfaces(texture, brush_clip_texture, face_skip_texture)
-		var texture_surfaces := qodot.FetchSurfaces(inverse_scale_factor) as Array
+		qodot.gather_worldspawn_layer_surfaces(texture, brush_clip_texture, face_skip_texture)
+		var texture_surfaces := qodot.fetch_surfaces(inverse_scale_factor) as Array
 		
 		var mesh: Mesh = null
 		if not texture in meshes:
