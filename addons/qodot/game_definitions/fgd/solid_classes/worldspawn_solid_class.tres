@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1")
 spawn_type = 0
-build_visuals = false
+build_visuals = true
 use_in_baked_light = true
 shadow_casting_setting = 1
 build_occlusion = true
