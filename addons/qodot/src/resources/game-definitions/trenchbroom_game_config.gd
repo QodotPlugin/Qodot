@@ -23,6 +23,14 @@ extends Resource
 ## Icon for Trenchbroom's game list.
 @export var icon : Texture2D
 
+## Available map formats when creating a new map in Trenchbroom. The order of elements in the array is respected by Trenchbroom. The `initialmap` key value is optional.
+@export var map_formats: Array[Dictionary] = [
+	{ "format": "Valve", "initialmap": "initial_valve.map" },
+	{ "format": "Standard", "initialmap": "initial_standard.map" },
+	{ "format": "Quake2", "initialmap": "initial_quake2.map" },
+	{ "format": "Quake3" }
+]
+
 ## Array of FGD resources to include with this game.
 @export var fgd_files : Array[Resource] = [
 	preload("res://addons/qodot/game_definitions/fgd/qodot_fgd.tres")
@@ -62,13 +70,7 @@ var _base_text: String = """{
 	name: "%s",
 	icon: "icon.png",
 	"fileformats": [
-		{ "format": "Standard", "initialmap": "initial_standard.map" },
-		{ "format": "Valve", "initialmap": "initial_valve.map" },
-		{ "format": "Quake2", "initialmap": "initial_quake2.map" },
-		{ "format": "Quake3" },
-		{ "format": "Quake3 (legacy)" },
-		{ "format": "Hexen2" },
-		{ "format": "Daikatana" }
+		%s
 	],
 	"filesystem": {
 		"searchpath": ".",
@@ -125,6 +127,16 @@ static func get_match_key(tag_match_type: int) -> String:
 
 ## Generates completed text for a .cfg file.
 func build_class_text() -> String:
+	var map_formats_str := ""
+	for map_format in map_formats:
+		map_formats_str += "{ \"format\": \"" + map_format.format + "\""
+		if map_format.has("initialmap"):
+			map_formats_str += ", \"initialmap\": \"" + map_format.initialmap + "\""
+		if map_format != map_formats[-1]:
+			map_formats_str += " },\n\t\t"
+		else:
+			map_formats_str += " }"
+	
 	var fgd_filename_str := ""
 	for fgd_filename in _fgd_filenames:
 		fgd_filename_str += "\"%s\"" % fgd_filename
@@ -138,6 +150,7 @@ func build_class_text() -> String:
 	var uv_scale_str = parse_default_uv_scale(default_uv_scale)
 	return _base_text % [
 		game_name,
+		map_formats_str,
 		fgd_filename_str,
 		entity_scale,
 		brush_tags_str,
