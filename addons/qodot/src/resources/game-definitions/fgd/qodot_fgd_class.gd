@@ -149,8 +149,9 @@ func build_def_text() -> String:
 			res += ")"
 
 			if not value is Array:
-				res += " : "
-				res += prop_description
+				if not value is Dictionary or prop_description != "":
+					res += " : "
+					res += prop_description
 
 			if value is Dictionary or value is Array:
 				res += " = "
