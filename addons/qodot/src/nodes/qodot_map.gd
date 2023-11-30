@@ -1061,7 +1061,10 @@ func apply_entity_meshes() -> void:
 func apply_entity_occluders() -> void:
 	for entity_idx in entity_mesh_dict:
 		var mesh := entity_mesh_dict[entity_idx] as Mesh
-		var occluder_instance := entity_occluder_instances[entity_idx] as OccluderInstance3D
+		var occluder_instance : OccluderInstance3D
+		
+		if entity_occluder_instances.size() > entity_idx:
+			entity_occluder_instances[entity_idx]
 		
 		if not mesh or not occluder_instance:
 			continue
