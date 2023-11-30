@@ -136,10 +136,10 @@ func token(buf_str: String) -> void:
 				if current_property != "":
 					current_property = ""
 				
-			if is_first or is_last:
-				current_property += buf_str
+			if not is_last:
+				current_property += buf_str + " "
 			else:
-				current_property += " " + buf_str + " "
+				current_property += buf_str
 				
 			if is_last:
 				current_entity.properties[prop_key] = current_property.substr(1, len(current_property) - 2)
