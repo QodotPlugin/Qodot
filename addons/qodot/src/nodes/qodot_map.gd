@@ -443,13 +443,10 @@ func build_entity_nodes() -> Array:
 		var properties := entity_dict['properties'] as Dictionary
 		
 		var node = QodotEntity.new()
-		
-		
 		var should_add_child = should_add_children
 		
 		var node_name : String
 		node_name = "entity_%s" % entity_idx
-		print(properties)
 		if '_tb_name' in properties:
 			var groupname = properties['_tb_name']
 			node_name += "_" + groupname
