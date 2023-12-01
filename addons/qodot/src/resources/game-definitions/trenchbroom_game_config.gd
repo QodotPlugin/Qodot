@@ -31,6 +31,9 @@ extends Resource
 	{ "format": "Quake3" }
 ]
 
+## Textures matching these patterns will be hidden from Trenchbroom.
+@export var texture_exclusion_patterns: Array[String] = ["*_ao", "*_emission", "*_heightmap", "*_metallic", "*_normal", "*_orm", "*_roughness", "*_sss"]
+
 ## Array of FGD resources to include with this game.
 @export var fgd_files : Array[Resource] = [
 	preload("res://addons/qodot/game_definitions/fgd/qodot_fgd.tres")
@@ -79,6 +82,7 @@ var _base_text: String = """{
 	"textures": {
 		"package": { "type": "directory", "root": "textures" },
 		"format": { "extensions": ["bmp", "exr", "hdr", "jpeg", "jpg", "png", "tga", "webp"], "format": "image" },
+		"exclude": [ %s ],
 		"attribute": "_tb_textures"
 	},
 	"entities": {
@@ -137,6 +141,12 @@ func build_class_text() -> String:
 		else:
 			map_formats_str += " }"
 	
+	var texture_exclusion_patterns_str := ""
+	for tex_pattern in texture_exclusion_patterns:
+		texture_exclusion_patterns_str += "\"" + tex_pattern + "\""
+		if tex_pattern != texture_exclusion_patterns[-1]:
+			texture_exclusion_patterns_str += ", "
+	
 	var fgd_filename_str := ""
 	for fgd_filename in _fgd_filenames:
 		fgd_filename_str += "\"%s\"" % fgd_filename
@@ -151,6 +161,7 @@ func build_class_text() -> String:
 	return _base_text % [
 		game_name,
 		map_formats_str,
+		texture_exclusion_patterns_str,
 		fgd_filename_str,
 		entity_scale,
 		brush_tags_str,
