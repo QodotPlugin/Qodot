@@ -443,13 +443,21 @@ func build_entity_nodes() -> Array:
 		var properties := entity_dict['properties'] as Dictionary
 		
 		var node = QodotEntity.new()
-		var node_name = "entity_%s" % entity_idx
+		
 		
 		var should_add_child = should_add_children
+		
+		var node_name : String
+		node_name = "entity_%s" % entity_idx
+		print(properties)
+		if '_tb_name' in properties:
+			var groupname = properties['_tb_name']
+			node_name += "_" + groupname
 		
 		if 'classname' in properties:
 			var classname = properties['classname']
 			node_name += "_" + classname
+			
 			if classname in entity_definitions:
 				var entity_definition := entity_definitions[classname] as QodotFGDClass
 				if entity_definition is QodotFGDSolidClass:
