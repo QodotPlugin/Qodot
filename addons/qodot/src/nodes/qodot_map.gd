@@ -1242,6 +1242,9 @@ func connect_signals() -> void:
 
 ## Connect a signal on [code]entity_node[/code] to [code]target_node[/code], possibly mediated by the contents of a [code]signal[/code] or [code]receiver[/code] entity
 func connect_signal(entity_node: Node, target_node: Node) -> void:
+	if not 'properties' in target_node:
+		return
+	
 	if target_node.properties['classname'] == 'signal':
 		var signal_name = target_node.properties['signal_name']
 		
