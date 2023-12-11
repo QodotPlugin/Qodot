@@ -6,7 +6,15 @@
 script = ExtResource("1")
 spawn_type = 3
 build_visuals = true
+use_in_baked_light = true
+shadow_casting_setting = 1
+build_occlusion = true
+render_layers = 1
 collision_shape_type = 1
+collision_layer = 1
+collision_mask = 1
+collision_priority = 1.0
+collision_shape_margin = 0.04
 classname = "func_group"
 description = "TrenchBroom Group"
 qodot_internal = true

@@ -4,21 +4,23 @@
 
 [resource]
 script = ExtResource("1")
-spawn = "----------------------------------------------------------------"
-spawn_type = 1
-visual_build = "----------------------------------------------------------------"
+spawn_type = 3
 build_visuals = true
-collision_build = "----------------------------------------------------------------"
+use_in_baked_light = true
+shadow_casting_setting = 1
+build_occlusion = false
+render_layers = 1
 collision_shape_type = 1
-scripting = "----------------------------------------------------------------"
-class_options = "----------------------------------------------------------------"
-classname = "detail"
+collision_layer = 1
+collision_mask = 1
+collision_priority = 1.0
+collision_shape_margin = 0.04
+classname = "func_detail"
 description = "Detail Brush"
 qodot_internal = false
 base_classes = Array[Resource]([])
 class_properties = {}
 class_property_descriptions = {}
 meta_properties = {}
-node_options = "----------------------------------------------------------------"
 node_class = "StaticBody3D"
 transient_node = false
