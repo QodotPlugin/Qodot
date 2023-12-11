@@ -6,7 +6,6 @@ var entity_filter_idx: int = -1
 var texture_filter_idx: int = -1
 var clip_filter_texture_idx: int
 var skip_filter_texture_idx: int
-var filter_worldspawn_layers: bool
 
 var out_surfaces: Array[QodotMapData.FaceGeometry]
 
@@ -41,12 +40,6 @@ func filter_brush(entity_idx: int, brush_idx: int) -> bool:
 		
 		if fully_textured:
 			return true
-			
-	# omit brushes that are part of a worldspawn layer
-	for face in brush.faces:
-		for layer in map_data.worldspawn_layers:
-			if face.texture_idx == layer.texture_idx:
-				return filter_worldspawn_layers
 	
 	return false
 
@@ -116,10 +109,9 @@ func run() -> void:
 				for v in range(face_geo.vertices.size()):
 					var vert:= face_geo.vertices[v].duplicate()
 					
-					if 	entity.spawn_type == QodotMapData.EntitySpawnType.ENTITY or\
-						entity.spawn_type == QodotMapData.EntitySpawnType.GROUP:
+					if entity.spawn_type == QodotMapData.EntitySpawnType.ENTITY:
 						vert.vertex -= entity.center
-						
+					
 					surf.vertices.append(vert)
 					
 				for i in range((face_geo.vertices.size() - 2) * 3):
@@ -138,7 +130,6 @@ func reset_params() -> void:
 	texture_filter_idx = -1
 	clip_filter_texture_idx = -1
 	skip_filter_texture_idx = -1
-	filter_worldspawn_layers = true
 
 # nested
 enum SurfaceSplitType{

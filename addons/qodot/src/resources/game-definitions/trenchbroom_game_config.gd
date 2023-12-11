@@ -54,15 +54,6 @@ extends Resource
 ## Container for TrenchbroomTag resources that apply to textures.
 @export var face_tags : Array[Resource] = []
 
-## Arrays containing the TrenchbroomFaceAttrib resource type. Currently not parsed by Qodot.
-@export_category("Quake 2 compatibility")
-
-## Map-wide bitflags toggleable for each face. Currently not parsed by Qodot.
-@export var face_attrib_surface_flags : Array[Resource] = []
-
-## Map-wide bitflags toggleable for each brush. Currently not parsed by Qodot.
-@export var face_attrib_content_flags : Array[Resource] = []
-
 ## Private variable for storing fgd names, used in build_class_text().
 var _fgd_filenames : Array = []
 
@@ -104,10 +95,10 @@ var _base_text: String = """{
 			%s
 		},
 		"surfaceflags": [
-			%s
+			
 		],
 		"contentflags": [
-			%s
+			
 		]
 	}
 }
@@ -155,8 +146,6 @@ func build_class_text() -> String:
 
 	var brush_tags_str = parse_tags(brush_tags)
 	var face_tags_str = parse_tags(face_tags)
-	var surface_flags_str = parse_flags(face_attrib_surface_flags)
-	var content_flags_str = parse_flags(face_attrib_content_flags)
 	var uv_scale_str = parse_default_uv_scale(default_uv_scale)
 	return _base_text % [
 		game_name,
@@ -166,9 +155,7 @@ func build_class_text() -> String:
 		entity_scale,
 		brush_tags_str,
 		face_tags_str,
-		uv_scale_str,
-		surface_flags_str,
-		content_flags_str
+		uv_scale_str
 	]
 
 ## Converts brush, face, and attribute tags into a .cfg-usable String.

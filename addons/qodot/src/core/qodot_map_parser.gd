@@ -1,5 +1,7 @@
 class_name QodotMapParser extends RefCounted
 
+var STRIP_FUNC_GROUP := true
+
 var scope:= QodotMapParser.ParseScope.FILE
 var comment: bool = false
 var entity_idx: int = -1
@@ -255,12 +257,16 @@ func token(buf_str: String) -> void:
 			set_scope(QodotMapParser.ParseScope.BRUSH)
 				
 func commit_entity() -> void:
-	var new_entity:= QodotMapData.Entity.new()
-	new_entity.spawn_type = QodotMapData.EntitySpawnType.ENTITY
-	new_entity.properties = current_entity.properties
-	new_entity.brushes = current_entity.brushes
-	
-	map_data.entities.append(new_entity)
+	if STRIP_FUNC_GROUP and current_entity.properties.has("classname") and current_entity.properties["classname"] == "func_group" and map_data.entities.size() > 0:
+			map_data.entities[0].brushes.append_array(current_entity.brushes)
+	else:
+		var new_entity:= QodotMapData.Entity.new()
+		new_entity.spawn_type = QodotMapData.EntitySpawnType.ENTITY
+		new_entity.properties = current_entity.properties
+		new_entity.brushes = current_entity.brushes
+		
+		map_data.entities.append(new_entity)
+		
 	current_entity = QodotMapData.Entity.new()
 	
 func commit_brush() -> void:

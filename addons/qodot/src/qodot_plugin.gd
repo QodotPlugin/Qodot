@@ -29,33 +29,29 @@ func _make_visible(visible: bool) -> void:
 func _enter_tree() -> void:
 	# Project settings
 	setup_project_settings()
-
+	
 	# Import plugins
 	map_import_plugin = QuakeMapImportPlugin.new()
 	palette_import_plugin = QuakePaletteImportPlugin.new()
 	wad_import_plugin = QuakeWadImportPlugin.new()
-
+	
 	add_import_plugin(map_import_plugin)
 	add_import_plugin(palette_import_plugin)
 	add_import_plugin(wad_import_plugin)
-
+	
 	# QodotMap button
 	qodot_map_control = create_qodot_map_control()
 	qodot_map_control.set_visible(false)
 	add_control_to_container(EditorPlugin.CONTAINER_SPATIAL_EDITOR_MENU, qodot_map_control)
-
+	
 	qodot_map_progress_bar = create_qodot_map_progress_bar()
 	qodot_map_progress_bar.set_visible(false)
 	add_control_to_container(EditorPlugin.CONTAINER_INSPECTOR_BOTTOM, qodot_map_progress_bar)
-
+	
 	add_custom_type("QodotMap", "Node3D", preload("res://addons/qodot/src/nodes/qodot_map.gd"), null)
-	add_custom_type("QodotEntity", "Node3D", preload("res://addons/qodot/src/nodes/qodot_entity.gd"), null)
-	add_custom_type("QodotNode3D", "Node3D", preload("res://addons/qodot/src/nodes/qodot_node3d.gd"), null)
 
 func _exit_tree() -> void:
 	remove_custom_type("QodotMap")
-	remove_custom_type("QodotEntity")
-	remove_custom_type("QodotSpatial")
 	remove_import_plugin(map_import_plugin)
 	remove_import_plugin(palette_import_plugin)
 	if wad_import_plugin:

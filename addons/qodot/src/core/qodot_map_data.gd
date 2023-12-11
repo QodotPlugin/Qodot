@@ -3,16 +3,6 @@ class_name QodotMapData extends RefCounted
 var entities: Array[QodotMapData.Entity]
 var entity_geo: Array[QodotMapData.EntityGeometry]
 var textures: Array[QodotMapData.TextureData]
-var worldspawn_layers: Array[QodotMapData.WorldspawnLayer]
-	
-func register_worldspawn_layer(name: String, build_visuals: bool) -> void:
-	worldspawn_layers.append(WorldspawnLayer.new(find_texture(name), build_visuals))
-	
-func find_worldspawn_layer(texture_idx: int) -> int:
-	for i in range(worldspawn_layers.size()):
-		if worldspawn_layers[i].texture_idx == texture_idx:
-			return i
-	return -1
 
 func register_texture(name: String) -> int:
 	for i in range(textures.size()):
@@ -44,10 +34,6 @@ func clear() -> void:
 	entities.clear()
 	entity_geo.clear()
 	textures.clear()
-	worldspawn_layers.clear()
-
-func print_entities() -> void:
-	print("Yet to implement LMMapData::map_data_print_entities...")
 
 # --------------------------------------------------------------------------------------------------
 # Nested Types
@@ -55,8 +41,7 @@ func print_entities() -> void:
 enum EntitySpawnType{
 	WORLDSPAWN = 0,
 	MERGE_WORLDSPAWN = 1,
-	ENTITY = 2,
-	GROUP = 3
+	ENTITY = 2
 }
 
 class FacePoints:
@@ -137,11 +122,3 @@ class TextureData:
 	
 	func _init(in_name: String):
 		name = in_name
-	
-class WorldspawnLayer:
-	var texture_idx: int
-	var build_visuals: bool
-	
-	func _init(in_texture_idx: int, in_build_visuals: bool):
-		texture_idx = in_texture_idx
-		build_visuals = in_build_visuals

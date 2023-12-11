@@ -6,7 +6,6 @@ enum SpawnType {
 	WORLDSPAWN = 0, ## Is worldspawn
 	MERGE_WORLDSPAWN = 1, ## Should be combined with worldspawn
 	ENTITY = 2, ## Is its own separate entity
-	GROUP = 3 ## Is a group
 }
 
 enum CollisionShapeType {

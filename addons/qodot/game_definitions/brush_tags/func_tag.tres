@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="TrenchBroomTag" load_steps=2 format=3 uid="uid://d2wf5r66a513l"]
+
+[ext_resource type="Script" path="res://addons/qodot/src/resources/game-definitions/trenchbroom/trenchbroom_tag.gd" id="1_l1vnc"]
+
+[resource]
+script = ExtResource("1_l1vnc")
+tag_name = "Func"
+tag_attributes = Array[String]([])
+tag_match_type = 4
+tag_pattern = "func*"
+texture_name = ""

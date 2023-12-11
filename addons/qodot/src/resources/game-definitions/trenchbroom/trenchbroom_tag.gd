@@ -7,9 +7,6 @@ extends Resource
 
 enum TagMatchType {
 	TEXTURE, ## Tag applies to any face with a texture matching the texture name.
-	CONTENT_FLAG, ## Tag applies to any brush with a content flag matching the tag pattern.
-	SURFACE_FLAG, ## Tag applies to any face with a surface flag matching the tag pattern.
-	SURFACE_PARAM, ## Tag applies to any face with a special surface param. See Trenchbroom Manual for more info: https://trenchbroom.github.io/manual/latest/#special_brush_face_types
 	CLASSNAME ## Tag applies to any brush entity with a class name matching the tag pattern.
 }
 
@@ -18,7 +15,7 @@ enum TagMatchType {
 
 ## The attributes applied to matching faces or brushes. Only "_transparent" is
 ## supported in Trenchbroom, which makes matching faces or brushes transparent.
-@export var tag_attributes : Array[String] = ["transparent"]
+@export var tag_attributes : Array[String] = []
 
 ## Detemines how the tag is matched. See [constant TagMatchType].
 @export var tag_match_type: TagMatchType

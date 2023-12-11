@@ -24,12 +24,6 @@ func set_entity_definitions(entity_defs: Dictionary) -> void:
 		var val: int = entity_defs.values()[i].get("spawn_type", QodotMapData.EntitySpawnType.ENTITY)
 		map_data.set_spawn_type_by_classname(key, val as QodotMapData.EntitySpawnType)
 
-func set_worldspawn_layers(worldspawn_layers: Array) -> void:
-	for layer in worldspawn_layers:
-		var build_visuals: bool = layer.get("build_visuals", false)
-		var texture: String = layer.get("texture", "NONE")
-		map_data.register_worldspawn_layer(texture, build_visuals)
-
 func generate_geometry(texture_dict: Dictionary) -> void:
 	var keys: Array = texture_dict.keys()
 	for key in keys:
@@ -37,54 +31,17 @@ func generate_geometry(texture_dict: Dictionary) -> void:
 		map_data.set_texture_size(key, val.x, val.y)
 	geo_generator.run()
 
-func get_worldspawn_layer_dicts() -> Array:
-	var worldspawn_ent:= map_data.entities[0] if map_data.entities.size() > 0 else null
-	
-	var worldspawn_layer_dicts: Array
-	if worldspawn_ent == null:
-		return worldspawn_layer_dicts
-		
-	for layer in map_data.worldspawn_layers:
-		var layer_dict: Dictionary
-		var tex_data:= map_data.textures[layer.texture_idx]
-		if tex_data == null:
-			continue
-		
-		layer_dict["texture"] = tex_data.name
-		
-		var brush_indices: PackedInt64Array
-		for b in range(worldspawn_ent.brushes.size()):
-			var brush:= worldspawn_ent.brushes[b]
-			var is_layer_brush: bool = false
-			for face in brush.faces:
-				if face.texture_idx == layer.texture_idx:
-					is_layer_brush = true
-					break
-					
-			if is_layer_brush:
-				brush_indices.append(b)
-			
-		layer_dict["brush_indices"] = brush_indices
-		worldspawn_layer_dicts.append(layer_dict)
-		
-	return worldspawn_layer_dicts
-
 func get_entity_dicts() -> Array:
 	var ent_dicts: Array
 	for entity in map_data.entities:
 		var dict: Dictionary
 		dict["brush_count"] = entity.brushes.size()
 		
+		# TODO: This is a horrible remnant of the worldspawn layer system, remove it.
 		var brush_indices: PackedInt64Array
+		brush_indices.resize(entity.brushes.size())
 		for b in range(entity.brushes.size()):
-			var brush:= entity.brushes[b]
-			var is_wsl_brush: bool = false
-			for face in brush.faces:
-				if map_data.find_worldspawn_layer(face.texture_idx) != -1:
-					is_wsl_brush = true
-					break
-			if !is_wsl_brush:
-				brush_indices.append(b)
+			brush_indices[b] = b
 		
 		dict["brush_indices"] = brush_indices
 		dict["center"] = Vector3(entity.center.y, entity.center.z, entity.center.x)
@@ -94,12 +51,6 @@ func get_entity_dicts() -> Array:
 	
 	return ent_dicts
 
-func get_worldspawn_layers() -> Array:
-	return map_data.worldspawn_layers
-
-func gather_texture_surfaces(texture_name: String, clip_filter_texture: String, skip_filter_texture: String) -> void:
-	_gather_texture_surfaces_internal(texture_name, clip_filter_texture, skip_filter_texture, true)
-
 func gather_texture_surfaces_mt(texture_name: String, clip_filter_texture: String, skip_filter_texture: String, inverse_scale_factor: float) -> Array:
 	var sg:= QodotSurfaceGatherer.new(map_data)
 	sg.reset_params()
@@ -107,21 +58,20 @@ func gather_texture_surfaces_mt(texture_name: String, clip_filter_texture: Strin
 	sg.set_texture_filter(texture_name)
 	sg.set_clip_filter_texture(clip_filter_texture)
 	sg.set_skip_filter_texture(skip_filter_texture)
-	sg.filter_worldspawn_layers = true
 	sg.run()
 	return _fetch_surfaces_internal(sg, inverse_scale_factor)
 
 func gather_worldspawn_layer_surfaces(texture_name: String, clip_filter_texture: String, skip_filter_texture: String) -> void:
-	_gather_texture_surfaces_internal(texture_name, clip_filter_texture, skip_filter_texture, false)
+	_gather_texture_surfaces_internal(texture_name, clip_filter_texture, skip_filter_texture)
 
 func gather_entity_convex_collision_surfaces(entity_idx: int) -> void:
-	_gather_convex_collision_surfaces(entity_idx, true)
+	_gather_convex_collision_surfaces(entity_idx)
 	
 func gather_entity_concave_collision_surfaces(entity_idx: int, skip_filter_texture: String) -> void:
-	_gather_concave_collision_surfaces(entity_idx, skip_filter_texture, true)
+	_gather_concave_collision_surfaces(entity_idx, skip_filter_texture)
 	
 func gather_worldspawn_layer_collision_surfaces(entity_idx: int) -> void:
-	_gather_convex_collision_surfaces(entity_idx, false)
+	_gather_convex_collision_surfaces(entity_idx)
 	
 func fetch_surfaces(inverse_scale_factor: float) -> Array:	
 	return _fetch_surfaces_internal(surface_gatherer, inverse_scale_factor)
@@ -166,29 +116,26 @@ func _fetch_surfaces_internal(surf_gatherer: QodotSurfaceGatherer, inverse_scale
 	return surf_array
 
 # internal
-func _gather_texture_surfaces_internal(texture_name: String, clip_filter_texture: String, skip_filter_texture: String, filter_layers: bool) -> void:
+func _gather_texture_surfaces_internal(texture_name: String, clip_filter_texture: String, skip_filter_texture: String) -> void:
 	surface_gatherer.reset_params()
 	surface_gatherer.split_type = QodotSurfaceGatherer.SurfaceSplitType.ENTITY
 	surface_gatherer.set_texture_filter(texture_name)
 	surface_gatherer.set_clip_filter_texture(clip_filter_texture)
 	surface_gatherer.set_skip_filter_texture(skip_filter_texture)
-	surface_gatherer.filter_worldspawn_layers = filter_layers
 	
 	surface_gatherer.run()
 
-func _gather_convex_collision_surfaces(entity_idx: int, filter_layers: bool) -> void:
+func _gather_convex_collision_surfaces(entity_idx: int) -> void:
 	surface_gatherer.reset_params()
 	surface_gatherer.split_type = QodotSurfaceGatherer.SurfaceSplitType.BRUSH
 	surface_gatherer.entity_filter_idx = entity_idx
-	surface_gatherer.filter_worldspawn_layers = filter_layers
 	
 	surface_gatherer.run()
 	
-func _gather_concave_collision_surfaces(entity_idx: int, skip_filter_texture: String, filter_layers: bool) -> void:
+func _gather_concave_collision_surfaces(entity_idx: int, skip_filter_texture: String) -> void:
 	surface_gatherer.reset_params()
 	surface_gatherer.split_type = QodotSurfaceGatherer.SurfaceSplitType.NONE
 	surface_gatherer.entity_filter_idx = entity_idx
 	surface_gatherer.set_skip_filter_texture(skip_filter_texture)
-	surface_gatherer.filter_worldspawn_layers = filter_layers
 	
 	surface_gatherer.run()

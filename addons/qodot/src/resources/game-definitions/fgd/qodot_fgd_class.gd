@@ -24,8 +24,6 @@ var prefix: String = ""
 @export_group("Node Options")
 @export var node_class := ""
 
-@export var transient_node := false
-
 func build_def_text() -> String:
 	# Class prefix
 	var res : String = prefix
