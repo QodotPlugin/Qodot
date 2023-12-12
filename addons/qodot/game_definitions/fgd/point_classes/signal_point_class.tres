@@ -6,9 +6,8 @@
 
 [resource]
 script = ExtResource("3")
-apply_rotation_on_map_build = true
 classname = "signal"
-description = ""
+description = "Name of signal to call target."
 qodot_internal = false
 base_classes = Array[Resource]([ExtResource("2"), ExtResource("1")])
 class_properties = {
