@@ -71,7 +71,7 @@ signal unwrap_uv2_complete()
 ## If true, print profiling data before and after each build step
 @export var print_profiling_data := false
 ## If true, Qodot will build a hierarchy from Trenchbroom groups, each group being a node. Otherwise, Qodot nodes will ignore Trenchbroom groups and have a flat structure.
-@export var use_trenchbroom_group_hierarchy := false
+var use_trenchbroom_group_hierarchy := false
 ## If true, stop the whole editor until build is complete
 @export var block_until_complete := false
 ## How many nodes to set the owner of, or add children of, at once. Higher values may lead to quicker build times, but a less responsive editor.
