@@ -10,7 +10,6 @@ classname = "signal"
 description = "Name of signal to call target."
 qodot_internal = false
 base_classes = Array[Resource]([ExtResource("2"), ExtResource("1")])
-base_classes = Array[Resource]([ExtResource("2"), ExtResource("1")])
 class_properties = {
 "signal_name": ""
 }
