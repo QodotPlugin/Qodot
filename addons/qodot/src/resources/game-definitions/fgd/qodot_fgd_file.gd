@@ -7,7 +7,7 @@ extends Resource
 #psuedo-button to export
 @export var export_file: bool:
 	get:
-		return export_file # TODO Converter40 Non existent get function
+		return export_file
 	set(new_export_file):
 		if new_export_file != export_file:
 			do_export_file()
