@@ -59,12 +59,12 @@ func _get_local_path() -> String:
 	return _get_model_folder().path_join('%s.glb' % classname)
 
 func _get_model_folder() -> String:
-	return (QodotProjectConfig.get_setting(QodotProjectConfig.PROPERTY.TRENCHBROOM_MODELS_FOLDER) 
+	return (QodotProjectConfig.get_setting(QodotProjectConfig.PROPERTY.LOCAL_MODELS_FOLDER) 
 		if trenchbroom_models_folder.is_empty() 
 		else trenchbroom_models_folder)
 
 func _get_working_folder() -> String:
-	return (QodotProjectConfig.get_setting(QodotProjectConfig.PROPERTY.TRENCHBROOM_WORKING_FOLDER)
+	return (QodotProjectConfig.get_setting(QodotProjectConfig.PROPERTY.QODOT_WORKING_FOLDER)
 		if trenchbroom_working_folder.is_empty()
 		else trenchbroom_working_folder)
 

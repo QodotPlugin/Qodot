@@ -4,11 +4,15 @@ extends Resource
 
 enum PROPERTY {
 	TRENCHBROOM_GAMES_FOLDER = 0,
-	TRENCHBROOM_WORKING_FOLDER = 1,
-	TRENCHBROOM_MODELS_FOLDER = 2
+	QODOT_WORKING_FOLDER = 1,
+	LOCAL_MODELS_FOLDER = 2,
+	TRENCHBROOM_DEFAULT_FGD_LOCATION
 }
 
 @export var export_qodot_settings: bool: set = _save_settings
+
+## test
+@export var trenchbroom_games_folder: String = ""
 
 const CONFIG_PROPERTIES: Array[Dictionary] = [
 	{
@@ -19,17 +23,24 @@ const CONFIG_PROPERTIES: Array[Dictionary] = [
 		"qodot_type": PROPERTY.TRENCHBROOM_GAMES_FOLDER
 	},
 	{
-		"name": "trenchbroom_working_folder",
+		"name": "qodot_working_folder",
 		"usage": PROPERTY_USAGE_EDITOR,
 		"type": TYPE_STRING,
 		"hint": PROPERTY_HINT_GLOBAL_DIR,
-		"qodot_type": PROPERTY.TRENCHBROOM_WORKING_FOLDER
+		"qodot_type": PROPERTY.QODOT_WORKING_FOLDER
 	},
 	{
-		"name": "trenchbroom_models_folder",
+		"name": "local_models_folder",
 		"usage": PROPERTY_USAGE_EDITOR,
 		"type": TYPE_STRING,
-		"qodot_type": PROPERTY.TRENCHBROOM_MODELS_FOLDER
+		"qodot_type": PROPERTY.LOCAL_MODELS_FOLDER
+	},
+	{
+		"name": "default_fgd_location",
+		"usage": PROPERTY_USAGE_EDITOR,
+		"type": TYPE_STRING,
+		"hint": PROPERTY_HINT_GLOBAL_DIR,
+		"qodot_type": PROPERTY.DEFAULT_FGD_LOCATION
 	}
 ]
 

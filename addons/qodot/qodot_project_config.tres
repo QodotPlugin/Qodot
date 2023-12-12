@@ -5,3 +5,4 @@
 [resource]
 script = ExtResource("1_gfdnq")
 export_qodot_settings = false
+trenchbroom_games_folder = ""
