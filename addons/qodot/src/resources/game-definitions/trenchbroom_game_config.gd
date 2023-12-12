@@ -111,14 +111,14 @@ func _init():
 
 ## Matches tag key enum to the String name used in .cfg
 static func get_match_key(tag_match_type: int) -> String:
-	var tag_keys = {
-		0: "texture",
-		1: "contentflag",
-		2: "surfaceflag",
-		3: "surfaceparm",
-		4: "classname"
-	}
-	return tag_keys[tag_match_type]
+	match tag_match_type:
+		TrenchBroomTag.TagMatchType.TEXTURE:
+			return "texture"
+		TrenchBroomTag.TagMatchType.CLASSNAME:
+			return "classname"
+		_:
+			push_error("Tag match type %s is not valid" % [tag_match_type])
+			return "ERROR"
 
 ## Generates completed text for a .cfg file.
 func build_class_text() -> String:
@@ -162,6 +162,8 @@ func build_class_text() -> String:
 func parse_tags(tags: Array) -> String:
 	var tags_str := ""
 	for brush_tag in tags:
+		if brush_tag.tag_match_type >= TrenchBroomTag.TagMatchType.size():
+			continue
 		tags_str += "{\n"
 		tags_str += "\t\t\t\t\"name\": \"%s\",\n" % brush_tag.tag_name
 		var attribs_str := ""
