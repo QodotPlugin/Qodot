@@ -566,7 +566,7 @@ func resolve_group_hierarchy() -> void:
 		if '_tb_id' in properties: 
 			parent_entities[node_idx] = node
 	
-	var group_to_entity_map := {}
+	var child_to_parent_map := {}
 	
 	#For each child,...
 	for node_idx in child_entities:
@@ -590,11 +590,11 @@ func resolve_group_hierarchy() -> void:
 				break
 		#if there's a match, pass it on to the child-parent relationship map
 		if parent:
-			group_to_entity_map[node_idx] = parent_idx 
+			child_to_parent_map[node_idx] = parent_idx 
 	
-	for child_idx in group_to_entity_map:
+	for child_idx in child_to_parent_map:
 		var child = entity_nodes[child_idx]
-		var parent_idx = group_to_entity_map[child_idx]
+		var parent_idx = child_to_parent_map[child_idx]
 		var parent = entity_nodes[parent_idx]
 		
 		queue_add_child(parent, child, null, true)
