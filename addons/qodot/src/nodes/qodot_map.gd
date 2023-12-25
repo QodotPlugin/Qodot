@@ -580,13 +580,13 @@ func resolve_group_hierarchy() -> void:
 		var parent_idx = null
 		
 		#...identify its direct parent out of the parent_entities array
-		for maybedaddy in parent_entities:
-			parent_entity = parent_entities[maybedaddy]
-			parent_properties = entity_dicts[maybedaddy]['properties']
+		for possible_parent in parent_entities:
+			parent_entity = parent_entities[possible_parent]
+			parent_properties = entity_dicts[possible_parent]['properties']
 			
 			if parent_properties['_tb_id'] == tb_group:
 				parent = parent_entity
-				parent_idx = maybedaddy
+				parent_idx = possible_parent
 				break
 		#if there's a match, pass it on to the child-parent relationship map
 		if parent:
