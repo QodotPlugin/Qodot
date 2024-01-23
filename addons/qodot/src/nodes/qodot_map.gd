@@ -546,14 +546,14 @@ func resolve_group_hierarchy() -> void:
 	var parent_entities := {}
 	var child_entities := {}
 	
-	# Gather all entities which are parents in a group, and all entities which are children in some group
+	# Gather all entities which are children in some group or parents in some group
 	for node_idx in range(0, entity_nodes.size()):
 		var node = entity_nodes[node_idx]
 		var properties = entity_dicts[node_idx]['properties']
 		
 		if not properties: continue
 		
-		if not '_tb_id' in properties and not '_tb_group' in properties:
+		if not ('_tb_id' in properties or '_tb_group' in properties or '_tb_layer' in properties):
 			continue
 		
 		if not 'classname' in properties: continue
@@ -561,8 +561,12 @@ func resolve_group_hierarchy() -> void:
 		
 		if not classname in entity_definitions: continue
 		var entity_definition = entity_definitions[classname]
-		if '_tb_group' in properties:
+
+		# identify children
+		if '_tb_group' in properties or '_tb_layer' in properties: 
 			child_entities[node_idx] = node
+
+		# identify parents
 		if '_tb_id' in properties: 
 			parent_entities[node_idx] = node
 	
@@ -572,8 +576,13 @@ func resolve_group_hierarchy() -> void:
 	for node_idx in child_entities:
 		var node = child_entities[node_idx]
 		var properties = entity_dicts[node_idx]['properties']
-		var tb_group = properties['_tb_group']
-		
+		var tb_group = null
+		if '_tb_group' in properties:
+			tb_group = properties['_tb_group']
+		elif '_tb_layer' in properties:
+			tb_group = properties['_tb_layer']
+		if tb_group == null: continue
+
 		var parent = null
 		var parent_properties = null
 		var parent_entity = null
