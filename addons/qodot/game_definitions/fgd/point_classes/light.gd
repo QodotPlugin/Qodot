@@ -12,7 +12,7 @@ func update_properties():
 		remove_child(child)
 		child.queue_free()
 	
-	if 'mangle' in properties:
+	if 'mangle' in properties and (properties['mangle'] as Vector3).x != 0.005:
 		light_node = SpotLight3D.new()
 	
 		var yaw = properties['mangle'].x
