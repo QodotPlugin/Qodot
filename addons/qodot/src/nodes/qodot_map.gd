@@ -578,8 +578,6 @@ func resolve_group_hierarchy() -> void:
 	
 	var child_to_parent_map := {}
 	
-	var child_to_parent_map := {}
-	
 	#For each child,...
 	for node_idx in child_entities:
 		var node = child_entities[node_idx]
