@@ -71,7 +71,7 @@ signal unwrap_uv2_complete()
 ## If true, print profiling data before and after each build step
 @export var print_profiling_data := false
 ## If true, Qodot will build a hierarchy from Trenchbroom groups, each group being a node. Otherwise, Qodot nodes will ignore Trenchbroom groups and have a flat structure.
-var use_trenchbroom_group_hierarchy := false
+@export var use_trenchbroom_group_hierarchy := false
 ## If true, stop the whole editor until build is complete
 @export var block_until_complete := false
 ## How many nodes to set the owner of, or add children of, at once. Higher values may lead to quicker build times, but a less responsive editor.
@@ -543,17 +543,17 @@ func resolve_group_hierarchy() -> void:
 	if not use_trenchbroom_group_hierarchy:
 		return
 	
-	var group_entities := {}
-	var owner_entities := {}
+	var parent_entities := {}
+	var child_entities := {}
 	
-	# Gather group entities and their owning children
+	# Gather all entities which are children in some group or parents in some group
 	for node_idx in range(0, entity_nodes.size()):
 		var node = entity_nodes[node_idx]
 		var properties = entity_dicts[node_idx]['properties']
 		
 		if not properties: continue
 		
-		if not '_tb_id' in properties and not '_tb_group' in properties:
+		if not ('_tb_id' in properties or '_tb_group' in properties or '_tb_layer' in properties):
 			continue
 		
 		if not 'classname' in properties: continue
@@ -561,76 +561,56 @@ func resolve_group_hierarchy() -> void:
 		
 		if not classname in entity_definitions: continue
 		var entity_definition = entity_definitions[classname]
-		# TODO: Add clause on this line for point entities, which do not have a spawn type. Add as child of the current group owner.
-		if entity_definition.spawn_type == QodotFGDSolidClass.SpawnType.GROUP:
-			group_entities[node_idx] = node
-		else:
-			owner_entities[node_idx] = node
+
+		# identify children
+		if '_tb_group' in properties or '_tb_layer' in properties: 
+			child_entities[node_idx] = node
+
+		# identify parents
+	        if '_tb_id' in properties:
+	            if properties['_tb_name'] != "Unnamed":
+	                if properties['_tb_type'] == "_tb_group":
+	                    node.name = "group_" + str(properties['_tb_id'])
+	                elif properties['_tb_type'] == "_tb_layer":
+	                    node.name = "layer_" + str(properties['_tb_layer_sort_index'])
+	                node.name = node.name + "_" + properties['_tb_name']
+	            parent_entities[node_idx] = node
 	
-	var group_to_entity_map := {}
+	var child_to_parent_map := {}
 	
-	for node_idx in owner_entities:
-		var node = owner_entities[node_idx]
+	#For each child,...
+	for node_idx in child_entities:
+		var node = child_entities[node_idx]
 		var properties = entity_dicts[node_idx]['properties']
-		var tb_group = properties['_tb_group']
-		
-		var parent_idx = null
+		var tb_group = null
+		if '_tb_group' in properties:
+			tb_group = properties['_tb_group']
+		elif '_tb_layer' in properties:
+			tb_group = properties['_tb_layer']
+		if tb_group == null: continue
+
 		var parent = null
 		var parent_properties = null
-		for group_idx in group_entities:
-			var group_entity = group_entities[group_idx]
-			var group_properties = entity_dicts[group_idx]['properties']
-			if group_properties['_tb_id'] == tb_group:
-				parent_idx = group_idx
-				parent = group_entity
-				parent_properties = group_properties
-				break
-		
-		if parent:
-			group_to_entity_map[parent_idx] = node_idx
-	
-	var group_to_group_map := {}
-	
-	for node_idx in group_entities:
-		var node = group_entities[node_idx]
-		var properties = entity_dicts[node_idx]['properties']
-		
-		if not '_tb_group' in properties:
-			continue
-		
-		var tb_group = properties['_tb_group']
-		
+		var parent_entity = null
 		var parent_idx = null
-		var parent = null
-		var parent_properties = null
-		for group_idx in group_entities:
-			var group_entity = group_entities[group_idx]
-			var group_properties = entity_dicts[group_idx]['properties']
-			if group_properties['_tb_id'] == tb_group:
-				parent_idx = group_idx
-				parent = group_entity
-				parent_properties = group_properties
+		
+		#...identify its direct parent out of the parent_entities array
+		for possible_parent in parent_entities:
+			parent_entity = parent_entities[possible_parent]
+			parent_properties = entity_dicts[possible_parent]['properties']
+			
+			if parent_properties['_tb_id'] == tb_group:
+				parent = parent_entity
+				parent_idx = possible_parent
 				break
-		
+		#if there's a match, pass it on to the child-parent relationship map
 		if parent:
-			group_to_group_map[parent_idx] = node_idx
+			child_to_parent_map[node_idx] = parent_idx 
 	
-	for parent_idx in group_to_group_map:
-		var child_idx = group_to_group_map[parent_idx]
-		
-		var parent_entity_idx = group_to_entity_map[parent_idx]
-		var child_entity_idx = group_to_entity_map[child_idx]
-		
-		var parent = entity_nodes[parent_entity_idx]
-		var child = entity_nodes[child_entity_idx]
-		
-		queue_add_child(parent, child, null, true)
-	
-	for child_idx in group_to_entity_map:
-		var parent_idx = group_to_entity_map[child_idx]
-		
-		var parent = entity_nodes[parent_idx]
+	for child_idx in child_to_parent_map:
 		var child = entity_nodes[child_idx]
+		var parent_idx = child_to_parent_map[child_idx]
+		var parent = entity_nodes[parent_idx]
 		
 		queue_add_child(parent, child, null, true)
 
@@ -853,7 +833,7 @@ func build_worldspawn_layer_collision_shapes() -> void:
 		
 		qodot.gather_worldspawn_layer_collision_surfaces(0)
 		
-		var layer_surfaces := qodot.fetch_surfaces(inverse_scale_factor) as Array
+		var layer_surfaces := qodot.FetchSurfaces(inverse_scale_factor) as Array
 		
 		var verts := PackedVector3Array()
 		
@@ -1242,9 +1222,6 @@ func connect_signals() -> void:
 
 ## Connect a signal on [code]entity_node[/code] to [code]target_node[/code], possibly mediated by the contents of a [code]signal[/code] or [code]receiver[/code] entity
 func connect_signal(entity_node: Node, target_node: Node) -> void:
-	if not 'properties' in target_node:
-		return
-	
 	if target_node.properties['classname'] == 'signal':
 		var signal_name = target_node.properties['signal_name']
 		
