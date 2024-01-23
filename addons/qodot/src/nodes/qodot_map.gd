@@ -568,13 +568,13 @@ func resolve_group_hierarchy() -> void:
 
 		# identify parents
 	        if '_tb_id' in properties:
-	            if properties['_tb_name'] != "Unnamed":
-	                if properties['_tb_type'] == "_tb_group":
-	                    node.name = "group_" + str(properties['_tb_id'])
-	                elif properties['_tb_type'] == "_tb_layer":
-	                    node.name = "layer_" + str(properties['_tb_layer_sort_index'])
-	                node.name = node.name + "_" + properties['_tb_name']
-	            parent_entities[node_idx] = node
+			if properties['_tb_name'] != "Unnamed":
+				if properties['_tb_type'] == "_tb_group":
+					node.name = "group_" + str(properties['_tb_id'])
+				elif properties['_tb_type'] == "_tb_layer":
+					node.name = "layer_" + str(properties['_tb_layer_sort_index'])
+				node.name = node.name + "_" + properties['_tb_name']
+			parent_entities[node_idx] = node
 	
 	var child_to_parent_map := {}
 	
