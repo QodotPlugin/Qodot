@@ -833,7 +833,7 @@ func build_worldspawn_layer_collision_shapes() -> void:
 		
 		qodot.gather_worldspawn_layer_collision_surfaces(0)
 		
-		var layer_surfaces := qodot.FetchSurfaces(inverse_scale_factor) as Array
+		var layer_surfaces := qodot.fetch_surfaces(inverse_scale_factor) as Array
 		
 		var verts := PackedVector3Array()
 		
