@@ -235,7 +235,7 @@ Materials can also be loaded without a texture of the same name as a sibling fil
 
 [node name="QodotMap" type="Node3D" parent="."]
 script = ExtResource("1")
-map_file = "C:/Users/Embyr/Desktop/qmap-development/addons/qodot/example_scenes/0-visuals/2-materials/2-materials.map"
+map_file = "res://addons/qodot/example_scenes/0-visuals/2-materials/2-materials.map"
 inverse_scale_factor = 16.0
 entity_fgd = ExtResource("2")
 base_texture_dir = "res://addons/qodot/textures"
