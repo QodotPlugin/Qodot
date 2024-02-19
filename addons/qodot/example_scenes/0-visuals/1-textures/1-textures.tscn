@@ -215,7 +215,7 @@ See `res://textures` for the layout used in this project."
 
 [node name="QodotMap" type="Node3D" parent="."]
 script = ExtResource("1")
-map_file = "C:/Users/Embyr/Desktop/qmap-development/addons/qodot/example_scenes/0-visuals/1-textures/1-textures.map"
+map_file = "res://addons/qodot/example_scenes/0-visuals/1-textures/1-textures.map"
 inverse_scale_factor = 16.0
 entity_fgd = ExtResource("2")
 base_texture_dir = "res://addons/qodot/textures"

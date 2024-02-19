@@ -123,7 +123,7 @@ omni_range = 40.0
 
 [node name="QodotMap" type="Node3D" parent="."]
 script = ExtResource("1")
-map_file = "C:/Users/Embyr/Desktop/qmap-development/addons/qodot/example_scenes/2-miscallaneous/0-trenchbroom-group-hierarchy/0-trenchbroom-group-hierarchy.map"
+map_file = "res://addons/qodot/example_scenes/2-miscallaneous/0-trenchbroom-group-hierarchy/0-trenchbroom-group-hierarchy.map"
 inverse_scale_factor = 16.0
 entity_fgd = ExtResource("2")
 base_texture_dir = "res://addons/qodot/textures"

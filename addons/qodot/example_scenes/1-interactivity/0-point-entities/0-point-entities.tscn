@@ -128,7 +128,7 @@ transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -40, 1
 
 [node name="QodotMap" type="Node3D" parent="."]
 script = ExtResource("1")
-map_file = "C:/Users/Embyr/Desktop/qmap-development/addons/qodot/example_scenes/1-interactivity/0-point-entities/0-point-entities.map"
+map_file = "res://addons/qodot/example_scenes/1-interactivity/0-point-entities/0-point-entities.map"
 inverse_scale_factor = 16.0
 entity_fgd = ExtResource("2")
 base_texture_dir = "res://addons/qodot/textures"

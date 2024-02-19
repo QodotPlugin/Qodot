@@ -78,7 +78,7 @@ These can be modified in the `Qodot/Textures` category of the Project Settings w
 
 [node name="QodotMap" type="Node3D" parent="."]
 script = ExtResource("1")
-map_file = "C:/Users/Embyr/Desktop/qmap-development/addons/qodot/example_scenes/0-visuals/3-auto-pbr/3-auto-pbr.map"
+map_file = "res://addons/qodot/example_scenes/0-visuals/3-auto-pbr/3-auto-pbr.map"
 inverse_scale_factor = 16.0
 entity_fgd = ExtResource("2")
 base_texture_dir = "res://addons/qodot/textures"
