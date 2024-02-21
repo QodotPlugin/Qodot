@@ -42,7 +42,7 @@ func build_class_text() -> String:
 	for ent in entities:
 		if ent.qodot_internal:
 			continue
-		
+
 		var ent_text = ent.build_def_text()
 		res += ent_text
 		if ent != entities[-1]:
@@ -50,15 +50,23 @@ func build_class_text() -> String:
 	return res
 
 #This getter does a little bit of validation. Providing only an array of non-null uniquely-named entity definitions
-func get_fgd_classes() -> Array:
-	var res : Array = []
+func get_fgd_classes() -> Array[QodotFGDClass]:
+	var res: Array[QodotFGDClass] = []
+	var base_classes: Array[QodotFGDClass] = []
 	for cur_ent_def_ind in range(entity_definitions.size()):
-		var cur_ent_def = entity_definitions[cur_ent_def_ind]
-		if cur_ent_def == null:
-			continue
-		elif not (cur_ent_def is QodotFGDClass):
+		var cur_ent_def = entity_definitions[cur_ent_def_ind] as QodotFGDClass
+		if not cur_ent_def:
 			printerr("Bad value in entity definition set at position %s! Not an entity defintion." % cur_ent_def_ind)
 			continue
+		for cur_ent_def_base_ind in range(cur_ent_def.base_classes.size()):
+			var cur_ent_def_base = cur_ent_def.base_classes[cur_ent_def_base_ind] as QodotFGDClass
+			if not cur_ent_def_base:
+				printerr("Bad base class value in entity definition %s set at position %s! Not an entity defintion." % [cur_ent_def_ind, cur_ent_def_base_ind])
+				continue
+			if cur_ent_def_base in base_classes:
+				continue
+			base_classes.append(cur_ent_def_base)
+			res.append(cur_ent_def_base)
 		res.append(cur_ent_def)
 	return res
 
