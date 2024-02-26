@@ -142,8 +142,8 @@ func verify_parameters():
 		push_error("Error: Map file not set")
 		return false
 	
-	if not FileAccess.file_exists(map_file):
-		push_error("Error: No such file %s" % map_file)
+	if not FileAccess.file_exists(map_file) and not FileAccess.file_exists(owner.scene_file_path.get_base_dir().path_join(map_file)):
+		push_error("Error: No such file %s or %s" % [map_file,owner.scene_file_path.get_base_dir().path_join(map_file)])
 		return false
 	
 	return true
@@ -348,7 +348,7 @@ func remove_children() -> void:
 
 ## Parse and load [member map_file]
 func load_map() -> void:
-	var file: String = map_file
+	var file: String = map_file if FileAccess.file_exists(map_file) else owner.scene_file_path.get_base_dir().path_join(map_file)
 	qodot.load_map(file)
 
 ## Get textures found in [member map_file]
