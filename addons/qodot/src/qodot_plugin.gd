@@ -55,7 +55,7 @@ func _enter_tree() -> void:
 func _exit_tree() -> void:
 	remove_custom_type("QodotMap")
 	remove_custom_type("QodotEntity")
-	remove_custom_type("QodotSpatial")
+	remove_custom_type("QodotNode3D")
 	remove_import_plugin(map_import_plugin)
 	remove_import_plugin(palette_import_plugin)
 	if wad_import_plugin:
