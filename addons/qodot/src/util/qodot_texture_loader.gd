@@ -9,6 +9,7 @@ enum PBRSuffix {
 	EMISSION,
 	AO,
 	HEIGHT,
+	ALBEDO
 }
 
 # Suffix string / Godot enum / StandardMaterial3D property
@@ -19,6 +20,7 @@ const PBR_SUFFIX_NAMES := {
 	PBRSuffix.EMISSION: 'emission',
 	PBRSuffix.AO: 'ao',
 	PBRSuffix.HEIGHT: 'height',
+	PBRSuffix.ALBEDO: 'albedo',
 }
 
 const PBR_SUFFIX_PATTERNS := {
@@ -27,7 +29,8 @@ const PBR_SUFFIX_PATTERNS := {
 	PBRSuffix.ROUGHNESS: '%s_roughness.%s',
 	PBRSuffix.EMISSION: '%s_emission.%s',
 	PBRSuffix.AO: '%s_ao.%s',
-	PBRSuffix.HEIGHT: '%s_height.%s'
+	PBRSuffix.HEIGHT: '%s_height.%s',
+	PBRSuffix.ALBEDO: '%s_albedo.%s'
 }
 
 var PBR_SUFFIX_TEXTURES := {
@@ -36,7 +39,8 @@ var PBR_SUFFIX_TEXTURES := {
 	PBRSuffix.ROUGHNESS: StandardMaterial3D.TEXTURE_ROUGHNESS,
 	PBRSuffix.EMISSION: StandardMaterial3D.TEXTURE_EMISSION,
 	PBRSuffix.AO: StandardMaterial3D.TEXTURE_AMBIENT_OCCLUSION,
-	PBRSuffix.HEIGHT: StandardMaterial3D.TEXTURE_HEIGHTMAP
+	PBRSuffix.HEIGHT: StandardMaterial3D.TEXTURE_HEIGHTMAP,
+	PBRSuffix.ALBEDO: StandardMaterial3D.TEXTURE_ALBEDO
 }
 
 const PBR_SUFFIX_PROPERTIES := {
@@ -102,7 +106,7 @@ func load_texture(texture_name: String) -> Texture2D:
 		var texture_path := "%s/%s.%s" % [base_texture_path, texture_name, texture_extension]
 		if ResourceLoader.exists(texture_path, "Texture2D"):
 			return load(texture_path) as Texture2D
-
+		
 	var texture_name_lower : String = texture_name.to_lower()
 	for texture_wad in texture_wad_resources:
 		if texture_name_lower in texture_wad.textures:
@@ -202,8 +206,8 @@ func get_pbr_texture(texture: String, suffix: PBRSuffix) -> Texture2D:
 				texture_extension
 			]
 		]
-
+		
 		if(FileAccess.file_exists(path)):
-			return load(path) as Texture2D
+						return load(path) as Texture2D
 
 	return null
