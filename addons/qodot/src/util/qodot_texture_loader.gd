@@ -106,7 +106,7 @@ func load_texture(texture_name: String) -> Texture2D:
 		var texture_path := "%s/%s.%s" % [base_texture_path, texture_name, texture_extension]
 		if ResourceLoader.exists(texture_path, "Texture2D"):
 			return load(texture_path) as Texture2D
-		
+
 	var texture_name_lower : String = texture_name.to_lower()
 	for texture_wad in texture_wad_resources:
 		if texture_name_lower in texture_wad.textures:
@@ -206,8 +206,8 @@ func get_pbr_texture(texture: String, suffix: PBRSuffix) -> Texture2D:
 				texture_extension
 			]
 		]
-		
+
 		if(FileAccess.file_exists(path)):
-						return load(path) as Texture2D
+			return load(path) as Texture2D
 
 	return null
