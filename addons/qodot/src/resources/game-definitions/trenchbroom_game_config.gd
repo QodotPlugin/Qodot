@@ -32,7 +32,7 @@ extends Resource
 ]
 
 ## Textures matching these patterns will be hidden from Trenchbroom.
-@export var texture_exclusion_patterns: Array[String] = ["*_ao", "*_emission", "*_heightmap", "*_metallic", "*_normal", "*_orm", "*_roughness", "*_sss"]
+@export var texture_exclusion_patterns: Array[String] = ["*_ao", "*_emission", "*_heightmap", "*_metallic", "*_normal", "*_orm", "*_roughness", "*_sss", "*_albedo"]
 
 ## Array of FGD resources to include with this game.
 @export var fgd_files : Array[Resource] = [

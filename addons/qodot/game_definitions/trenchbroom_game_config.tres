@@ -26,7 +26,7 @@ map_formats = Array[Dictionary]([{
 }, {
 "format": "Quake3"
 }])
-texture_exclusion_patterns = Array[String](["*_ao", "*_emission", "*_heightmap", "*_metallic", "*_normal", "*_orm", "*_roughness", "*_sss"])
+texture_exclusion_patterns = Array[String](["*_ao", "*_emission", "*_heightmap", "*_metallic", "*_normal", "*_orm", "*_roughness", "*_sss", "*_albedo"])
 fgd_files = Array[Resource]([ExtResource("5_lbrmn")])
 entity_scale = "1"
 default_uv_scale = Vector2(1, 1)

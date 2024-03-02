@@ -9,6 +9,7 @@ enum PBRSuffix {
 	EMISSION,
 	AO,
 	HEIGHT,
+	ALBEDO
 }
 
 # Suffix string / Godot enum / StandardMaterial3D property
@@ -19,6 +20,7 @@ const PBR_SUFFIX_NAMES := {
 	PBRSuffix.EMISSION: 'emission',
 	PBRSuffix.AO: 'ao',
 	PBRSuffix.HEIGHT: 'height',
+	PBRSuffix.ALBEDO: 'albedo',
 }
 
 const PBR_SUFFIX_PATTERNS := {
@@ -27,7 +29,8 @@ const PBR_SUFFIX_PATTERNS := {
 	PBRSuffix.ROUGHNESS: '%s_roughness.%s',
 	PBRSuffix.EMISSION: '%s_emission.%s',
 	PBRSuffix.AO: '%s_ao.%s',
-	PBRSuffix.HEIGHT: '%s_height.%s'
+	PBRSuffix.HEIGHT: '%s_height.%s',
+	PBRSuffix.ALBEDO: '%s_albedo.%s'
 }
 
 var PBR_SUFFIX_TEXTURES := {
@@ -36,7 +39,8 @@ var PBR_SUFFIX_TEXTURES := {
 	PBRSuffix.ROUGHNESS: StandardMaterial3D.TEXTURE_ROUGHNESS,
 	PBRSuffix.EMISSION: StandardMaterial3D.TEXTURE_EMISSION,
 	PBRSuffix.AO: StandardMaterial3D.TEXTURE_AMBIENT_OCCLUSION,
-	PBRSuffix.HEIGHT: StandardMaterial3D.TEXTURE_HEIGHTMAP
+	PBRSuffix.HEIGHT: StandardMaterial3D.TEXTURE_HEIGHTMAP,
+	PBRSuffix.ALBEDO: StandardMaterial3D.TEXTURE_ALBEDO
 }
 
 const PBR_SUFFIX_PROPERTIES := {
