@@ -10,6 +10,8 @@ var qodot_map_control: Control = null
 var qodot_map_progress_bar: Control = null
 var edited_object_ref: WeakRef = weakref(null)
 
+var qodot_editor_button = preload("./util/qodot_editor_button.gd").new()
+
 func _get_plugin_name() -> String:
 	return "Qodot"
 
@@ -52,6 +54,8 @@ func _enter_tree() -> void:
 	add_custom_type("QodotEntity", "Node3D", preload("res://addons/qodot/src/nodes/qodot_entity.gd"), null)
 	add_custom_type("QodotNode3D", "Node3D", preload("res://addons/qodot/src/nodes/qodot_node3d.gd"), null)
 
+	add_inspector_plugin(qodot_editor_button)
+
 func _exit_tree() -> void:
 	remove_custom_type("QodotMap")
 	remove_custom_type("QodotEntity")
@@ -74,6 +78,8 @@ func _exit_tree() -> void:
 		remove_control_from_container(EditorPlugin.CONTAINER_SPATIAL_EDITOR_BOTTOM, qodot_map_progress_bar)
 		qodot_map_progress_bar.queue_free()
 		qodot_map_progress_bar = null
+	
+	remove_inspector_plugin(qodot_editor_button)
 
 ## Add Qodot-specific settings to Godot's Project Settings
 func setup_project_settings() -> void:
