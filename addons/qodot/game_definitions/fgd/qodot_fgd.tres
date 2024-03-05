@@ -1,6 +1,9 @@
-[gd_resource type="Resource" script_class="QodotFGDFile" load_steps=16 format=3 uid="uid://c36hv0o6g0udo"]
+[gd_resource type="Resource" script_class="QodotFGDFile" load_steps=19 format=3 uid="uid://c36hv0o6g0udo"]
 
+[ext_resource type="Resource" uid="uid://dgm276g7bw8q5" path="res://addons/qodot/game_definitions/fgd/base_classes/target_base_class.tres" id="1_7p7ey"]
 [ext_resource type="Resource" uid="uid://cw4s1hnxqetee" path="res://addons/qodot/game_definitions/fgd/solid_classes/func_group_solid_class.tres" id="2"]
+[ext_resource type="Resource" uid="uid://ccdjpf5j25aua" path="res://addons/qodot/game_definitions/fgd/base_classes/targetname_base_class.tres" id="2_sd1vq"]
+[ext_resource type="Resource" uid="uid://c5o31v30rw7v5" path="res://addons/qodot/game_definitions/fgd/base_classes/light_base_class.tres" id="3_mx234"]
 [ext_resource type="Script" path="res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_file.gd" id="6"]
 [ext_resource type="Resource" uid="uid://bu3h1cvdigp1i" path="res://addons/qodot/game_definitions/fgd/point_classes/signal_point_class.tres" id="7_mkjh6"]
 [ext_resource type="Resource" uid="uid://dy7undvxjvodx" path="res://addons/qodot/game_definitions/fgd/solid_classes/illusionary_solid_class.tres" id="8"]
@@ -22,4 +25,4 @@ export_file = false
 target_folder = ""
 fgd_name = "Qodot"
 base_fgd_files = Array[Resource]([])
-entity_definitions = Array[Resource]([ExtResource("9"), ExtResource("2"), ExtResource("10"), ExtResource("8"), ExtResource("16"), ExtResource("7_mkjh6"), ExtResource("8_jgy0q"), ExtResource("9_xkc5y"), ExtResource("10_4774b"), ExtResource("11_fyofn"), ExtResource("12_37isg"), ExtResource("13_w15of"), ExtResource("14_5ym2q"), ExtResource("15_j2dvh")])
+entity_definitions = Array[Resource]([ExtResource("1_7p7ey"), ExtResource("2_sd1vq"), ExtResource("3_mx234"), ExtResource("9"), ExtResource("2"), ExtResource("10"), ExtResource("8"), ExtResource("16"), ExtResource("7_mkjh6"), ExtResource("8_jgy0q"), ExtResource("9_xkc5y"), ExtResource("10_4774b"), ExtResource("11_fyofn"), ExtResource("12_37isg"), ExtResource("13_w15of"), ExtResource("14_5ym2q"), ExtResource("15_j2dvh")])
