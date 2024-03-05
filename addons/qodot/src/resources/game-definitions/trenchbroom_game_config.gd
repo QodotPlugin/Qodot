@@ -129,7 +129,7 @@ func build_class_text() -> String:
 		if tex_pattern != texture_exclusion_patterns[-1]:
 			texture_exclusion_patterns_str += ", "
 	
-	var fgd_filename_str : String = "\"" + fgd_file.fgd_name + ".fgd\""
+	var fgd_filename_str : String = "\"" + fgd_files[0].fgd_name + ".fgd\""
 
 	var brush_tags_str = parse_tags(brush_tags)
 	var face_tags_str = parse_tags(face_tags)
@@ -200,7 +200,7 @@ func do_export_file() -> void:
 		return
 	
 	# Make sure FGD file is set
-	if !fgd_file:
+	if !fgd_files.size() or not fgd_files[0] is QodotFGDFile:
 		print("Skipping export: No FGD file")
 		return
 	
@@ -233,7 +233,7 @@ func do_export_file() -> void:
 	file = null # Official way to close files in GDscript 2
 	
 	# FGD
-	var export_fgd : QodotFGDFile = fgd_file.duplicate()
+	var export_fgd : QodotFGDFile = fgd_files[0].duplicate()
 	export_fgd.target_folder = config_folder
 	export_fgd.do_export_file()
 	print("Export complete\n")
