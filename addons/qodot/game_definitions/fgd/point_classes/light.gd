@@ -2,46 +2,49 @@
 class_name QodotLight
 extends QodotEntity
 
+const float_tolerance = 0.0001
 var light_node: Light3D = null
 
 func update_properties():
 	if not Engine.is_editor_hint():
 		return
-	
+
 	for child in get_children():
 		remove_child(child)
 		child.queue_free()
-	
-	if 'mangle' in properties and (properties['mangle'] as Vector3).x != 0.005:
+
+	var mangle_x = (properties['mangle'] as Vector3).x
+
+	if 'mangle' in properties and !(mangle_x > 0.005 - float_tolerance and mangle_x < 0.005 + float_tolerance):
 		light_node = SpotLight3D.new()
-	
+
 		var yaw = properties['mangle'].x
 		var pitch = properties['mangle'].y
 		light_node.rotate(Vector3.UP, deg_to_rad(180 + yaw))
 		light_node.rotate(light_node.transform.basis.x, deg_to_rad(180 + pitch))
-	
+
 		if 'angle' in properties:
 			light_node.set_param(Light3D.PARAM_SPOT_ANGLE, properties['angle'])
 	else:
 		light_node = OmniLight3D.new()
-	
+
 	var light_brightness = 300
 	if 'light' in properties:
 		light_brightness = properties['light']
 		light_node.set_param(Light3D.PARAM_ENERGY, light_brightness / 100.0)
 		light_node.set_param(Light3D.PARAM_INDIRECT_ENERGY, light_brightness / 100.0)
-	
+
 	var light_range := 1.0
 	if 'wait' in properties:
 		light_range = properties['wait']
-	
+
 	var normalized_brightness = light_brightness / 300.0
 	light_node.set_param(Light3D.PARAM_RANGE, 16.0 * light_range * (normalized_brightness * normalized_brightness))
-	
+
 	var light_attenuation = 0
 	if 'delay' in properties:
 		light_attenuation = properties['delay']
-	
+
 	var attenuation = 0
 	match light_attenuation:
 		0:
@@ -58,19 +61,19 @@ func update_properties():
 			attenuation = 0.9
 		_:
 			attenuation = 1
-	
+
 	light_node.set_param(Light3D.PARAM_ATTENUATION, attenuation)
 	light_node.set_shadow(true)
 	light_node.set_bake_mode(Light3D.BAKE_STATIC)
-	
+
 	var light_color = Color.WHITE
 	if '_color' in properties:
 		light_color = properties['_color']
-	
+
 	light_node.set_color(light_color)
-	
+
 	add_child(light_node)
-	
+
 	if is_inside_tree():
 		var tree = get_tree()
 		if tree:
