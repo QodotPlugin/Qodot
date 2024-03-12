@@ -11,18 +11,18 @@ func update_properties():
 	for child in get_children():
 		remove_child(child)
 		child.queue_free()
+	light_node = null
 	
-	if 'mangle' in properties and (properties['mangle'] as Vector3).x != 0.005:
-		light_node = SpotLight3D.new()
+	if 'mangle' in properties:
+		var mangle: Vector3 = properties['mangle'] as Vector3
+		if mangle.x < 0.0049 or mangle.x > 0.0051:
+			light_node = SpotLight3D.new()
+			light_node.rotate(Vector3.UP, deg_to_rad(180 + mangle.x))
+			light_node.rotate(light_node.transform.basis.x, deg_to_rad(180 + mangle.y))
+			if 'angle' in properties:
+				light_node.set_param(Light3D.PARAM_SPOT_ANGLE, (properties['angle'] as float))
 	
-		var yaw = properties['mangle'].x
-		var pitch = properties['mangle'].y
-		light_node.rotate(Vector3.UP, deg_to_rad(180 + yaw))
-		light_node.rotate(light_node.transform.basis.x, deg_to_rad(180 + pitch))
-	
-		if 'angle' in properties:
-			light_node.set_param(Light3D.PARAM_SPOT_ANGLE, properties['angle'])
-	else:
+	if light_node == null:
 		light_node = OmniLight3D.new()
 	
 	var light_brightness = 300
