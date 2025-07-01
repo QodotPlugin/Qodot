@@ -57,7 +57,7 @@ var _fgd_filenames : Array = []
 ## Private default .cfg contents.
 ## See also: https://trenchbroom.github.io/manual/latest/#game_configuration_files
 var _base_text: String = """{
-	"version": 8,
+	"version": 9,
 	"name": "%s",
 	"icon": "icon.png",
 	"fileformats": [
@@ -67,8 +67,8 @@ var _base_text: String = """{
 		"searchpath": ".",
 		"packageformat": { "extension": ".zip", "format": "zip" }
 	},
-	"textures": {
-		"root": "textures",
+	"materials": {
+		"root": "materials",
 		"extensions": [".bmp", ".exr", ".hdr", ".jpeg", ".jpg", ".png", ".tga", ".webp"],
 		"excludes": [ %s ]
 	},
@@ -104,7 +104,7 @@ func _init():
 static func get_match_key(tag_match_type: int) -> String:
 	match tag_match_type:
 		TrenchBroomTag.TagMatchType.TEXTURE:
-			return "texture"
+			return "material"
 		TrenchBroomTag.TagMatchType.CLASSNAME:
 			return "classname"
 		_:
@@ -163,7 +163,7 @@ func parse_tags(tags: Array) -> String:
 		tags_str += "\t\t\t\t\"pattern\": \"%s\"" % brush_tag.tag_pattern
 		if brush_tag.texture_name != "":
 			tags_str += ",\n"
-			tags_str += "\t\t\t\t\"texture\": \"%s\"" % brush_tag.texture_name
+			tags_str += "\t\t\t\t\"material\": \"%s\"" % brush_tag.texture_name
 		tags_str += "\n"
 		tags_str += "\t\t\t}"
 		if brush_tag != tags[-1]:

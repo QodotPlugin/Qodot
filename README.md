@@ -6,6 +6,8 @@ Quake *.map* file support for Godot 4.x. **For the original Godot 3.x plugin, se
 
 Latest Tested Engine Version: **4.2 rc1**
 
+Latest TrenchBroom Version: **2025.3**
+
 Unlike [Qodot-plugin](https://github.com/QodotPlugin/qodot-plugin/), this [Qodot](https://github.com/QodotPlugin/Qodot/) repository is currently the official version of the plugin and where active development continues. You can also find the plugin on Godot's Asset Library.
 
 ## Documentation
