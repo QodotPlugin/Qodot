@@ -2,6 +2,10 @@
 
 Quake *.map* file support for Godot 4.x. **For the original Godot 3.x plugin, see [Qodot-Plugin](https://github.com/QodotPlugin/qodot-plugin/).**
 
+# QODOT IS NOW OFFICIALLY RETIRED
+
+Qodot is no longer being maintained and is considered incompatible with the latest versions of Godot and TrenchBroom. We hope you'll be able to switch to the successor plugin **[FUNC_GODOT](https://github.com/func-godot/func_godot_plugin)**.
+
 # About this version
 
 Latest Tested Engine Version: **4.2 rc1**
