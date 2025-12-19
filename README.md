@@ -10,6 +10,8 @@ Qodot is no longer being maintained and is considered incompatible with the late
 
 Latest Tested Engine Version: **4.2 rc1**
 
+Latest TrenchBroom Version: **2025.3**
+
 Unlike [Qodot-plugin](https://github.com/QodotPlugin/qodot-plugin/), this [Qodot](https://github.com/QodotPlugin/Qodot/) repository is currently the official version of the plugin and where active development continues. You can also find the plugin on Godot's Asset Library.
 
 ## Documentation
